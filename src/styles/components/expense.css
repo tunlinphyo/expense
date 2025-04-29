@@ -32,10 +32,10 @@ expense-form.custom-form {
         }
 
         .category-name {
-            margin-block: -.25em var(--size-3);
+            margin-block: var(--size-1) var(--size-3);
             min-height: var(--size-7);
-            color: var(--bg-color);
-            font-size: var(--text-md);
+            color: var(--bg-primary);
+            font-size: var(--text-xl);
             font-weight: bold;
         }
 

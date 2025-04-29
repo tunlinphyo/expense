@@ -112,7 +112,6 @@ export class CalendarView extends HTMLElement {
 
     private yearMonthCahgned(e: Event) {
         const customE = e as CustomEvent
-        console.log("yearmonthchange", customE.detail)
         this.setAttribute('month', customE.detail) // YYYY-MM-DD format needed for safe parsing
     }
 

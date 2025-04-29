@@ -1,6 +1,4 @@
-import { ColorType } from "./interfaces"
-
-export const DEFAULT_COLORS: ColorType[] = [
+export const DEFAULT_COLORS = [
     {
         id: 'red',
         name: 'Red',

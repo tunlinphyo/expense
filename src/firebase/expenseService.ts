@@ -8,7 +8,8 @@ import {
     where,
     Timestamp,
     onSnapshot,
-    updateDoc
+    updateDoc,
+    DocumentChangeType
 } from "firebase/firestore"
 import { QueryConstraint, limit, orderBy, startAfter } from "firebase/firestore"
 import { db } from "./firebase"
@@ -150,6 +151,39 @@ export class ExpenseService {
         })
     }
 
+    // static onExpenseChange(
+    //     userId: string,
+    //     callback: (change: { type: DocumentChangeType; expense: ExpenseType }) => void
+    // ): () => void {
+    //     let isFirstSnapshot = true
+
+    //     return onSnapshot(this.collectionRef(userId), async (snapshot) => {
+    //         if (isFirstSnapshot) {
+    //             isFirstSnapshot = false
+    //             return
+    //         }
+
+    //         const changes = snapshot.docChanges().map(change => {
+    //             const d = change.doc.data()
+    //             return {
+    //                 type: change.type,
+    //                 expense: {
+    //                     ...d,
+    //                     id: change.doc.id,
+    //                     date: (d.date as Timestamp).toDate()
+    //                 } as ExpenseType
+    //             }
+    //         })
+
+    //         if (changes.length > 0) {
+    //             const data = changes[0]
+    //             const category = await CategoryService.getCategory(userId, data.expense.categoryId)
+    //             if (category) data.expense.category = category
+    //             callback(data)
+    //         }
+    //     })
+    // }
+
     static async paginatedQuery(
         userId: string,
         q: ExpenseQuery,
@@ -183,9 +217,9 @@ export class ExpenseService {
         const data: ExpenseType[] = expenseSnap.docs.map(doc => {
             const d = doc.data()
             return {
-            ...d,
-            id: doc.id,
-            date: (d.date as Timestamp).toDate()
+                ...d,
+                id: doc.id,
+                date: (d.date as Timestamp).toDate()
             } as ExpenseType
         })
 

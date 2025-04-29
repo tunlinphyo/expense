@@ -1,4 +1,5 @@
 import { html } from "../../utils"
+import { AppDate } from "../../utils/date"
 import { hostStyles } from "../dialogs/styles"
 import { pickerStyle } from "./styles"
 import { YearMonth } from "./year-month"
@@ -16,7 +17,7 @@ export class MonthPicker extends HTMLElement {
     }
 
     get value(): string {
-        return this.inputEl.value || new Date().toISOString().split("T")[0]
+        return this.inputEl.value || AppDate.getLocalISODate()
     }
     set value(dateString: string) {
         this.setAttribute('value', dateString)
@@ -29,8 +30,11 @@ export class MonthPicker extends HTMLElement {
 
     attributeChangedCallback(_: string, oldValue: string, newValue: string) {
         if (oldValue != newValue) {
-            this.inputEl.value = new Date(newValue).toISOString().split("T")[0]
-            this.inputEl.dispatchEvent(new Event('input'))
+            this.inputEl.value = AppDate.getLocalISODate(newValue)
+            this.inputEl.dispatchEvent(new Event('input', {
+                bubbles: true,
+                cancelable: true
+            }))
         }
     }
 

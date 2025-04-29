@@ -126,7 +126,7 @@ export const calendarStyle = css`
             font-weight: bold;
         }
 
-        :not(.cell-title) {
+        &:not(.cell-title) {
             font-size: var(--text-lg);
             border-radius: 50%;
         }

@@ -320,6 +320,26 @@
             </expense-form>
         </expense-modal>
 
+        <action-sheet id="actionSheet">
+            <div class="sheet-body">
+                <header data-bind-text="headerText"></header>
+                <dynamic-list>
+                    <template>
+                        <dynamic-item>
+                            <button type="button" data-bind-attr="data-button:button">
+                                <span data-bind-text="buttonText"></span>
+                            </button>
+                        </dynamic-item>
+                    </template>
+                </dynamic-list>
+            </div>
+            <div class="sheet-body sheet--cancel">
+                <button type="button" data-button="close">
+                    Cancel
+                </button>
+            </div>
+        </action-sheet>
+
     </expense-app>
     <script type="module" src="/src/main.ts"></script>
 </body>

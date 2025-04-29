@@ -6,7 +6,7 @@ import { IconService } from "../firebase/iconService"
 import { categorySignal, colorsSignal, currencySignal, iconsSignal, userSignal } from "./signal"
 
 
-const initStore = async () => {
+export const appStore = async () => {
     let appUnsubscribe: () => void
     let cateogryUnsubscribe: () => void
 
@@ -60,6 +60,3 @@ async function getCategories(userId: string) {
     console.log("CATEGORIES:::::::::::::::::::::::::::", categoryMap)
     categorySignal.set(categoryMap)
 }
-
-const appStore = initStore()
-export { appStore }

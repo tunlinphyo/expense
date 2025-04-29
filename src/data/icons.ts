@@ -1,6 +1,4 @@
-import { IconType } from "./interfaces"
-
-export const DEFAULT_ICONS: IconType[] = [
+export const DEFAULT_ICONS = [
     {
         id: 'list',
         icon: `<svg viewBox="0 0 24 24" width="24" height="24">

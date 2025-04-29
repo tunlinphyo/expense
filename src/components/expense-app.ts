@@ -1,4 +1,5 @@
 import { ModalDialog, PageDialog } from "../elements"
+import { appStore } from "../store"
 
 export class ExpenseApp extends HTMLElement {
     constructor() {
@@ -7,6 +8,7 @@ export class ExpenseApp extends HTMLElement {
     }
 
     connectedCallback() {
+        appStore()
         this.addEventListener('click', this.onButtonClick)
     }
 
@@ -35,7 +37,8 @@ export class ExpenseApp extends HTMLElement {
         const modalEl = this.querySelector<ModalDialog>(`#${button.dataset.modalId}`)
         if (!modalEl) return console.error(`No page-dialog with id: ${button.dataset.modalId}`)
 
-        modalEl.setAttribute('data-id', button.dataset.id || '')
+        if (button.hasAttribute('data-id'))
+            modalEl.setAttribute('data-id', button.dataset.id || '')
         modalEl.openModal()
     }
 }

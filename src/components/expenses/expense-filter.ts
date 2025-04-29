@@ -3,6 +3,7 @@ import { DateDisplay } from "../../elements"
 import { expenseContext } from "../../store/context"
 import { ExpenseContext } from "../../types"
 import { css } from "../../utils"
+import { AppDate } from "../../utils/date"
 
 const hostStyles = css`
     date-display {
@@ -32,7 +33,7 @@ export class ExpenseFilter extends HTMLElement {
 
         this.consumer.subscribe((value, oldValue) => {
             console.log('ExpenseFilter', value, oldValue)
-            const dateString = new Date(value.year, value.month, 1).toISOString()
+            const dateString = AppDate.getLocalISODate(new Date(value.year, value.month, 1))
             this.dateDisplay.setAttribute('value', dateString)
         })
     }

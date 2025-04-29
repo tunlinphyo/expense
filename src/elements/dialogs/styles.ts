@@ -102,11 +102,18 @@ export const modalStyles = css`
 export const actionStyles = css`
     dialog {
         width: 100%;
-        max-width: 100%;
+        max-width: clamp(0rem, 99vw, 30rem);
         max-height: 100%;
         inset: auto 0 0;
-        border-radius: 1.5rem 1.5rem 0 0;
-        background-color: #f00;
+        border-radius: 0;
+        background-color: transparent
+    }
+    section {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        gap: var(--size-2);
     }
     @media (display-mode: fullscreen), (display-mode: standalone) {
         section {

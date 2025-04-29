@@ -54,7 +54,7 @@ export class CategoryIcon extends HTMLElement {
         const slotEl = document.createElement('slot')
         this.renderRoot.appendChild(slotEl)
 
-        if (!icon) return
+        if (!icon) return this.innerHTML = ''
 
         let iconData: IconType | null | undefined = iconsSignal.get().find(item => item.id == icon)
         if (!iconData)

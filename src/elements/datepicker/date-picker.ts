@@ -4,6 +4,7 @@ import { pickerStyle } from "./styles"
 import { CalendarView } from "./calendar-view"
 
 import './calendar-view'
+import { AppDate } from "../../utils/date"
 
 export class DatePicker extends HTMLElement {
     private renderRoot: ShadowRoot
@@ -16,7 +17,7 @@ export class DatePicker extends HTMLElement {
     }
 
     get value(): string {
-        return this.inputEl.value || new Date().toISOString().split("T")[0]
+        return this.inputEl.value || AppDate.getLocalISODate()
     }
     set value(dateString: string) {
         this.setAttribute('value', dateString)
@@ -24,8 +25,11 @@ export class DatePicker extends HTMLElement {
 
     attributeChangedCallback(_: string, oldValue: string, newValue: string) {
         if (oldValue != newValue) {
-            this.inputEl.value = new Date(newValue).toISOString().split("T")[0]
-            this.inputEl.dispatchEvent(new Event('input'))
+            this.inputEl.value = AppDate.getLocalISODate(newValue)
+            this.inputEl.dispatchEvent(new Event('input', {
+                bubbles: true,
+                cancelable: true,
+            }))
         }
     }
 

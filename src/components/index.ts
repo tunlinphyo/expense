@@ -1,3 +1,4 @@
+import { ActionSheet } from './action-sheet'
 
 import './expense-app'
 import './settings'
@@ -11,3 +12,6 @@ import './expense'
 import './expenses'
 import './overview'
 import './action-sheet'
+
+
+export const actionSheet = document.getElementById('actionSheet') as ActionSheet
