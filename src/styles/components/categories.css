@@ -1,0 +1,100 @@
+#categoriesPage {
+    .button-action {
+        &[data-sort=false] {
+            color: var(--fg-accent);
+        }
+    }
+
+    .category-list {
+        margin: var(--size-5) 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: var(--size-2);
+
+        & button[data-button] {
+            inline-size: 100%;
+            border: none;
+            text-align: left;
+            background-color: var(--bg-card);
+            border-radius: var(--radius-6);
+            display: grid;
+            grid-template-columns: 52px 1fr auto;
+            align-items: center;
+            padding: var(--size-2);
+            padding-inline-end: var(--size-3);
+            gap: var(--size-5);
+            /* border: 2px solid var(--bg-accent); */
+
+            transition: all .3s ease;
+
+            .sort-menu {
+                display: none;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: var(--size-1);
+
+                &::before,
+                &::after {
+                    content: '';
+                    width: 24px;
+                    height: 2px;
+                    border-radius: 2px;
+                    background-color: var(--fg-accent);
+                }
+            }
+
+            & category-icon {
+                transition: all .3s ease;
+            }
+        }
+
+        &[sortable] {
+            gap: var(--size-1);
+
+            & button[data-button] {
+                pointer-events: none;
+                padding-block: var(--size-1);
+                border-radius: var(--radius-2);
+
+                .open-arrow {
+                    display: none;
+                }
+
+                .sort-menu {
+                    display: flex;
+                }
+
+                & category-icon {
+                    width: 42px!important;
+                    --size: 18px!important;
+                }
+            }
+        }
+    }
+
+    .sticky-container {
+        overflow: hidden;
+
+        & button[data-button] {
+            pointer-events: auto;
+            width: 64px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 2px solid var(--bg-glass);
+            color: var(--bg-card);
+
+            display: grid;
+            place-content: center;
+            translate: 0 0;
+            transition: translate .5s ease;
+
+            &:disabled {
+                translate: 0 300px;
+            }
+        }
+    }
+}

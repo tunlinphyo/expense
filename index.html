@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget</title>
+    <link rel="manifest" href="/manifest.json" />
+
+    <link rel="icon" href="icon-512.png" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="icon-512-dark.png" media="(prefers-color-scheme: dark)" />
+    <link id="favicon-light" rel="icon" href="/favicon.ico" type="image/x-icon" media="(prefers-color-scheme: light)" />
+    <link id="favicon-dark" rel="icon" href="/favicon-dark.ico" type="image/x-icon"
+        media="(prefers-color-scheme: dark)" />
+    <link rel="apple-touch-icon" href="/app-icon.png" />
+
+    <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="My PWA App" />
+</head>
+
+<body>
+    <expense-app>
+        <nav-tabs id="appTabs">
+            <tab-list slot="navs">
+                <div class="container">
+                    <nav-tab>
+                        <svg-icon name="home" size="20"></svg-icon>
+                        <span>Expenses</span>
+                    </nav-tab>
+                    <button type="button" data-button="modal" data-modal-id="expenseModal" data-id="">
+                        <svg-icon name="plus" size="20"></svg-icon>
+                    </button>
+                    <nav-tab>
+                        <svg-icon name="settings" size="20"></svg-icon>
+                        <span>Settings</span>
+                    </nav-tab>
+                </div>
+            </tab-list>
+
+            <nav-panel>
+                <header>
+                    <h2>Expenses</h2>
+                </header>
+                <expense-group>
+                    <current-total>
+                        <currency-display></currency-display>
+                    </current-total>
+
+                    <expense-filter>
+                        <div class="actions">
+                            <button type="button" data-icon-button data-button="page" data-page-id="overviewPage">
+                                <svg-icon name="graph"></svg-icon>
+                            </button>
+                            <button type="button" data-icon-button data-button="page" data-page-id="overviewPage">
+                                <svg-icon name="filter"></svg-icon>
+                            </button>
+                        </div>
+                    </expense-filter>
+
+                    <expense-list>
+                        <template>
+                            <dynamic-item>
+                                <button type="button" data-button="modal" data-modal-id="expenseModal" data-bind-attr="data-id:id">
+                                    <category-icon
+                                        data-bind-attr="data-bg-color:category.color;icon:category.icon"
+                                        size="24"
+                                        width="56"
+                                    ></category-icon>
+                                    <div class="name">
+                                        <span data-bind-text="category.name"></span>
+                                        <span class="date" data-bind-text="dateString"></span>
+                                    </div>
+                                    <currency-display class="amount" data-bind-attr="value:item.amount"></currency-display>
+                                </button>
+                            </dynamic-item>
+                        </template>
+                    </expense-list>
+                </expense-group>
+            </nav-panel>
+
+            <nav-panel>
+                <header>
+                    <h2>Settings</h2>
+                </header>
+                <section id="settings">
+                    <firebase-auth>
+                        <template id="user">
+                            <div class="user-card">
+                                <img data-user-photo width="76" height="76" alt="logined user" />
+                                <h2 data-user-name></h2>
+                                <div data-user-email></div>
+                                <button type="button" data-button="logout">
+                                    <svg-icon name="logout" size="18"></svg-icon>
+                                    Logout
+                                </button>
+                            </div>
+                        </template>
+
+                        <template id="guest">
+                            <div class="user-card">
+                                <img src="/avatar.png" alt="guest user" width="76" height="76" />
+                                <h2>Guest</h2>
+                                <button type="button" data-button="login">
+                                    Login with Google
+                                    <svg-icon name="google"></svg-icon>
+                                </button>
+                            </div>
+                        </template>
+                    </firebase-auth>
+
+                    <button type="button" data-button="page" data-page-id="colorsPage">Open Colors</button>
+                    <button type="button" data-button="page" data-page-id="iconsPage">Open Icons</button>
+                    <button type="button" data-button="page" data-page-id="categoriesPage">Open Categories</button>
+                </section>
+            </nav-panel>
+        </nav-tabs>
+
+        <page-dialog id="colorsPage">
+            <header slot="header" class="page-header">
+                <button data-button="close">
+                    <svg-icon name="back"></svg-icon>
+                </button>
+                <h2>Colors</h2>
+            </header>
+            <color-list class="color-list">
+                <template>
+                    <dynamic-item>
+                        <span class="color" data-bind-attr="data-bg-color:color.id"></span>
+                        <span class="name" data-bind-text="color.name"></span>
+                    </dynamic-item>
+                </template>
+            </color-list>
+        </page-dialog>
+
+        <page-dialog id="iconsPage">
+            <header slot="header" class="page-header">
+                <button data-button="close">
+                    <svg-icon name="back"></svg-icon>
+                </button>
+                <h2>Icons</h2>
+            </header>
+            <icon-list class="icon-list">
+                <template>
+                    <dynamic-item>
+                        <div class="icon" data-bind-html="icon.icon"></div>
+                        <div class="name" data-bind-text="icon.name"></div>
+                    </dynamic-item>
+                </template>
+            </icon-list>
+        </page-dialog>
+
+        <categories-page id="categoriesPage">
+            <header slot="header" class="page-header">
+                <button data-button="close">
+                    <svg-icon name="back"></svg-icon>
+                </button>
+                <h2>Categories</h2>
+                <button data-button="action" data-sort="false" class="button-action">
+                    <svg-icon name="sort"></svg-icon>
+                </button>
+            </header>
+            <category-list class="category-list">
+                <template>
+                    <dynamic-item>
+                        <button data-button="modal" data-modal-id="categoryModal" data-bind-attr="data-id:id">
+                            <category-icon
+                                data-bind-attr="data-bg-color:item.color;icon:item.icon"
+                                size="24"
+                                width="56"
+                            ></category-icon>
+                            <div class="name" data-bind-text="item.name"></div>
+                            <svg class="open-arrow" viewBox="0 0 24 24" width="20" height="20">
+                                <path fill="var(--fg-accent)"
+                                    d="M15.4,9.88,10.81,5.29a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42L14,11.29a1,1,0,0,1,0,1.42L9.4,17.29a1,1,0,0,0,1.41,1.42l4.59-4.59A3,3,0,0,0,15.4,9.88Z" />
+                            </svg>
+                            <span class="sort-menu"></span>
+                        </button>
+                    </dynamic-item>
+                </template>
+            </category-list>
+            <footer slot="footer" class="sticky-container">
+                <button id="addCateogry" data-button="modal" data-modal-id="categoryModal" data-id="">
+                    <svg-icon name="plus" size="20"></svg-icon>
+                </button>
+            </footer>
+        </categories-page>
+
+        <category-modal id="categoryModal">
+            <header slot="header" class="modal-header">
+                <button data-button="close">
+                    <svg-icon name="close"></svg-icon>
+                </button>
+                <h2>Category</h2>
+                <button data-button="action" disabled class="button-action">
+                    <svg-icon name="done"></svg-icon>
+                </button>
+            </header>
+            <category-form class="custom-form">
+                <input type="hidden" name="id" value="" />
+                <div class="form-card">
+                    <div class="custom-group">
+                        <category-icon data-icon-current data-bind-attr="icon:icon;data-bg-color:color" width="80" size="38"></category-icon>
+                        <input data-bind-attr="data-color:color" data-form-input type="text" id="name" name="name"
+                            placeholder="Category Name" />
+                    </div>
+                </div>
+
+                <div class="form-card">
+                    <color-list class="radio-group">
+                        <template>
+                            <dynamic-item>
+                                <label data-color data-bind-attr="data-bg-color:color.id">
+                                    <input data-aria-only type="radio" name="color" data-bind-attr="value:color.id">
+                                </label>
+                            </dynamic-item>
+                        </template>
+                    </color-list>
+                </div>
+
+                <div class="form-card">
+                    <icon-list class="radio-group">
+                        <template>
+                            <dynamic-item>
+                                <label data-icon>
+                                    <span data-bind-html="icon.icon"></span>
+                                    <input data-aria-only type="radio" name="icon" data-bind-attr="value:icon.id">
+                                </label>
+                            </dynamic-item>
+                        </template>
+                    </icon-list>
+                </div>
+            </category-form>
+        </category-modal>
+
+        <expense-modal id="expenseModal">
+            <header slot="header" class="modal-header">
+                <button data-button="close">
+                    <svg-icon name="close"></svg-icon>
+                </button>
+                <h2>Expense</h2>
+                <button data-button="action" disabled class="button-action">
+                    <svg-icon name="done"></svg-icon>
+                </button>
+            </header>
+            <expense-form class="custom-form">
+                <input type="hidden" name="id" />
+                <input type="hidden" id="color" name="color" />
+                <input type="hidden" id="icon" name="icon" />
+                <input type="hidden" id="name" name="name" />
+
+                <div class="expense-card">
+                    <div class="expense-group" data-bind-attr="data-bg-color:color">
+                        <category-icon data-icon-current data-bind-attr="icon:icon;data-bg-color:color" width="80" size="38"></category-icon>
+                        <!-- <div class="icon-container">
+                            <svg-icon data-icon-current data-bind-attr="name:icon" size="48"></svg-icon>
+                        </div> -->
+                        <div class="category-name" data-bind-text="name"></div>
+                        <div class="input-container">
+                            <input data-bind-attr="data-color:color" data-form-input type="text" inputmode="numeric"
+                                pattern="[0-9]*" name="amount" placeholder="0.00" />
+                            <div class="money-sign" data-currency-sign="¥"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card">
+                    <category-list class="radio-group">
+                        <template>
+                            <dynamic-item class="radio-item">
+                                <label class="category-label">
+                                    <input
+                                        data-aria-only
+                                        type="radio"
+                                        name="categoryId"
+                                        data-sync="icon:color:name"
+                                        data-bind-attr="value:item.id;data-icon:item.icon;data-color:item.color;data-name:item.name"
+                                    />
+                                    <category-icon data-icon-current data-bind-attr="icon:item.icon;data-bg-color:item.color" width="56" size="24"></category-icon>
+                                </label>
+                                <div class="category-name" data-bind-text="item.name"></div>
+                            </dynamic-item>
+                        </template>
+                    </category-list>
+                </div>
+
+                <div class="form-card">
+                    <div class="input-group">
+                        <div class="date-input">
+                            <date-picker name="date" data-bind-attr="value:date">
+                                <date-display format="MMMM D, YYYY"></date-display>
+                                <button type="button" data-button data-icon-button>
+                                    <svg-icon name="calendar"></svg-icon>
+                                </button>
+                            </date-picker>
+                        </div>
+
+                        <div class="text-input">
+                            <!-- <div class="name">Note</div> -->
+                            <textarea data-form-input name="note" placeholder="Note"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </expense-form>
+        </expense-modal>
+
+    </expense-app>
+    <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>

@@ -1,0 +1,143 @@
+import { html } from "../../utils"
+import { hostStyles, pageStyles } from "./styles"
+
+export class PageDialog extends HTMLElement {
+    private renderRoot: ShadowRoot
+    private dialog: HTMLDialogElement
+    private startX: number = Infinity
+    private currentX: number = 0
+    private isDragging: boolean = false
+
+    constructor() {
+        super()
+        this.renderRoot = this.attachShadow({ mode: 'open' })
+        this.dialog = document.createElement('dialog')
+
+        this.onTouchStart = this.onTouchStart.bind(this)
+        this.onTouchMove = this.onTouchMove.bind(this)
+        this.onTouchEnd = this.onTouchEnd.bind(this)
+        this.onClick = this.onClick.bind(this)
+
+        this.render()
+    }
+
+    connectedCallback() {
+        this.dialog.addEventListener('touchstart', this.onTouchStart, true)
+        this.dialog.addEventListener('touchmove', this.onTouchMove, true)
+        this.dialog.addEventListener('touchend', this.onTouchEnd)
+        this.dialog.addEventListener('click', this.onClick)
+    }
+
+    disconnectedCallback() {
+        this.dialog.removeEventListener('touchstart', this.onTouchStart, true)
+        this.dialog.removeEventListener('touchmove', this.onTouchMove, true)
+        this.dialog.removeEventListener('touchend', this.onTouchEnd)
+        this.dialog.removeEventListener('click', this.onClick)
+    }
+
+    openPage(scrollReset: boolean = false) {
+        this.dialog.showModal()
+        if (scrollReset) {
+            this.dialog.scrollTo(0, 0)
+        }
+
+        const animation = this.openAnimation()
+        animation.finished.then(() => {
+            this.dispatchEvent(new CustomEvent("opened"))
+        })
+    }
+
+    closePage(deltaX: number) {
+        const animation = this.closeAnimation(deltaX)
+
+        animation.finished.then(() => {
+            this.dialog.classList.remove("closing")
+            this.dialog.close()
+            this.dispatchEvent(new CustomEvent("closed"))
+        })
+    }
+
+    protected render() {
+        this.renderRoot.adoptedStyleSheets = [ hostStyles, pageStyles ]
+        const elem = html`
+            <slot name="header"></slot>
+            <section>
+                <slot></slot>
+            </section>
+            <slot name="footer"></slot>
+        `
+        this.dialog.appendChild(elem)
+        this.renderRoot.appendChild(this.dialog)
+    }
+
+    private onClick(event: Event) {
+        const target = event.target as HTMLElement
+        if (target && target.dataset.button) {
+            if (target.dataset.button === 'close') {
+                this.closePage(0)
+            } else {
+                ;(this as any).buttonClick?.(event)
+            }
+        }
+    }
+
+    private onTouchStart(event: TouchEvent): void {
+        if (event.touches.length !== 1) return
+
+        this.startX = event.touches[0].clientX
+        this.currentX = this.startX
+        if (this.startX > 40) return
+
+        this.isDragging = true
+    }
+
+    private onTouchMove(event: TouchEvent): void {
+        if (!this.isDragging) return
+
+        this.currentX = event.touches[0].clientX
+        const deltaX = this.currentX - this.startX
+        if (deltaX > 0) {
+            event.preventDefault()
+            this.dialog.style.transform = `translateX(${deltaX}px)`
+        }
+    }
+
+    private onTouchEnd(): void {
+        if (!this.isDragging) return
+
+        const deltaX = this.currentX - this.startX
+        this.isDragging = false
+
+        if (deltaX > this.dialog.clientWidth * 0.5) {
+            this.closePage(deltaX)
+        } else if (deltaX > 1) {
+            this.dialog.removeAttribute('style')
+            this.openAnimation(deltaX)
+        }
+    }
+
+    private openAnimation(deltaX: number = 0) {
+        return this.dialog.animate([
+            { translate: `${deltaX || window.innerWidth }px 0` },
+            { translate: '0 0' },
+        ], {
+            duration: 400,
+            easing: 'cubic-bezier(0.61, 1, 0.88, 1)'
+        })
+    }
+
+    private closeAnimation(deltaX: number = 0) {
+        this.dialog.removeAttribute('style')
+        this.dialog.classList.add('closing')
+
+        return this.dialog.animate([
+            { translate: `${deltaX}px 0` },
+            { translate: '100% 0' },
+        ], {
+            duration: 400,
+            easing: 'cubic-bezier(0.61, 1, 0.88, 1)'
+        })
+    }
+}
+
+customElements.define('page-dialog', PageDialog)

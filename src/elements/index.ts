@@ -1,0 +1,13 @@
+export * from './tabs'
+export * from './icon'
+export * from './dialogs'
+export * from './list'
+export * from './form'
+export * from './datepicker'
+
+import './tabs'
+import './icon'
+import './dialogs'
+import './list'
+import './form'
+import './datepicker'

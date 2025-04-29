@@ -1,0 +1,9 @@
+
+
+export class AppNumber {
+    public static price(value: number, currency: string) {
+        const result = new Intl.NumberFormat("en-US", { style: "currency", currency }).format(value)
+        if (currency !== 'MMK') return result
+        return result.replace(/\.\d+$/, "")
+    }
+}

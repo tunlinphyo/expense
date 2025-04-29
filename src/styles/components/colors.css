@@ -1,0 +1,28 @@
+.color-list {
+    margin: var(--size-5) 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-2);
+
+    @media (display-mode: fullscreen), (display-mode: standalone) {
+        padding-block-end: var(--size-20);
+    }
+
+    & dynamic-item {
+        background-color: var(--bg-card);
+        border-radius: var(--radius-6);
+        display: grid;
+        grid-template-columns: 56px 1fr;
+        align-items: center;
+        padding: var(--size-2);
+        gap: var(--size-5);
+
+        .color {
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: 2px solid var(--bg-glass);
+        }
+    }
+}

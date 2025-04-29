@@ -1,0 +1,37 @@
+.icon-list {
+    margin: var(--size-5) 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--size-2);
+
+    & dynamic-item {
+        background-color: var(--bg-card);
+        color: var(--fg-color);
+        border: 1px solid var(--bg-accent);
+
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: var(--size-2);
+        padding: var(--size-2);
+        border-radius: var(--radius-6);
+
+        .icon {
+            flex-shrink: 0;
+            width: 52px;
+            aspect-ratio: 1;
+            background-color: var(--bg-accent);
+            color: var(--primary);
+            border-radius: 50%;
+            display: grid;
+            place-content: center;
+        }
+
+        .name {
+            font-size: var(--text-sm);
+            text-transform: capitalize;
+        }
+    }
+}

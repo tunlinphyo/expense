@@ -1,0 +1,35 @@
+:root {
+    color-scheme: light dark;
+    accent-color: var(--secondary);
+
+    --gray: light-dark(rgb(142,142,147), rgb(142,142,147));
+    --gray-2: light-dark(rgb(174,174,178), rgb(99,99,102));
+    --gray-3: light-dark(rgb(199,199,204), rgb(72,72,74));
+    --gray-4: light-dark(rgb(209,209,214), rgb(58,58,60));
+    --gray-5: light-dark(rgb(229,229,234), rgb(44,44,46));
+    --gray-6: light-dark(rgb(242,242,247), rgb(28,28,30));
+
+    --primary: var(--color-blue);
+    --secondary: var(--color-pink);
+
+    --bg-primary: light-dark(var(--gray-6), rgb(0,0,0));
+    --bg-accent: var(--gray-5);
+
+    --fg-primary: light-dark(rgb(28,28,30), rgb(242,242,247));
+    --fg-accent: var(--gray);
+
+    --bg-card: light-dark(rgb(255,255,255), var(--gray-6));
+    --bg-form: light-dark(var(--gray-6), var(--gray-4));
+
+    --bg-max: light-dark(var(--white), var(--black));
+    --bg-picker: light-dark(var(--gray-6), var(--gray-6));
+
+    --highlight: color-mix(in srgb, var(--primary) 30%, transparent);
+
+    --glass-alpha: 0.5;
+    --bg-glass: light-dark(rgba(242, 242, 247, var(--glass-alpha)), rgba(0, 0, 0, var(--glass-alpha)));
+
+    @media (prefers-reduced-transparency: reduce) {
+        --glass-alpha: 1;
+    }
+}

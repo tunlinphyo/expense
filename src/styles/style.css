@@ -1,0 +1,12 @@
+@layer reset, theme, utils, components, pages;
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import url('https://unpkg.com/open-props') layer(utils);
+
+@import url('./utils/reset.css') layer(reset);
+@import url('./utils/colors.css') layer(theme);
+@import url('./utils/theme.css') layer(theme);
+@import url('./utils/utils.css') layer(utils);
+
+@import url('./components/components.css') layer(components);
+/* @import url('./pages/pages.css') layer(pages); */

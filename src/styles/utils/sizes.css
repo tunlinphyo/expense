@@ -1,0 +1,13 @@
+:root {
+    --text-3xs: 0.7em;
+    --text-2xs: 0.725em;
+    --text-xs: 0.75em;
+    --text-sm: 0.875em;
+    --text-base: 1em;
+    --text-md: 1.125em;
+    --text-lg: 1.25em;
+    --text-xl: 1.5em;
+    --text-2xl: 2em;
+    --text-3xl: 2.5em;
+    --text-4xl: 3em;
+}

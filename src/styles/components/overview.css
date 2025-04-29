@@ -1,0 +1,120 @@
+#overviewPage {
+    .overview-card {
+        width: 100%;
+        border-radius: var(--radius-4);
+        background-color: var(--bg-card);
+        margin-block-start: var(--size-5);
+        padding: var(--size-4);
+        position: relative;
+        display: block;
+
+        & header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            & h3 {
+                font-size: var(--text-lg);
+                text-align: center;
+            }
+        }
+
+        .doughnut-container {
+            width: auto;
+            height: 13rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+
+            .doughnut-center {
+                position: absolute;
+                width: 9rem;
+                aspect-ratio: 1 / 1;
+                border-radius: 50%;
+                background-color: var(--card-highlight);
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: var(--size-2);
+                font-size: var(--text-lg);
+                font-weight: bold;
+                pointer-events: none;
+            }
+        }
+    }
+
+    .sticky-header {
+        position: sticky;
+        z-index: 5;
+        top: var(--space-2);
+
+        background-color: var(--bg-card);
+        border-radius: var(--rounded-2xl);
+        border: 1px solid var(--bg-accent);
+        padding: var(--space-3);
+        margin-inline: -0.2rem;
+
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: var(--space-3\.5);
+    }
+}
+
+#overviewList {
+    list-style: none;
+    margin-block: var(--size-5);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: var(--radius-4);
+    overflow: hidden;
+    background-color: var(--bg-card);
+    padding: var(--size-5) var(--size-3);
+    gap: var(--size-4);
+
+    & li {
+        & dynamic-item {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: var(--size-3);
+
+            .detail {
+                line-height: 1.4;
+
+                & h4 {
+                    margin: 0;
+                    font-weight: normal;
+                    font-size: var(--text-base);
+                }
+                & currency-display {
+                    color: var(--fg-accent);
+                    font-size: var(--text-sm);
+                }
+            }
+        }
+    }
+}
+
+#chartjs-custom-tooltip {
+    position: absolute;
+    pointer-events: none;
+    background-color: var(--bg-tooltip);
+    border-radius: var(--radius-4);
+    padding: var(--size-1);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: all .3s ease;
+    z-index: 100;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .amount {
+        padding-inline: var(--size-2);
+    }
+}

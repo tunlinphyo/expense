@@ -1,0 +1,70 @@
+@import url('./sizes.css');
+
+:root {
+    color-scheme: light dark;
+}
+
+html,
+body {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+
+    inline-size: 100%;
+    block-size: 100%;
+
+    background-color: var(--bg-primary);
+    color: var(--fg-primary);
+}
+
+body {
+    --layout-column: [edge-start] 1fr [body-start] clamp(0rem, 92vw, 30rem) [body-end] 1fr [edge-end];
+    --layout-row: [header-start page-start] 60px [header-end body-start] auto [body-end page-end];
+
+    & :where([data-button], [data-route]) :is(*) {
+        pointer-events: none;
+    }
+
+    [data-form-input] {
+        background-color: var(--bg-form);
+        border-radius: var(--radius-2);
+        border: none;
+        outline: none;
+        outline: 2px solid transparent;
+        outline-offset: -2px;
+        transition: .3s ease;
+        caret-color: var(--secondary);
+        color: var(--fg-primary);
+
+        &:focus {
+            outline-color: var(--secondary);
+            outline-offset: 2px;
+        }
+    }
+
+    [data-icon-button] {
+        padding: 0;
+        border: none;
+        background-color: transparent;
+        color: var(--fg-primary);
+
+        width: 40px;
+        aspect-ratio: 1;
+        background-color: var(--bg-accent);
+        border-radius: 50%;
+
+        display: grid;
+        place-content: center;
+    }
+
+    [data-aria-only] {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+    }
+}

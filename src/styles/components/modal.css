@@ -1,0 +1,66 @@
+.modal-header {
+    grid-area: header / edge;
+
+    display: grid;
+    grid-template-columns: .5fr 1fr .5fr;
+    align-items: center;
+    padding-inline: 4vw;
+
+    position: sticky;
+    top: 0;
+    z-index: 5;
+
+    background-color: var(--bg-glass);
+    backdrop-filter: blur(50px) brightness(1);
+
+    @media (prefers-color-scheme: dark) {
+        backdrop-filter: blur(50px) brightness(2);
+    }
+
+    & h2 {
+        font-size: var(--text-md);
+        text-align: center;
+        color: var(--fg-primary);
+    }
+
+    & button {
+        padding: 0;
+        border: none;
+        background-color: transparent;
+        color: var(--fg-primary);
+
+        width: 40px;
+        aspect-ratio: 1;
+        background-color: var(--bg-card);
+        border-radius: 50%;
+
+        display: grid;
+        place-content: center;
+
+        &.button-close {
+            padding-inline-start: var(--space-0);
+        }
+
+        &.button-close {
+            justify-self: start;
+
+            > svg {
+                translate: -1px 0;
+            }
+        }
+
+        &.button-action {
+            justify-self: end;
+            color: var(--primary);
+
+            &.hide {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            &:disabled {
+                color: var(--fg-accent);
+            }
+        }
+    }
+}
