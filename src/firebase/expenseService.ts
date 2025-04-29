@@ -155,7 +155,7 @@ export class ExpenseService {
         q: ExpenseQuery,
         pageSize = 20,
         lastDoc?: any // last document from previous page
-    ): Promise<{ data: ExpenseType[], lastVisible: any }> {
+    ): Promise<{ data: ExpenseType[], lastVisible: any, hasMore: boolean }> {
         const constraints: QueryConstraint[] = [
             orderBy("date", "desc"),
             limit(pageSize)
@@ -178,20 +178,23 @@ export class ExpenseService {
         }
 
         const ref = this.collectionRef(userId)
-        const snap = await getDocs(query(ref, ...constraints))
+        const expenseSnap = await getDocs(query(ref, ...constraints))
 
-        const data = snap.docs.map(doc => {
+        const data: ExpenseType[] = expenseSnap.docs.map(doc => {
             const d = doc.data()
             return {
-                ...d,
-                id: doc.id,
-                date: (d.date as Timestamp).toDate()
+            ...d,
+            id: doc.id,
+            date: (d.date as Timestamp).toDate()
             } as ExpenseType
         })
 
+        const hasMore = expenseSnap.docs.length === pageSize
+
         return {
             data,
-            lastVisible: snap.docs[snap.docs.length - 1]
+            lastVisible: expenseSnap.docs[expenseSnap.docs.length - 1] || null,
+            hasMore
         }
     }
 

@@ -56,11 +56,11 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
             this.expenseUnsubscribe?.()
 
             this.expenseUnsubscribe = ExpenseService.onExpenseChange(userSignal.get(), () => {
-                this.lastDoc = null
+                // this.lastDoc = null
                 this.loadExpenses()
                 console.log('ON_EXPENSE_CHANGE')
             })
-        }, [categorySignal, userSignal])
+        }, [categorySignal])
 
     }
 
@@ -93,7 +93,7 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
                 dateString: AppDate.monthDay(item.date),
                 category: categoryMap[item.categoryId]
             }))
-            console.log('EXPENSES::::::::::::::::::::::::::::::::::', list)
+            console.log('EXPENSES::::::::::::::::::::::::::::::::::', list, expenses.lastVisible)
             this.list = list
             this.lastDoc = expenses.lastVisible
 
