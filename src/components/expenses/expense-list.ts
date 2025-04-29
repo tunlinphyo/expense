@@ -1,6 +1,5 @@
 import { ContextConsumer } from "../../context"
 import { DynamicList } from "../../elements"
-import { CategoryService } from "../../firebase/categoryService"
 import { ExpenseService } from "../../firebase/expenseService"
 import { effect } from "../../signal"
 import { expenseContext } from "../../store/context"
@@ -8,6 +7,7 @@ import { categorySignal, totalSignal, userSignal } from "../../store/signal"
 import { CategoryType, ExpenseContext, ExpenseQuery, ExpenseType } from "../../types"
 import { isEmptyObject } from "../../utils"
 import { AppDate } from "../../utils/date"
+import { InlineLoading } from "../inline-loading"
 
 type ExpenseItem = {
     id: string
@@ -17,6 +17,7 @@ type ExpenseItem = {
 }
 
 export class ExpenseList extends DynamicList<ExpenseItem> {
+    private loadingEl?: InlineLoading
     private consumer: ContextConsumer<ExpenseContext>
     private query: ExpenseQuery = {
         year: new Date().getFullYear(),
@@ -25,7 +26,7 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
     }
     private lastDoc: any
     private unsubscribe?: () => void
-    private isLoading = false
+    private expenseUnsubscribe?: () => void
     private lastQueryString = ''
 
     constructor() {
@@ -35,6 +36,7 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
 
     connectedCallback() {
         super.connectedCallback()
+        this.appendLoading()
 
         this.consumer.subscribe(data => {
             const newQuery: ExpenseQuery = {
@@ -45,44 +47,43 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
             if (this.isSameQuery(newQuery)) return
             this.query = newQuery
             this.lastDoc = null
-            this.loadExpenses('context')
+            this.loadExpenses()
         })
 
         this.unsubscribe = effect(() => {
             this.lastDoc = null
-            this.loadExpenses('effect')
-        }, [userSignal])
 
-        ExpenseService.onExpenseChange(userSignal.get(), () => {
-            this.lastDoc = null
-            this.loadExpenses('ExpenseService')
-        })
+            this.expenseUnsubscribe?.()
 
-        CategoryService.onCategoryChange(userSignal.get(), async () => {
-            this.lastDoc = null
-            this.loadExpenses('CategoryService')
-        })
+            this.expenseUnsubscribe = ExpenseService.onExpenseChange(userSignal.get(), () => {
+                this.lastDoc = null
+                this.loadExpenses()
+                console.log('ON_EXPENSE_CHANGE')
+            })
+        }, [categorySignal, userSignal])
+
     }
 
     disconnectedCallback() {
         super.disconnectedCallback()
         this.consumer.unsubscribe()
         this.unsubscribe?.()
+        this.expenseUnsubscribe?.()
     }
 
-    private async loadExpenses(from: string) {
-        if (this.isLoading) {
-            console.log('Already loading, skip:')
-            return
-        }
+    private appendLoading() {
+        this.loadingEl = document.createElement('inline-loading') as InlineLoading
+        this.appendChild(this.loadingEl)
+    }
 
+    private async loadExpenses() {
         const categoryMap = categorySignal.get()
         if (isEmptyObject(categoryMap)) {
             this.list = []
             return
         }
 
-        this.isLoading = true
+        if (!this.loadingEl) this.appendLoading()
 
         try {
             const expenses = await ExpenseService.paginatedQuery(userSignal.get(), this.query, 20, this.lastDoc)
@@ -92,17 +93,16 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
                 dateString: AppDate.monthDay(item.date),
                 category: categoryMap[item.categoryId]
             }))
-            console.log('expenses:', list)
+            console.log('EXPENSES::::::::::::::::::::::::::::::::::', list)
             this.list = list
             this.lastDoc = expenses.lastVisible
 
-            // Save last query string to detect next changes
             this.lastQueryString = JSON.stringify(this.query)
             this.calculateTotal(expenses.data)
         } catch (error) {
             console.error('Failed to load expenses', error)
         } finally {
-            this.isLoading = false
+            this.loadingEl?.remove()
         }
     }
 

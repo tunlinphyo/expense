@@ -12,7 +12,6 @@ type CategoryItem = {
 
 export class CategoryList extends DynamicList<CategoryItem> {
     private loadingEl: InlineLoading
-    private hasLoaded = false
     private unsubscribe?: () => void
 
     constructor() {
@@ -23,12 +22,6 @@ export class CategoryList extends DynamicList<CategoryItem> {
 
     connectedCallback() {
         super.connectedCallback()
-        this.loadCategories()
-
-        this.unsubscribe = effect(() => {
-            if (this.hasLoaded)
-                this.loadCategories()
-        }, [userSignal])
 
         this.addEventListener('sortchange', (e: Event) => {
             const customE = e as CustomEvent
@@ -37,6 +30,10 @@ export class CategoryList extends DynamicList<CategoryItem> {
                 .map((id: string, order: number) => ({ id, order }))
             CategoryService.updateSort(userSignal.get(), orders)
         })
+
+        this.unsubscribe = effect(() => {
+            this.renderCategories(categorySignal.get())
+        }, [categorySignal])
     }
 
     disconnectedCallback() {
@@ -44,28 +41,13 @@ export class CategoryList extends DynamicList<CategoryItem> {
         this.unsubscribe?.()
     }
 
-    private async setCategoriesMap(categores: CategoryType[]) {
-        const categoryMap = Object.fromEntries(
-            categores.map(doc => {
-              const data = doc
-              return [data.id, data]
-            })
-        )
-        categorySignal.set(categoryMap)
-    }
-
-    private async loadCategories() {
-        const id = userSignal.get()
+    private async renderCategories(categoryMap: Record<string, CategoryType>) {
         try {
-            const categories = await CategoryService.getAll(id)
-            this.list = categories.map(item => ({ id: item.id, item }))
-            this.setCategoriesMap(categories)
+            const categories = Object.values(categoryMap).map((item) => ({ id: item.id, item }))
+            this.list = categories
         } finally {
             this.loadingEl.remove()
         }
-        CategoryService.onCategoryChange(id, (categories) => {
-            this.list = categories.map(item => ({ id: item.id, item }))
-        })
     }
 }
 

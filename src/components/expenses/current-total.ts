@@ -1,6 +1,5 @@
-import { AppService } from "../../firebase/appService"
 import { effect } from "../../signal"
-import { totalSignal, userSignal } from "../../store/signal"
+import { currencySignal, totalSignal } from "../../store/signal"
 import { CurrencyDisplay } from "../currency-display"
 
 export class CurrentTotal extends HTMLElement {
@@ -21,11 +20,7 @@ export class CurrentTotal extends HTMLElement {
                 this.dispalyEl.setAttribute('value', totalSignal.get().toString())
                 this.adjustFontSize(this.dispalyEl)
             }
-        }, [totalSignal])
-
-        AppService.onFieldChange(userSignal.get(), 'currency', () => {
-            if (this.dispalyEl) this.adjustFontSize(this.dispalyEl)
-        })
+        }, [totalSignal, currencySignal])
     }
 
     private render() {

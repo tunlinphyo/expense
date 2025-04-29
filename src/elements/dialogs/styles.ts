@@ -82,6 +82,13 @@ export const modalStyles = css`
         inset: 20px 0 0;
         border-radius: 1.5rem 1.5rem 0 0;
     }
+    :host([data-half]) {
+        dialog {
+            height: auto;
+            min-height: 200px;
+            inset: auto 0 0;
+        }
+    }
     ::slotted(header) {
         border-radius: 1.5rem 1.5rem 0 0;
     }

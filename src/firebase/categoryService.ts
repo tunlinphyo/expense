@@ -56,14 +56,23 @@ export class CategoryService {
         } as CategoryType) : null
     }
 
+    // static onCategoryChange(
+    //     userId: string,
+    //     callback: (categories: CategoryType[]) => void
+    // ): () => void {
+    //     const q = query(this.collectionRef(userId), orderBy("order", "asc"))
+    //     return onSnapshot(q, (snapshot) => {
+    //         const categories = snapshot.docs.map(doc => doc.data() as CategoryType)
+    //         callback(categories)
+    //     })
+    // }
+
     static onCategoryChange(
         userId: string,
-        callback: (categories: CategoryType[]) => void
+        callback: () => void
     ): () => void {
-        const q = query(this.collectionRef(userId), orderBy("order", "asc"))
-        return onSnapshot(q, (snapshot) => {
-            const categories = snapshot.docs.map(doc => doc.data() as CategoryType)
-            callback(categories)
+        return onSnapshot(this.collectionRef(userId), () => {
+            callback()
         })
     }
 }

@@ -1,5 +1,5 @@
 import { DynamicList } from "../elements"
-import { IconService } from "../firebase/iconService"
+import { effect } from "../signal"
 import { iconsSignal } from "../store/signal"
 import { IconType } from "../types"
 
@@ -9,23 +9,22 @@ type IconWithName = {
 }
 
 export class IconList extends DynamicList<IconWithName> {
+    private unsubscribe?: () => void
+
     constructor() {
         super()
     }
 
     connectedCallback() {
         super.connectedCallback()
-                    this.loadIcons()
+        this.unsubscribe = effect(() => {
+            this.renderIcons()
+        }, [iconsSignal])
     }
 
     disconnectedCallback() {
         super.disconnectedCallback()
-    }
-
-    private async loadIcons() {
-        const icons = await IconService.getAllIcons()
-        iconsSignal.set(icons)
-        this.renderIcons()
+        this.unsubscribe?.()
     }
 
     private renderIcons() {

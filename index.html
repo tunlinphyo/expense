@@ -56,11 +56,23 @@
                             <button type="button" data-icon-button data-button="page" data-page-id="overviewPage">
                                 <svg-icon name="graph"></svg-icon>
                             </button>
-                            <button type="button" data-icon-button data-button="page" data-page-id="overviewPage">
+                            <button type="button" data-icon-button data-button="modal" data-modal-id="filterModal">
                                 <svg-icon name="filter"></svg-icon>
                             </button>
                         </div>
                     </expense-filter>
+
+                    <filter-modal id="filterModal" data-half>
+                        <header slot="header" class="modal-header">
+                        <button data-button="close">
+                            <svg-icon name="close"></svg-icon>
+                        </button>
+                        <h2>Filter</h2>
+                        <button data-button="action" class="button-action">
+                            <svg-icon name="done"></svg-icon>
+                        </button>
+                    </header>
+                    </filter-modal>
 
                     <expense-list>
                         <template>

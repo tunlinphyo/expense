@@ -38,8 +38,7 @@ export class FilterModal extends ModalDialog {
         const data: ExpenseContext = {
             year: date.getFullYear(),
             month: date.getMonth(),
-            categories: formData.categories,
-            currentTotal: 5000
+            categories: formData.categories
         }
         this.dispatchEvent(new CustomEvent('filterchange', {
             detail: data,

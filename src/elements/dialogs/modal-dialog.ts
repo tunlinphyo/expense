@@ -78,6 +78,9 @@ export class ModalDialog extends HTMLElement {
                 ;(this as any).buttonClick?.(event)
             }
         }
+        if (target === this.dialog) {
+            this.closeModal()
+        }
     }
 
     private onTouchStart(event: TouchEvent): void {

@@ -1,5 +1,5 @@
 import { DynamicList } from "../elements"
-import { ColorService } from "../firebase/colorService"
+import { effect } from "../signal"
 import { colorsSignal } from "../store/signal"
 import { ColorType } from "../types"
 
@@ -9,23 +9,22 @@ type ColorItem = {
 }
 
 export class ColorList extends DynamicList<ColorItem> {
+    private unsubscribe?: () => void
+
     constructor() {
         super()
     }
 
     connectedCallback() {
         super.connectedCallback()
-                    this.loadColors()
+        this.unsubscribe = effect(() => {
+            this.renderColors()
+        }, [colorsSignal])
     }
 
     disconnectedCallback() {
         super.disconnectedCallback()
-    }
-
-    private async loadColors() {
-        const colors = await ColorService.getAllColors()
-        colorsSignal.set(colors)
-        this.renderColors()
+        this.unsubscribe?.()
     }
 
     private renderColors() {
