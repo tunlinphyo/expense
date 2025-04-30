@@ -30,7 +30,7 @@ export class ExpenseModal extends ModalDialog {
         this.formEl.addEventListener('input', () => {
             const formData = this.formEl.data
             const dirty = this.formEl.getAttribute('dirty')
-            this.toggleAction(Boolean(dirty && formData.amount && formData.categoryId && formData.date))
+            this.toggleAction(Boolean(dirty && Number(formData.amount) && formData.categoryId && formData.date))
         })
     }
 
