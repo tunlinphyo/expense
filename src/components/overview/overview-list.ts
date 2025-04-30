@@ -1,4 +1,4 @@
-import { CategoryTotal } from "../../data/interfaces"
+import type { CategoryTotal } from "../../types"
 import { DynamicList } from "../../elements"
 
 export class OverviewList extends DynamicList<CategoryTotal> {

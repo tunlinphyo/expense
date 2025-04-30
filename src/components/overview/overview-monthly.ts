@@ -1,4 +1,4 @@
-import { CategoryTotal } from "../../data/interfaces"
+import type { CategoryTotal } from "../../types"
 import { DateDisplay, MonthPicker } from "../../elements"
 import { ExpenseService } from "../../firebase/expenseService"
 import { userSignal } from "../../store/signal"
