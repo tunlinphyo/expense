@@ -23,7 +23,6 @@
     --bg-form: light-dark(var(--gray-6), var(--gray-4));
     --bg-popover: light-dark(rgb(255,255,255), var(--gray-6));
 
-    --bg-max: light-dark(var(--white), var(--black));
     --bg-picker: light-dark(var(--gray-6), var(--gray-6));
 
     --highlight: color-mix(in srgb, var(--primary) 30%, transparent);
@@ -32,7 +31,10 @@
     --bg-glass: light-dark(rgba(242, 242, 247, var(--glass-alpha)), rgba(0, 0, 0, var(--glass-alpha)));
     --card-highlight: color-mix(in srgb, var(--bg-card) 50%, transparent);
 
-    --bg-backdrop: color-mix(in srgb, var(--gray-4) 40%, transparent);
+    --bg-backdrop: light-dark(
+        color-mix(in srgb, var(--gray-4) 20%, transparent),
+        color-mix(in srgb, rgb(10,10,12) 20%, transparent)
+    );
 
     @media (prefers-reduced-transparency: reduce) {
         --glass-alpha: 1;

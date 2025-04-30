@@ -14,6 +14,7 @@ export const hostStyles = css`
 
         &::backdrop {
             background-color: var(--bg-backdrop);
+            backdrop-filter: blur(10px) brightness(0.9);
             opacity: 0;
             transition: opacity .2s ease;
         }
@@ -49,6 +50,13 @@ export const hostStyles = css`
         position: sticky;
         bottom: 0;
         z-index: 5;
+    }
+    @media (prefers-color-scheme: dark) {
+        dialog {
+            &::backdrop {
+                backdrop-filter: blur(10px) brightness(1.2);
+            }
+        }
     }
 `
 

@@ -1,4 +1,5 @@
 import { html } from "../../utils"
+import { AppNumber } from "../../utils/number"
 import { hostStyles, pageStyles } from "./styles"
 
 export class PageDialog extends HTMLElement {
@@ -88,7 +89,7 @@ export class PageDialog extends HTMLElement {
 
         this.startX = event.touches[0].clientX
         this.currentX = this.startX
-        if (this.startX > 40) return
+        if (this.startX > 40 && this.startX < (window.innerWidth - 40)) return
 
         this.isDragging = true
     }
@@ -98,9 +99,14 @@ export class PageDialog extends HTMLElement {
 
         this.currentX = event.touches[0].clientX
         const deltaX = this.currentX - this.startX
-        if (deltaX > 0) {
+        const x = Math.abs(deltaX)
+        if (x > 0) {
             event.preventDefault()
-            this.dialog.style.transform = `translateX(${deltaX}px)`
+
+            this.dialog.style.transform = `translateX(${AppNumber.mapRange(x,0,window.innerWidth,0,80)}px)`
+            this.dialog.style.scale = `${AppNumber.mapRange(x,0,200,1,0.88)}`
+            this.dialog.style.borderRadius = `${AppNumber.mapRange(Math.min(x,200),0,200,0,40)}px`
+            this.dialog.style.overflow = 'hidden'
         }
     }
 
@@ -110,11 +116,13 @@ export class PageDialog extends HTMLElement {
         const deltaX = this.currentX - this.startX
         this.isDragging = false
 
-        if (deltaX > this.dialog.clientWidth * 0.3) {
-            this.closePage(deltaX)
-        } else if (deltaX > 1) {
+        const absX = Math.abs(deltaX)
+        const x = AppNumber.mapRange(absX,0,window.innerWidth,0,80)
+        if (absX > this.dialog.clientWidth * 0.3) {
+            this.closePage(x)
+        } else if (absX > 1) {
             this.dialog.removeAttribute('style')
-            this.openAnimation(deltaX)
+            this.openAnimation(x)
         }
     }
 
@@ -137,7 +145,7 @@ export class PageDialog extends HTMLElement {
 
         return this.dialog.animate([
             { translate: `${deltaX}px 0`, opacity: 1 },
-            { translate: `${deltaX + 120}px 0`, opacity: 0 },
+            { translate: `${deltaX}px 0`, opacity: 0 },
         ], {
             // duration: 400,
             // easing: 'cubic-bezier(0.61, 1, 0.88, 1)'

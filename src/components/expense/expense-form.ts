@@ -1,4 +1,4 @@
-import { appLoading } from ".."
+// import { appLoading } from ".."
 import { ReactiveForm } from "../../elements"
 import { CurrencyService } from "../../firebase/currencyService"
 import { ExpenseService } from "../../firebase/expenseService"
@@ -70,16 +70,17 @@ export class ExpenseForm extends ReactiveForm {
 
     attributeChangedCallback(name: string, _:string, newValue: string) {
         if (name === 'id') {
-            appLoading.show()
+            // appLoading.show()
             this.childrenSettled(() => {
                 if (!newValue) {
                     this.setFormData(this.defaultData)
-                    appLoading.hide()
+                    // appLoading.hide()
                 } else {
                     this.clear()
-                    this.setExpense(newValue).finally(() => {
-                        appLoading.hide()
-                    })
+                    this.setExpense(newValue)
+                    // .finally(() => {
+                    //     appLoading.hide()
+                    // })
                 }
             })
         }

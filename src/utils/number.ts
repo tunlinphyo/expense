@@ -6,4 +6,14 @@ export class AppNumber {
         if (currency !== 'MMK') return result
         return result.replace(/\.\d+$/, "")
     }
+    
+    public static mapRange(
+        value: number,
+        inMin: number,
+        inMax: number,
+        outMin: number,
+        outMax: number
+    ): number {
+        return ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin
+    }
 }

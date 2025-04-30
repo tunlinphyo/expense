@@ -28,7 +28,7 @@ expense-group {
         flex-direction: column;
         /* gap: var(--space-px); */
 
-        border-radius: var(--radius-5);
+        border-radius: var(--radius-4);
         background-color: var(--bg-card);
 
         & li {

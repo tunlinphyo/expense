@@ -12,13 +12,14 @@ expense-app {
 body:has(page-dialog[page-open]),
 body:has(categories-page[page-open]) {
     :is(nav-panel) {
-        translate: -50px 0 !important;
+        translate: -100px 0 !important;
     }
 }
 
-body:has(expense-modal[modal-open]) {
+body:has(expense-modal[modal-open]),
+body:has(category-modal[modal-open]) {
     :is(nav-panel) {
-        scale: 0.97;
+        scale: 0.88;
     }
 }
 
@@ -99,6 +100,7 @@ body:has(expense-modal[modal-open]) {
         transition-behavior: allow-discrete;
         transition-duration: .2s;
         transition-timing-function: ease;
+        transition-property: translate, scale;
 
         /* outline: 4px solid hotpink;
         outline-offset: -4px; */
