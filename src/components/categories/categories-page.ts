@@ -10,6 +10,7 @@ export class CategoriesPage extends PageDialog {
 
     connectedCallback() {
         super.connectedCallback()
+        this.observeOtherElementOpen()
     }
 
     buttonClick(e: Event) {
@@ -21,6 +22,35 @@ export class CategoriesPage extends PageDialog {
             this.listEl.toggleAttribute('sortable', isSort)
             btnAdd.toggleAttribute('disabled', isSort)
         }
+    }
+
+    private observeOtherElementOpen() {
+        const updateState = () => {
+            const isOpen = !!document.querySelector("category-modal[modal-open]")
+            if (this.hasAttribute('page-open'))
+                this.scaleAnimate(isOpen)
+        }
+    
+        const observer = new MutationObserver(updateState)
+    
+        observer.observe(document.body, {
+            attributes: true,
+            subtree: true,
+            attributeFilter: ["modal-open"]
+        })
+    
+        updateState()
+    }
+
+    private scaleAnimate(isOpen: boolean) {
+        const open = { scale: 0.97, opacity: 1, borderRadius: '1.5rem' }
+        const base = { scale: 1, opacity: 1, borderRadius: '0' }
+
+        this.dialog.animate(isOpen ? [base, open] : [open, base], {
+            duration: 200,
+            easing: 'ease',
+            fill: 'forwards'
+        })
     }
 }
 

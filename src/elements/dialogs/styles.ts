@@ -13,7 +13,6 @@ export const hostStyles = css`
         background-color: var(--bg-primary);
 
         &::backdrop {
-            background-color: light-dark(#3339, #1119);
             background-color: var(--bg-backdrop);
             opacity: 0;
             transition: opacity .2s ease;

@@ -41,6 +41,7 @@ export class ModalDialog extends HTMLElement {
 
     openModal() {
         this.dialog.showModal()
+        this.toggleAttribute('modal-open', true)
         // if (scrollReset) this.scrollY = 0
         // const scrollView = this.shadowRoot?.querySelector('scroll-view') as ScrollView
         // scrollView?.scrollTo(0, this.scrollY)
@@ -50,6 +51,7 @@ export class ModalDialog extends HTMLElement {
 
     closeModal(currentX: number = 0) {
         const animation = this.closeAnimation(currentX)
+        this.toggleAttribute('modal-open', false)
 
         animation.finished.then(() => {
             this.dialog.classList.remove("closing")
@@ -115,7 +117,7 @@ export class ModalDialog extends HTMLElement {
         const deltaY = this.currentY - this.startY
         this.isDragging = false
 
-        if (deltaY > this.dialog.clientHeight * 0.25) {
+        if (deltaY > this.dialog.clientHeight * 0.3) {
             this.closeModal(deltaY)
         } else if (deltaY > 1) {
             this.openAnimation(deltaY)
@@ -124,7 +126,7 @@ export class ModalDialog extends HTMLElement {
 
     private openAnimation(deltaY: number = 0) {
         return this.dialog.animate([
-            { translate: `0 ${deltaY || 120 }px`, opacity: 0 },
+            { translate: `0 ${deltaY || 120 }px`, opacity: deltaY > 0 ? 1 : 0 },
             { translate: '0 0', opacity: 1 },
         ], {
             // duration: 600,

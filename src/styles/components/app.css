@@ -9,6 +9,19 @@ expense-app {
     }
 }
 
+body:has(page-dialog[page-open]),
+body:has(categories-page[page-open]) {
+    :is(nav-panel) {
+        translate: -50px 0 !important;
+    }
+}
+
+body:has(expense-modal[modal-open]) {
+    :is(nav-panel) {
+        scale: 0.97;
+    }
+}
+
 #appTabs {
     display: block;
     width: 100%;

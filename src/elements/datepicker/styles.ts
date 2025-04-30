@@ -32,10 +32,7 @@ export const pickerStyle = css`
             color: var(--primary);
             font-size: var(--text-md);
             text-transform: capitalize;
-
-            &[data-button=done] {
-                // font-weight: bold;
-            }
+            padding-inline: var(--size-2);
         }
     }
     @media (display-mode: fullscreen), (display-mode: standalone) {

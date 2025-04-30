@@ -32,7 +32,7 @@
     --bg-glass: light-dark(rgba(242, 242, 247, var(--glass-alpha)), rgba(0, 0, 0, var(--glass-alpha)));
     --card-highlight: color-mix(in srgb, var(--bg-card) 50%, transparent);
 
-    --bg-backdrop: color-mix(in srgb, var(--gray-4) 70%, transparent);
+    --bg-backdrop: color-mix(in srgb, var(--gray-4) 40%, transparent);
 
     @media (prefers-reduced-transparency: reduce) {
         --glass-alpha: 1;

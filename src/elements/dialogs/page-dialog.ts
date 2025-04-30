@@ -3,7 +3,7 @@ import { hostStyles, pageStyles } from "./styles"
 
 export class PageDialog extends HTMLElement {
     private renderRoot: ShadowRoot
-    private dialog: HTMLDialogElement
+    protected dialog: HTMLDialogElement
     private startX: number = Infinity
     private currentX: number = 0
     private isDragging: boolean = false
@@ -37,6 +37,7 @@ export class PageDialog extends HTMLElement {
 
     openPage(scrollReset: boolean = false) {
         this.dialog.showModal()
+        this.toggleAttribute('page-open', true)
         if (scrollReset) {
             this.dialog.scrollTo(0, 0)
         }
@@ -49,6 +50,7 @@ export class PageDialog extends HTMLElement {
 
     closePage(deltaX: number) {
         const animation = this.closeAnimation(deltaX)
+        this.toggleAttribute('page-open', false)
 
         animation.finished.then(() => {
             this.dialog.classList.remove("closing")
@@ -108,7 +110,7 @@ export class PageDialog extends HTMLElement {
         const deltaX = this.currentX - this.startX
         this.isDragging = false
 
-        if (deltaX > this.dialog.clientWidth * 0.25) {
+        if (deltaX > this.dialog.clientWidth * 0.3) {
             this.closePage(deltaX)
         } else if (deltaX > 1) {
             this.dialog.removeAttribute('style')
@@ -118,7 +120,7 @@ export class PageDialog extends HTMLElement {
 
     private openAnimation(deltaX: number = 0) {
         return this.dialog.animate([
-            { translate: `${deltaX || 100 }px 0`, opacity: 0 },
+            { translate: `${deltaX || 100 }px 0`, opacity: deltaX > 0 ? 1 : 0 },
             { translate: '0 0', opacity: 1 },
         ], {
             // duration: 400,

@@ -17,6 +17,7 @@ type CustomChartData = { value: number; __raw: CategoryTotal }
 const hostStyle = css`
     canvas {
         width: 13rem;
+        height: 13rem;
         border-radius: 50%;
         box-shadow:
             0 0 0 6px var(--bg-doughnut),

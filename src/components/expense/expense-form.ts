@@ -71,8 +71,9 @@ export class ExpenseForm extends ReactiveForm {
         if (name === 'id') {
             this.childrenSettled(() => {
                 if (!newValue) {
-                        this.setFormData(this.defaultData)
+                    this.setFormData(this.defaultData)
                 } else {
+                    this.clear()
                     this.setExpense(newValue)
                 }
             })
