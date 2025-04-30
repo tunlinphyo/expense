@@ -80,7 +80,7 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
     private async loadExpenses() {
         const categoryMap = categorySignal.get()
         if (isEmptyObject(categoryMap)) {
-            this.loadingEl?.remove()
+            // this.loadingEl?.remove()
             this.list = []
             return
         }

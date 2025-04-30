@@ -48,6 +48,7 @@ export const appLoadingStyles = css`
         padding: var(--size-6);
         border-radius: 1.5rem;
         border: none;
+        outline: none;
     }
 `
 
