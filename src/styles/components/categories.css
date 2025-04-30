@@ -25,6 +25,7 @@
             padding: var(--size-2);
             padding-inline-end: var(--size-3);
             gap: var(--size-5);
+            color: var(--fg-primary);
             /* border: 2px solid var(--bg-accent); */
 
             transition: all .3s ease;

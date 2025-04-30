@@ -1,5 +1,6 @@
 import { User } from "firebase/auth"
 import { loginWithGoogle, logout, observeAuthState } from "../../firebase/authService"
+import { actionSheet, appToast } from ".."
 
 export class FirebaseAuth extends HTMLElement {
     private userTemplate?: HTMLTemplateElement
@@ -29,8 +30,25 @@ export class FirebaseAuth extends HTMLElement {
         const target = e.target as HTMLElement
         if (target.dataset.button === "login") {
             loginWithGoogle()
+                .then(() => {
+                    appToast.showMessage('Login success', 'check-circle')
+                })
+                .catch(error => {
+                    appToast.showMessage(error.message, null, true)
+                })
         } else if (target.dataset.button === "logout") {
-            logout()
+            actionSheet.openSheet({
+                title: 'Are you sure?',
+                actions: [
+                    {
+                        buttonText: `Logout`,
+                        action: async () => {
+                            await logout()
+                            appToast.showMessage('Logout done', 'check-circle')
+                        }
+                    },
+                ]
+            })
         }
     }
 
@@ -43,12 +61,20 @@ export class FirebaseAuth extends HTMLElement {
         const email = clone.querySelector("[data-user-email]")
 
         if (placeholder && user.photoURL) {
+            let tryCount = 0
             const img = new Image()
-            img.src = user.photoURL
-            console.log(user.photoURL)
+            img.src = user.photoURL || ''
             img.width = placeholder.width
             img.height = placeholder.height
             img.alt = "User photo"
+            img.onerror = () => {
+                if (tryCount > 5) return
+                setTimeout(() => {
+                    img.src = user.photoURL || ''
+                    console.log(user.photoURL)
+                    tryCount += 1
+                }, 300)
+            }
             placeholder.replaceWith(img)
         }
 

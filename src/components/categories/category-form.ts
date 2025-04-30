@@ -40,9 +40,7 @@ export class CategoryForm extends ReactiveForm {
     }
 
     private childrenSettled(callback: () => void) {
-        requestAnimationFrame(() => {
-            requestAnimationFrame(callback)
-        })
+        requestAnimationFrame(callback)
     }
 }
 

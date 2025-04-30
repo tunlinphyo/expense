@@ -1,3 +1,4 @@
+import { SplashScreen } from "../components"
 import { AppService } from "../firebase/appService"
 import { observeAuthState } from "../firebase/authService"
 import { CategoryService } from "../firebase/categoryService"
@@ -32,7 +33,7 @@ export const appStore = async () => {
 
         appUnsubscribe?.()
         cateogryUnsubscribe?.()
-        
+
         appUnsubscribe = AppService.onFieldChange(userId, 'currency', currency => {
             if (currency) currencySignal.set(currency)
         })
@@ -40,6 +41,8 @@ export const appStore = async () => {
         cateogryUnsubscribe = CategoryService.onCategoryChange(userId, () => {
             getCategories(userId)
         })
+
+        removeSplash()
     })
 }
 
@@ -59,4 +62,9 @@ async function getCategories(userId: string) {
     )
     console.log("CATEGORIES:::::::::::::::::::::::::::", categoryMap)
     categorySignal.set(categoryMap)
+}
+
+function removeSplash() {
+    const elem = document.getElementById('splashScreen') as SplashScreen
+    if (elem) elem.removeSplash()
 }

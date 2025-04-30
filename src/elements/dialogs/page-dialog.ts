@@ -108,7 +108,7 @@ export class PageDialog extends HTMLElement {
         const deltaX = this.currentX - this.startX
         this.isDragging = false
 
-        if (deltaX > this.dialog.clientWidth * 0.5) {
+        if (deltaX > this.dialog.clientWidth * 0.25) {
             this.closePage(deltaX)
         } else if (deltaX > 1) {
             this.dialog.removeAttribute('style')
@@ -118,11 +118,14 @@ export class PageDialog extends HTMLElement {
 
     private openAnimation(deltaX: number = 0) {
         return this.dialog.animate([
-            { translate: `${deltaX || window.innerWidth }px 0` },
-            { translate: '0 0' },
+            { translate: `${deltaX || 100 }px 0`, opacity: 0 },
+            { translate: '0 0', opacity: 1 },
         ], {
-            duration: 400,
-            easing: 'cubic-bezier(0.61, 1, 0.88, 1)'
+            // duration: 400,
+            // easing: 'cubic-bezier(0.61, 1, 0.88, 1)'
+            duration: 200,
+            easing: 'ease'
+            // easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
         })
     }
 
@@ -131,11 +134,14 @@ export class PageDialog extends HTMLElement {
         this.dialog.classList.add('closing')
 
         return this.dialog.animate([
-            { translate: `${deltaX}px 0` },
-            { translate: '100% 0' },
+            { translate: `${deltaX}px 0`, opacity: 1 },
+            { translate: `${deltaX + 120}px 0`, opacity: 0 },
         ], {
-            duration: 400,
-            easing: 'cubic-bezier(0.61, 1, 0.88, 1)'
+            // duration: 400,
+            // easing: 'cubic-bezier(0.61, 1, 0.88, 1)'
+            duration: 200,
+            easing: 'ease'
+            // easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
         })
     }
 }

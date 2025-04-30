@@ -8,15 +8,20 @@ import {
     TooltipModel,
 } from "chart.js"
 import { colorsSignal, currencySignal } from "../../store/signal"
-import { CategoryTotal } from '../../data/interfaces';
-import { css, isDarkMode } from "../../utils";
-import { AppNumber } from "../../utils/number";
+import { css, isDarkMode } from "../../utils"
+import { AppNumber } from "../../utils/number"
+import type { CategoryTotal } from "../../types"
 
 type CustomChartData = { value: number; __raw: CategoryTotal }
 
 const hostStyle = css`
     canvas {
         width: 13rem;
+        border-radius: 50%;
+        box-shadow:
+            0 0 0 6px var(--bg-doughnut),
+            0 0 0 7px var(--border-doughnut)
+        ;
     }
 `
 

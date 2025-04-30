@@ -48,4 +48,5 @@ export type Currency = {
     name: string;
     sign: string;
     flag: string;
+    order: number;
 }

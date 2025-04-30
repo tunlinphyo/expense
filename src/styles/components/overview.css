@@ -21,19 +21,25 @@
         }
 
         .doughnut-container {
+            --bg-doughnut: light-dark(rgb(255,255,255), var(--gray-4));
+            --border-doughnut: light-dark(var(--gray-6), var(--gray-4));
+
             width: auto;
             height: 13rem;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
+            margin-block: var(--size-2);
 
             .doughnut-center {
                 position: absolute;
-                width: 9rem;
+                width: 8rem;
                 aspect-ratio: 1 / 1;
                 border-radius: 50%;
-                background-color: var(--card-highlight);
+                background-color: var(--bg-doughnut);
+                /* box-shadow: var(--shadow-3); */
+                box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
                 display: flex;
                 justify-content: center;

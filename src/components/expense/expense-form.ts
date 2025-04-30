@@ -1,6 +1,8 @@
 import { ReactiveForm } from "../../elements"
-import { ExpenseService } from "../../firebase/expenseService";
-import { userSignal } from "../../store/signal";
+import { CurrencyService } from "../../firebase/currencyService"
+import { ExpenseService } from "../../firebase/expenseService"
+import { effect } from "../../signal"
+import { currencySignal, userSignal } from "../../store/signal"
 import { ExpenseType } from "../../types"
 import { AppDate } from "../../utils/date"
 
@@ -23,6 +25,7 @@ export class ExpenseForm extends ReactiveForm {
         icon: '',
         name: ''
     }
+    private unsubscribe?: () => void
 
     static get observedAttributes(): string[] {
         return ['id']
@@ -36,11 +39,24 @@ export class ExpenseForm extends ReactiveForm {
     connectedCallback() {
         super.connectedCallback()
         this.addEventListener('change', this.onCategoryChange)
+
+        this.unsubscribe = effect(() => {
+            this.updateCurrencySign(currencySignal.get())
+        }, [currencySignal])
     }
 
     disconnectedCallback() {
         super.disconnectedCallback()
         this.removeEventListener('change', this.onCategoryChange)
+        this.unsubscribe?.()
+    }
+
+    private async updateCurrencySign(id: string) {
+        const elem = this.querySelector<HTMLElement>('[data-currency-sign]')
+        if (elem) {
+            const currency = await CurrencyService.getCurrency(id)
+            if (currency) elem.dataset.currencySign = currency.sign
+        }
     }
 
     private onCategoryChange(e: Event) {
@@ -54,11 +70,11 @@ export class ExpenseForm extends ReactiveForm {
     attributeChangedCallback(name: string, _:string, newValue: string) {
         if (name === 'id') {
             this.childrenSettled(() => {
-            if (!newValue) {
-                    this.setFormData(this.defaultData)
-            } else {
-                this.setExpense(newValue)
-            }
+                if (!newValue) {
+                        this.setFormData(this.defaultData)
+                } else {
+                    this.setExpense(newValue)
+                }
             })
         }
     }
@@ -81,9 +97,7 @@ export class ExpenseForm extends ReactiveForm {
     }
 
     private childrenSettled(callback: () => void) {
-        requestAnimationFrame(() => {
-            requestAnimationFrame(callback)
-        })
+        requestAnimationFrame(callback)
     }
 }
 

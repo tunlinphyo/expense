@@ -81,25 +81,70 @@ expense-app {
         position: fixed;
         inset: 0;
         overflow-y: auto;
+        min-width: 100vw;
 
-        grid-template-columns: var(--layout-column);
-        grid-template-rows: var(--layout-row);
-        padding-block-end: var(--nav-padding);
+        transition-behavior: allow-discrete;
+        transition-duration: .2s;
+        transition-timing-function: ease;
 
-        &:not([hidden]) {
+        /* outline: 4px solid hotpink;
+        outline-offset: -4px; */
+
+        &[data-page-expenses] {
+            &[hidden] {
+                translate: -100px 0;
+                opacity: 0;
+            }
+
+            &:not([hidden]) {
+                translate: 0 0;
+                opacity: 1;
+
+                @starting-style {
+                    translate: -100px 0;
+                    opacity: 0;
+                }
+            }
+        }
+
+        &[data-page-settings] {
+            &[hidden] {
+                translate: 100px 0;
+                opacity: 0;
+            }
+
+            &:not([hidden]) {
+                display: grid;
+                translate: 0 0;
+                opacity: 1;
+
+                @starting-style {
+                    translate: 100px 0;
+                    opacity: 0;
+                }
+            }
+        }
+
+        /* > main-page {
+            width: 100%;
+            min-height: 100%;
+
             display: grid;
-        }
+            grid-template-columns: var(--layout-column);
+            grid-template-rows: var(--layout-row);
+            padding-block-end: var(--nav-padding);
 
-        > header {
-            grid-area: header / body;
+            > header {
+                grid-area: header / body;
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        :where(section, expense-group) {
-            grid-area: body / body;
-        }
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            :where(#settings, expense-group) {
+                grid-area: body / body;
+            }
+        } */
     }
 }
 

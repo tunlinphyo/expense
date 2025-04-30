@@ -31,3 +31,39 @@ export const resetStyles = css`
         border-width: 0;
     }
 `
+
+export const inlineLoading = css`
+    :host {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 100%;
+        height: 30vh;
+    }
+`
+
+export const appLoadingStyles = css`
+    dialog {
+        padding: var(--size-6);
+        border-radius: 1.5rem;
+        border: none;
+    }
+`
+
+export const loadingIcon = css`
+    .loading {
+        width: 40px;
+        aspect-ratio: 1;
+        border: 3px solid var(--primary);
+        border-left-color: transparent;
+        border-radius: 50%;
+        animation: loading .6s linear infinite;
+    }
+
+    @keyframes loading {
+        to {
+            rotate: 360deg;
+        }
+    }
+`

@@ -14,8 +14,9 @@ export const hostStyles = css`
 
         &::backdrop {
             background-color: light-dark(#3339, #1119);
+            background-color: var(--bg-backdrop);
             opacity: 0;
-            transition: opacity .4s linear;
+            transition: opacity .2s ease;
         }
         &[open] {
             &::backdrop {
@@ -76,7 +77,7 @@ export const pageStyles = css`
 export const modalStyles = css`
     dialog {
         width: 100%;
-        max-width: 100%;
+        max-width: clamp(0rem, 100vw, 35rem);
         height: calc(100% - 20px);
         max-height: 100%;
         inset: 20px 0 0;
@@ -84,12 +85,15 @@ export const modalStyles = css`
     }
     :host([data-half]) {
         dialog {
+            max-width: clamp(0rem, 100vw, 30rem);
             height: auto;
             min-height: 200px;
             inset: auto 0 0;
+            // background-color: var(--bg-picker);
         }
     }
     ::slotted(header) {
+        grid-area: header / edge;
         border-radius: 1.5rem 1.5rem 0 0;
     }
     @media (display-mode: fullscreen), (display-mode: standalone) {

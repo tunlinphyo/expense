@@ -30,17 +30,17 @@ export const pickerStyle = css`
             border: none;
             background-color: transparent;
             color: var(--primary);
-            font-size: var(--text-base);
-            text-transform: uppercase;
+            font-size: var(--text-md);
+            text-transform: capitalize;
 
             &[data-button=done] {
-                font-weight: bold;
+                // font-weight: bold;
             }
         }
     }
     @media (display-mode: fullscreen), (display-mode: standalone) {
         dialog {
-            padding-block-end: 40px;
+            padding-block-end: 34px;
         }
     }
 `
@@ -83,7 +83,7 @@ export const calendarStyle = css`
             border: none;
             color: var(--fg-primary);
 
-            display: flex;  
+            display: flex;
             justify-content: flex-start;
             align-items: center;
             gap: var(--size-2);

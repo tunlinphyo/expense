@@ -19,8 +19,7 @@ export const loginWithGoogle = async () => {
             photo: user.photoURL,
         }
     } catch (err) {
-        console.error("Google login error:", err)
-        return null
+        throw new Error('Google login error')
     }
 }
 

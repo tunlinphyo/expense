@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Budget</title>
+    <title>Expense</title>
     <link rel="manifest" href="/manifest.json" />
 
     <link rel="icon" href="icon-512.png" media="(prefers-color-scheme: light)" />
@@ -21,6 +21,18 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="My PWA App" />
+
+    <style>
+        #splashScreen {
+            position: fixed;
+            z-index: calc(infinity);
+            inset: 0;
+            background-color: var(--bg-card);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -42,95 +54,245 @@
                 </div>
             </tab-list>
 
-            <nav-panel>
-                <header>
-                    <h2>Expenses</h2>
-                </header>
-                <expense-group>
-                    <current-total>
-                        <currency-display></currency-display>
-                    </current-total>
-
-                    <expense-filter>
-                        <div class="actions">
-                            <button type="button" data-icon-button data-button="page" data-page-id="overviewPage">
-                                <svg-icon name="graph"></svg-icon>
-                            </button>
-                            <button type="button" data-icon-button data-button="modal" data-modal-id="filterModal">
-                                <svg-icon name="filter"></svg-icon>
-                            </button>
-                        </div>
-                    </expense-filter>
-
-                    <filter-modal id="filterModal" data-half>
-                        <header slot="header" class="modal-header">
-                        <button data-button="close">
-                            <svg-icon name="close"></svg-icon>
-                        </button>
-                        <h2>Filter</h2>
-                        <button data-button="action" class="button-action">
-                            <svg-icon name="done"></svg-icon>
-                        </button>
+            <nav-panel data-page-expenses>
+                <main-page>
+                    <header>
+                        <h2>Expenses</h2>
                     </header>
-                    </filter-modal>
+                    <expense-group data-page-body>
+                        <current-total>
+                            <currency-display></currency-display>
+                        </current-total>
 
-                    <expense-list>
-                        <template>
-                            <dynamic-item>
-                                <button type="button" data-button="modal" data-modal-id="expenseModal" data-bind-attr="data-id:id">
-                                    <category-icon
-                                        data-bind-attr="data-bg-color:category.color;icon:category.icon"
-                                        size="24"
-                                        width="56"
-                                    ></category-icon>
-                                    <div class="name">
-                                        <span data-bind-text="category.name"></span>
-                                        <span class="date" data-bind-text="dateString"></span>
-                                    </div>
-                                    <currency-display class="amount" data-bind-attr="value:item.amount"></currency-display>
+                        <expense-filter>
+                            <div class="actions">
+                                <button type="button" data-icon-button data-button="page" data-page-id="overviewPage">
+                                    <svg-icon name="graph" size="18"></svg-icon>
                                 </button>
-                            </dynamic-item>
-                        </template>
-                    </expense-list>
-                </expense-group>
+                                <button type="button" data-icon-button data-button="modal" data-modal-id="expenseFilter">
+                                    <div class="badge" data-badge="0"></div>
+                                    <svg-icon name="filter" size="18"></svg-icon>
+                                </button>
+                            </div>
+                        </expense-filter>
+
+                        <expense-list>
+                            <template>
+                                <dynamic-item>
+                                    <button type="button" data-button="modal" data-modal-id="expenseModal" data-bind-attr="data-id:id">
+                                        <category-icon
+                                            data-bind-attr="data-bg-color:category.color;icon:category.icon"
+                                            size="24"
+                                            width="56"
+                                        ></category-icon>
+                                        <div class="name">
+                                            <span data-bind-text="category.name"></span>
+                                            <span class="date" data-bind-text="dateString"></span>
+                                        </div>
+                                        <currency-display class="amount" data-bind-attr="value:item.amount"></currency-display>
+                                    </button>
+                                </dynamic-item>
+                            </template>
+                        </expense-list>
+
+                        <filter-modal id="expenseFilter">
+                            <header slot="header" class="modal-header">
+                                <button data-button="close">
+                                    <svg-icon name="close" size="14"></svg-icon>
+                                </button>
+                                <h2>Filters</h2>
+                                <button data-button="action" class="button-action">
+                                    <svg-icon name="done"></svg-icon>
+                                </button>
+                            </header>
+
+                            <filter-form class="custom-form">
+                                <div class="input-group">
+                                    <div class="date-input">
+                                        <month-picker name="date" data-bind-attr="value:date">
+                                            <date-display format="MMMM YYYY"></date-display>
+                                            <button type="button" data-button data-icon-button>
+                                                <svg-icon name="calendar"></svg-icon>
+                                            </button>
+                                        </month-picker>
+                                    </div>
+                                </div>
+
+                                <category-list class="radio-group">
+                                    <template>
+                                        <dynamic-item class="radio-item">
+                                            <label class="category-label">
+                                                <input
+                                                    data-aria-only
+                                                    type="checkbox"
+                                                    name="categories"
+                                                    data-sync="icon:color:name"
+                                                    data-bind-attr="value:item.id;data-icon:item.icon;data-color:item.color;data-name:item.name"
+                                                />
+                                                <category-icon data-icon-current data-bind-attr="icon:item.icon;data-bg-color:item.color" width="56" size="24"></category-icon>
+                                            </label>
+                                            <div class="category-name" data-bind-text="item.name"></div>
+                                        </dynamic-item>
+                                    </template>
+                                </category-list>
+                            </filter-form>
+                        </filter-modal>
+                    </expense-group>
+                </main-page>
             </nav-panel>
 
-            <nav-panel>
-                <header>
-                    <h2>Settings</h2>
-                </header>
-                <section id="settings">
-                    <firebase-auth>
-                        <template id="user">
-                            <div class="user-card">
-                                <img data-user-photo width="76" height="76" alt="logined user" />
-                                <h2 data-user-name></h2>
-                                <div data-user-email></div>
-                                <button type="button" data-button="logout">
-                                    <svg-icon name="logout" size="18"></svg-icon>
-                                    Logout
-                                </button>
-                            </div>
-                        </template>
+            <nav-panel data-page-settings>
+                <main-page>
+                    <header>
+                        <h2>Settings</h2>
+                    </header>
+                    <section data-page-body id="settings">
+                        <firebase-auth>
+                            <template id="user">
+                                <div class="user-card">
+                                    <img data-user-photo width="76" height="76" alt="logined user" />
+                                    <h2 data-user-name></h2>
+                                    <div data-user-email></div>
+                                    <button type="button" data-button="logout">
+                                        <svg-icon name="logout" size="18"></svg-icon>
+                                        Logout
+                                    </button>
+                                </div>
+                            </template>
 
-                        <template id="guest">
-                            <div class="user-card">
-                                <img src="/avatar.png" alt="guest user" width="76" height="76" />
-                                <h2>Guest</h2>
-                                <button type="button" data-button="login">
-                                    Login with Google
-                                    <svg-icon name="google"></svg-icon>
-                                </button>
-                            </div>
-                        </template>
-                    </firebase-auth>
+                            <template id="guest">
+                                <div class="user-card">
+                                    <img src="/avatar.png" alt="guest user" width="76" height="76" />
+                                    <h2>Guest</h2>
+                                    <button type="button" data-button="login">
+                                        Login with Google
+                                        <svg-icon name="google"></svg-icon>
+                                    </button>
+                                </div>
+                            </template>
+                        </firebase-auth>
 
-                    <button type="button" data-button="page" data-page-id="colorsPage">Open Colors</button>
-                    <button type="button" data-button="page" data-page-id="iconsPage">Open Icons</button>
-                    <button type="button" data-button="page" data-page-id="categoriesPage">Open Categories</button>
-                </section>
+                        <ul class="actions-list">
+                            <li>
+                                <currency-select>
+                                    <button type="button" data-button="select">
+                                        <svg-icon class="icon" name="dollar" size="24"></svg-icon>
+                                        <span class="name">Currency</span>
+                                        <currency-value></currency-value>
+                                        <svg-icon class="arrow" name="next" size="14"></svg-icon>
+                                    </button>
+
+                                    <modal-dialog data-half>
+                                        <header slot="header" class="modal-header">
+                                            <button data-button="close">
+                                                <svg-icon name="close" size="14"></svg-icon>
+                                            </button>
+                                        </header>
+                                        <currency-list class="currency-list">
+                                            <template>
+                                                <dynamic-item>
+                                                    <label>
+                                                        <div class="flag">
+                                                            <img data-bind-attr="src:item.flag;alt:item.name">
+                                                        </div>
+                                                        <div class="name" data-bind-text="item.name"></div>
+                                                        <input type="radio" name="currency" data-aria-only data-bind-attr="value:id;data-name:item.name">
+                                                        <div class="custom-radio" aria-hidden="true" role="presentation">
+                                                            <svg-icon name="checked" size="28"></svg-icon>
+                                                        </div>
+                                                    </label>
+                                                </dynamic-item>
+                                            </template>
+                                        </currency-list>
+                                    </modal-dialog>
+                                </currency-select>
+                            </li>
+                            <li>
+                                <button type="button" data-button="page" data-page-id="categoriesPage">
+                                    <svg-icon class="icon" name="categories" size="24"></svg-icon>
+                                    <span class="name">Categories</span>
+                                    <div class="value"></div>
+                                    <svg-icon class="arrow" name="next" size="14"></svg-icon>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" data-button="page" data-page-id="colorsPage">
+                                    <svg-icon class="icon" name="color" size="24"></svg-icon>
+                                    <span class="name">Colors</span>
+                                    <div class="value"></div>
+                                    <svg-icon class="arrow" name="next" size="14"></svg-icon>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" data-button="page" data-page-id="iconsPage">
+                                    <svg-icon class="icon" name="icons" size="24"></svg-icon>
+                                    <span class="name">Icons</span>
+                                    <div class="value"></div>
+                                    <svg-icon class="arrow" name="next" size="14"></svg-icon>
+                                </button>
+                            </li>
+                        </ul>
+                    </section>
+                </main-page>
             </nav-panel>
         </nav-tabs>
+
+        <page-dialog id="overviewPage">
+            <header slot="header" class="page-header">
+                <button data-button="close">
+                    <svg-icon name="back"></svg-icon>
+                </button>
+                <h2>Overview</h2>
+            </header>
+
+            <section>
+                <overview-yearly class="overview-card bar-chart">
+                    <header>
+                        <h3>
+                            <date-display data-line-title format="YYYY"></date-display>
+                        </h3>
+                    </header>
+                    <overview-linechart></overview-linechart>
+                </overview-yearly>
+
+                <overview-monthly>
+                    <div class="overview-card">
+                        <header>
+                            <h3>
+                                <date-display format="MMMM YYYY"></date-display>
+                            </h3>
+                            <month-picker name="date" data-doughnut-title>
+                                <button type="button" data-button data-icon-button>
+                                    <svg-icon name="calendar"></svg-icon>
+                                </button>
+                            </month-picker>
+                        </header>
+                        <div class="doughnut-container">
+                            <doughnut-chart></doughnut-chart>
+                            <overview-total class="doughnut-center">
+                                <currency-display></currency-display>
+                            </overview-total>
+                        </div>
+                    </div>
+
+                    <overview-list id="overviewList">
+                        <template>
+                            <dynamic-item>
+                                <category-icon
+                                    data-bind-attr="data-bg-color:category.color;icon:category.icon"
+                                    size="24"
+                                    width="56"
+                                ></category-icon>
+                                <div class="detail">
+                                    <h4 data-bind-text="category.name"></h4>
+                                    <currency-display currency="JPY" data-bind-attr="value:total"></currency-display>
+                                </div>
+                            </dynamic-item>
+                        </template>
+                    </overview-list>
+                </overview-monthly>
+            </section>
+        </page-dialog>
 
         <page-dialog id="colorsPage">
             <header slot="header" class="page-header">
@@ -205,7 +367,7 @@
         <category-modal id="categoryModal">
             <header slot="header" class="modal-header">
                 <button data-button="close">
-                    <svg-icon name="close"></svg-icon>
+                    <svg-icon name="close" size="14"></svg-icon>
                 </button>
                 <h2>Category</h2>
                 <button data-button="action" disabled class="button-action">
@@ -246,13 +408,19 @@
                         </template>
                     </icon-list>
                 </div>
+
+                <div class="footer">
+                    <button type="button" data-button="delete" title="Delete expense" data-bind-toggle="data-show:id">
+                        <svg-icon name="trash" size="22"></svg-icon>
+                    </button>
+                </div>
             </category-form>
         </category-modal>
 
         <expense-modal id="expenseModal">
             <header slot="header" class="modal-header">
                 <button data-button="close">
-                    <svg-icon name="close"></svg-icon>
+                    <svg-icon name="close" size="14"></svg-icon>
                 </button>
                 <h2>Expense</h2>
                 <button data-button="action" disabled class="button-action">
@@ -271,7 +439,7 @@
                         <!-- <div class="icon-container">
                             <svg-icon data-icon-current data-bind-attr="name:icon" size="48"></svg-icon>
                         </div> -->
-                        <div class="category-name" data-bind-text="name"></div>
+                        <div class="category-name-lg" data-bind-text="name"></div>
                         <div class="input-container">
                             <input data-bind-attr="data-color:color" data-form-input type="text" inputmode="numeric"
                                 pattern="[0-9]*" name="amount" placeholder="0.00" />
@@ -317,30 +485,80 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="footer">
+                    <button type="button" data-button="delete" title="Delete expense" data-bind-toggle="data-show:id">
+                        <svg-icon name="trash" size="22"></svg-icon>
+                    </button>
+                </div>
             </expense-form>
         </expense-modal>
-
-        <action-sheet id="actionSheet">
-            <div class="sheet-body">
-                <header data-bind-text="headerText"></header>
-                <dynamic-list>
-                    <template>
-                        <dynamic-item>
-                            <button type="button" data-bind-attr="data-button:button">
-                                <span data-bind-text="buttonText"></span>
-                            </button>
-                        </dynamic-item>
-                    </template>
-                </dynamic-list>
-            </div>
-            <div class="sheet-body sheet--cancel">
-                <button type="button" data-button="close">
-                    Cancel
-                </button>
-            </div>
-        </action-sheet>
-
     </expense-app>
+
+    <action-sheet id="actionSheet">
+        <div class="sheet-body">
+            <header data-bind-text="headerText"></header>
+            <dynamic-list>
+                <template>
+                    <dynamic-item>
+                        <button type="button" data-bind-attr="data-button:button">
+                            <span data-bind-text="buttonText"></span>
+                        </button>
+                    </dynamic-item>
+                </template>
+            </dynamic-list>
+        </div>
+        <div class="sheet-body sheet--cancel">
+            <button type="button" data-button="close">
+                Cancel
+            </button>
+        </div>
+    </action-sheet>
+
+    <splash-screen id="splashScreen">
+        <div class="icon">
+            <svg width="124" height="124" x="0" y="0" viewBox="0 0 512 512">
+                <g>
+                    <linearGradient id="a" x1="54.286" x2="379.752" y1="122.669" y2="122.669"
+                        gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#0040d3"></stop>
+                        <stop offset="1" stop-color="#0a84ff"></stop>
+                    </linearGradient>
+                    <linearGradient id="b" x1="65.857" x2="463.709" y1="298.667" y2="298.667"
+                        gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#4098ff"></stop>
+                        <stop offset="1" stop-color="#007aff"></stop>
+                    </linearGradient>
+                    <linearGradient id="c" x1="283.786" x2="482.513" y1="277.333" y2="277.333"
+                        gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#fed200"></stop>
+                        <stop offset="1" stop-color="#f59815"></stop>
+                    </linearGradient>
+                    <linearGradient id="d" x1="298.143" x2="340.163" y1="277.333" y2="277.333"
+                        gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#fff"></stop>
+                        <stop offset="1" stop-color="#f2ebe6"></stop>
+                    </linearGradient>
+                    <path fill="url(#a)"
+                        d="M372.75 60.977a31.976 31.976 0 0 0-25.844-7.232L81.328 96.581A58.432 58.432 0 0 0 32 154.5v26.833A10.667 10.667 0 0 0 42.667 192h330.666A10.667 10.667 0 0 0 384 181.333V85.339a31.944 31.944 0 0 0-11.25-24.362z"
+                        opacity="1" data-original="url(#a)" class=""></path>
+                    <path fill="url(#b)"
+                        d="M405.333 138.667H64a32.035 32.035 0 0 0-32 32v234.666a53.4 53.4 0 0 0 53.333 53.334h320a53.4 53.4 0 0 0 53.334-53.334V192a53.394 53.394 0 0 0-53.334-53.333z"
+                        opacity="1" data-original="url(#b)" class=""></path>
+                    <path fill="url(#c)"
+                        d="M458.667 224H320a53.334 53.334 0 0 0 0 106.667h138.667A21.357 21.357 0 0 0 480 309.333v-64A21.356 21.356 0 0 0 458.667 224z"
+                        opacity="1" data-original="url(#c)"></path>
+                    <circle cx="320" cy="277.333" r="21.333" fill="url(#d)" opacity="1" data-original="url(#d)">
+                    </circle>
+                </g>
+            </svg>
+        </div>
+    </splash-screen>
+
+    <app-toast id="appToast"></app-toast>
+
+    <app-loading id="appLoading"></app-loading>
+
     <script type="module" src="/src/main.ts"></script>
 </body>
 

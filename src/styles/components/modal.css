@@ -1,10 +1,8 @@
 .modal-header {
-    grid-area: header / edge;
-
     display: grid;
-    grid-template-columns: .5fr 1fr .5fr;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    padding-inline: 4vw;
+    padding-inline: 16px;
 
     position: sticky;
     top: 0;

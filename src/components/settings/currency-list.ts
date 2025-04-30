@@ -1,7 +1,9 @@
+import { appToast } from "..";
 import { DynamicList } from "../../elements"
+import { AppService } from "../../firebase/appService";
 import { CurrencyService } from "../../firebase/currencyService";
 import { effect } from "../../signal";
-import { currencySignal } from "../../store/signal";
+import { currencySignal, userSignal } from "../../store/signal";
 import { Currency } from "../../types";
 
 type CurrencyItem = {
@@ -33,7 +35,15 @@ export class CurrencyList extends DynamicList<CurrencyItem> {
 
     private onChange(e: Event) {
         const target = e.target as HTMLInputElement
-        if (target.value) currencySignal.set(target.value)
+        if (target.value) {
+            currencySignal.set(target.value)
+            AppService.setField(userSignal.get(), 'currency', target.value)
+            appToast.showMessage(`${target.dataset.name}`, 'usd')
+            this.dispatchEvent(new Event('currencyselected', {
+                bubbles: true,
+                cancelable: true
+            }))
+        }
     }
 
     private checkInput() {

@@ -9,7 +9,7 @@ import {
     Timestamp,
     onSnapshot,
     updateDoc,
-    DocumentChangeType
+    deleteDoc
 } from "firebase/firestore"
 import { QueryConstraint, limit, orderBy, startAfter } from "firebase/firestore"
 import { db } from "./firebase"
@@ -82,6 +82,11 @@ export class ExpenseService {
             } as ExpenseType
         }
         return null
+    }
+
+    static async deleteExpense(userId: string, id: string): Promise<void> {
+        const ref = doc(this.collectionRef(userId), id)
+        await deleteDoc(ref)
     }
 
     static async queryExpenses(userId: string, q: ExpenseQuery): Promise<ExpenseType[]> {

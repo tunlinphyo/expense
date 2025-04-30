@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, setDoc, onSnapshot, updateDoc, query, orderBy, writeBatch } from "firebase/firestore"
+import { collection, doc, getDoc, getDocs, setDoc, deleteDoc, onSnapshot, updateDoc, query, orderBy, writeBatch, where } from "firebase/firestore"
 import { db } from "./firebase"
 import type { CategoryType } from "../types"
 import { v4 as uuidv4 } from "uuid"
@@ -6,6 +6,10 @@ import { v4 as uuidv4 } from "uuid"
 export class CategoryService {
     static collectionRef(userId: string) {
         return collection(db, "users", userId, "categories")
+    }
+
+    static expensesRef(userId: string) {
+        return collection(db, "users", userId, "expenses")
     }
 
     static async addCategory(userId: string, data: Omit<CategoryType, "id" | "order">): Promise<string> {
@@ -54,6 +58,18 @@ export class CategoryService {
             ...snap.data(),
             id: categoryId,
         } as CategoryType) : null
+    }
+
+    static async deleteCategory(userId: string, categoryId: string): Promise<null | string> {
+        const q = query(this.expensesRef(userId), where("categoryId", "==", categoryId))
+        const snap = await getDocs(q)
+
+        if (!snap.empty) {
+          return `Used in Expense`
+        }
+
+        await deleteDoc(doc(this.collectionRef(userId), categoryId))
+        return null
     }
 
     // static onCategoryChange(

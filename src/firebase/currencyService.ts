@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, onSnapshot, setDoc } from "firebase/firestore"
+import { collection, doc, getDoc, getDocs, onSnapshot, setDoc, query, orderBy } from "firebase/firestore"
 import { db } from "./firebase"
 import type { Currency } from "../types"
 
@@ -12,7 +12,8 @@ export class CurrencyService {
         await setDoc(iconRef, {
             name: currency.name,
             sign: currency.sign,
-            flag: currency.flag
+            flag: currency.flag,
+            order: currency.order,
         })
     }
 
@@ -23,12 +24,16 @@ export class CurrencyService {
     }
 
     static async getAllCurrencies(): Promise<Currency[]> {
-        const snapshot = await getDocs(this.collectionRef)
+        const q = query(this.collectionRef, orderBy("order", "asc"))
+
+        const snapshot = await getDocs(q)
+
         return snapshot.docs.map(doc => ({
             id: doc.id,
             name: doc.data().name,
             sign: doc.data().sign,
-            flag: doc.data().flag
+            flag: doc.data().flag,
+            order: doc.data().order,
         }))
     }
 
@@ -44,7 +49,8 @@ export class CurrencyService {
                 id: doc.id,
                 name: doc.data().name,
                 sign: doc.data().sign,
-                flag: doc.data().flag
+                flag: doc.data().flag,
+                order: doc.data().order,
             }))
             callback(currency)
         })

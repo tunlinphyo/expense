@@ -35,11 +35,19 @@ export class ExpenseFilter extends HTMLElement {
             console.log('ExpenseFilter', value, oldValue)
             const dateString = AppDate.getLocalISODate(new Date(value.year, value.month, 1))
             this.dateDisplay.setAttribute('value', dateString)
+            this.setBadge(value.categories.length)
         })
     }
 
     disconnectedCallback() {
         this.consumer.unsubscribe()
+    }
+
+    private setBadge(count: number) {
+        const elem = this.querySelector<HTMLElement>('[data-badge]')
+        if (elem) {
+            elem.dataset.badge = count.toString()
+        }
     }
 
     private render() {

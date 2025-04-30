@@ -6,6 +6,10 @@ export class FilterModal extends ModalDialog {
     private formEl: FilterForm | null
     private actionButton: HTMLButtonElement | null
 
+    static get touchDisabledTags(): string[] {
+        return ['date-picker', 'month-picker']
+    }
+
     constructor() {
         super()
         this.setAttribute('data-half', '')

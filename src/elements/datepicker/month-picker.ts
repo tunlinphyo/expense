@@ -86,10 +86,10 @@ export class MonthPicker extends HTMLElement {
         const footerEl = html`
             <footer>
                 <button type="button" data-button="today">
-                    TODAY
+                    today
                 </button>
                 <button type="button" data-button="done">
-                    DONE
+                    done
                 </button>
             </footer>
         `
@@ -178,11 +178,11 @@ export class MonthPicker extends HTMLElement {
 
     private openAnimation(deltaY: number = 0) {
         return this.dialog.animate([
-            { translate: `0 ${deltaY || window.innerHeight }px` },
-            { translate: '0 0' },
+            { translate: `0 ${deltaY || 100 }px`, opacity: 0 },
+            { translate: '0 0', opacity: 1 },
         ], {
-            duration: 600,
-            easing: 'cubic-bezier(0.34, 1.2, 0.64, 1)',
+            duration: 200,
+            easing: 'ease',
         })
     }
 
@@ -190,10 +190,10 @@ export class MonthPicker extends HTMLElement {
         this.dialog.classList.add('closing')
 
         return this.dialog.animate([
-            { translate: `0 ${deltaY}px` },
-            { translate: `0 110%` },
+            { translate: `0 ${deltaY}px`, opacity: 1 },
+            { translate: `0 ${deltaY + 100}px`, opacity: 0 },
         ], {
-            duration: 300,
+            duration: 200,
             easing: 'ease'
         })
     }

@@ -18,7 +18,7 @@
 
         & button[data-button] {
             padding: 0 var(--size-5);
-            height: 38px;
+            height: 42px;
             margin-top: var(--size-2);
             display: flex;
             justify-content: center;
@@ -27,6 +27,7 @@
             background-color: var(--bg-card);
             border: 1px solid var(--primary);
             border-radius: var(--radius-5);
+            color: var(--fg-primary);
         }
     }
 
@@ -41,12 +42,12 @@
         background-color: var(--bg-card);
         border-radius: var(--radius-4);
 
-        & li {
+        > li {
             &:not(:last-child) {
                 border-bottom: 1px solid var(--bg-primary);
             }
 
-            & button[data-button] {
+            & :where(button[data-button=page], button[data-button=select]) {
                 border: none;
                 background-color: transparent;
 
@@ -58,6 +59,7 @@
                 text-align: left;
                 padding-inline: var(--size-4);
                 gap: var(--size-4);
+                color: var(--fg-primary);
 
                 .icon {
                     display: grid;
@@ -72,12 +74,18 @@
                 .arrow {
                     color: var(--fg-accent);
                 }
+
+                & currency-value {
+                    color: var(--fg-accent);
+                }
             }
         }
     }
 
     .currency-list {
-        margin: 0;
+        width: 100%;
+        max-width: clamp(0rem, 100%, 28rem);
+        margin: 0 auto;
         padding: 0;
         list-style: none;
         margin-block-start: var(--size-2);
@@ -105,7 +113,7 @@
 
             .flag {
                 width: 36px;
-                aspect-ratio: 1;
+                height: 36px;
                 border: 2px solid var(--secondary);
                 border-radius: 50%;
                 overflow: hidden;

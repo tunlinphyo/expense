@@ -88,9 +88,10 @@ expense-group {
             gap: var(--size-2);
 
             & button {
+                width: 42px;
                 color: var(--primary);
 
-                &[data-button="filter"] {
+                &[data-modal-id=expenseFilter] {
                     position: relative;
 
                     .badge {
@@ -98,9 +99,9 @@ expense-group {
                         top: -15%;
                         right: -15%;
                         font-size: var(--text-sm);
-                        padding: 0.5rem 1.5rem;
+                        padding: 2px 5px;
                         line-height: 1;
-                        border-radius: 50%;
+                        border-radius: var(--radius-2);
                         background-color: var(--secondary);
                         color: var(--bg-card);
 

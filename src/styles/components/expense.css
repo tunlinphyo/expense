@@ -1,4 +1,5 @@
-expense-form.custom-form {
+expense-form.custom-form,
+filter-form.custom-form {
     .expense-card {
         display: block;
         width: 100%;
@@ -31,11 +32,11 @@ expense-form.custom-form {
             place-content: center;
         }
 
-        .category-name {
+        .category-name-lg {
             margin-block: var(--size-1) var(--size-3);
-            min-height: var(--size-7);
+            min-height: var(--size-6);
             color: var(--bg-primary);
-            font-size: var(--text-xl);
+            font-size: var(--text-lg);
             font-weight: bold;
         }
 
@@ -116,10 +117,10 @@ expense-form.custom-form {
                 border: 2px solid var(--bg-glass);
                 padding: 0;
 
-                &:has(input:focus) {
+                /* &:has(input:focus) {
                     outline-color: var(--secondary);
                     outline-offset: 2px;
-                }
+                } */
             }
 
             .category-name {
@@ -130,9 +131,5 @@ expense-form.custom-form {
                 text-overflow: ellipsis;
             }
         }
-    }
-
-    .category-select {
-
     }
 }

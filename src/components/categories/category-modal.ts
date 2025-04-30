@@ -3,6 +3,7 @@ import { CategoryForm } from "./category-form"
 import { CategoryService } from '../../firebase/categoryService'
 import { CategoryType } from "../../types"
 import { userSignal } from "../../store/signal"
+import { actionSheet, appLoading, appToast } from ".."
 
 export class CategoryModal extends ModalDialog {
     private formEl: CategoryForm
@@ -49,11 +50,23 @@ export class CategoryModal extends ModalDialog {
                         }
                         this.addCateogry(category)
                     }
-                    this.closeModal()
                 } catch (e) {
                     console.log(e)
                 }
             }
+        }
+        if (target.dataset.button === 'delete') {
+            actionSheet.openSheet({
+                actions: [
+                    {
+                        buttonText: `Delete Category`,
+                        action: () => {
+                            const id = this.formEl.getFormData().id
+                            this.deleteCategory(id)
+                        }
+                    },
+                ]
+            })
         }
     }
 
@@ -64,11 +77,28 @@ export class CategoryModal extends ModalDialog {
     }
 
     private async addCateogry(category: Omit<CategoryType, 'id' | 'order'>) {
-        return CategoryService.addCategory(userSignal.get(), category)
+        appLoading.show()
+        await CategoryService.addCategory(userSignal.get(), category)
+        appLoading.hide()
+        this.closeModal()
     }
 
     private async updateCategory(id: string, category: Partial<Omit<CategoryType, "id">>) {
-        return CategoryService.updateCategory(userSignal.get(), id, category)
+        appLoading.show()
+        await CategoryService.updateCategory(userSignal.get(), id, category)
+        appLoading.hide()
+        this.closeModal()
+    }
+
+    private async deleteCategory(id: string) {
+        appLoading.show()
+        const result = await CategoryService.deleteCategory(userSignal.get(), id)
+        appLoading.hide()
+        if (result) {
+            appToast.showMessage(result, null, true)
+        } else {
+            this.closeModal()
+        }
     }
 
     private toggleAction(is: boolean) {

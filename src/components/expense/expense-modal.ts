@@ -1,3 +1,4 @@
+import { actionSheet, appLoading } from ".."
 import { ModalDialog } from "../../elements"
 import { ExpenseService } from "../../firebase/expenseService"
 import { userSignal } from "../../store/signal"
@@ -33,7 +34,7 @@ export class ExpenseModal extends ModalDialog {
         })
     }
 
-    async buttonClick(e: Event) {
+    buttonClick(e: Event) {
         const target = e.target as HTMLElement
         if (target.dataset.button === 'action') {
             const dirty = this.formEl.getAttribute('dirty')
@@ -55,22 +56,47 @@ export class ExpenseModal extends ModalDialog {
                             date: new Date(data.date),
                             note: data.note
                         }
-                        await this.addExpense(expense)
+                        this.addExpense(expense)
                     }
-                    this.closeModal()
                 } catch (e) {
                     console.log(e)
                 }
             }
         }
+        if (target.dataset.button === 'delete') {
+            actionSheet.openSheet({
+                actions: [
+                    {
+                        buttonText: `Delete Expense`,
+                        action: () => {
+                            const id = this.formEl.getFormData().id
+                            this.deleteExpense(id)
+                        }
+                    },
+                ]
+            })
+        }
     }
 
     private async addExpense(data: Omit<ExpenseType, "id" | "category">) {
-        return ExpenseService.addExpense(userSignal.get(), data)
+        appLoading.show()
+        await ExpenseService.addExpense(userSignal.get(), data)
+        appLoading.hide()
+        this.closeModal()
     }
 
     private async updateExpense(id: string, expense: Partial<Omit<ExpenseType, "id">>) {
-        return ExpenseService.updateExpense(userSignal.get(), id, expense)
+        appLoading.show()
+        await ExpenseService.updateExpense(userSignal.get(), id, expense)
+        appLoading.hide()
+        this.closeModal()
+    }
+
+    private async deleteExpense(id: string) {
+        appLoading.show()
+        await ExpenseService.deleteExpense(userSignal.get(), id)
+        appLoading.hide()
+        this.closeModal()
     }
 
     private toggleAction(is: boolean) {

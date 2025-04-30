@@ -1,0 +1,37 @@
+app-toast {
+    .toast {
+        color: var(--color, var(--fg-primary));
+        padding: var(--size-1);
+
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: var(--size-2);
+
+        .icon {
+            width: 36px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background-color: light-dark(var(--gray-6), var(--gray-5));
+
+            display: grid;
+            place-content: center;
+
+            & svg-icon {
+                opacity: .8;
+            }
+        }
+
+        & span {
+            display: block;
+            padding-inline-end: var(--size-3);
+            font-size: var(--text-sm);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        &.toast--error {
+            --color: var(--color-red);
+        }
+    }
+}
