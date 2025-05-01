@@ -1,6 +1,7 @@
 app-toast {
     .toast {
-        color: var(--color, var(--fg-primary));
+        --default: light-dark(var(--fg-primary), var(--primary));
+        color: var(--color, var(--default));
         padding: var(--size-1);
 
         display: flex;
@@ -17,9 +18,9 @@ app-toast {
             display: grid;
             place-content: center;
 
-            & svg-icon {
+            /* & svg-icon {
                 opacity: .8;
-            }
+            } */
         }
 
         & span {

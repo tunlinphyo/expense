@@ -118,7 +118,7 @@ export class PageDialog extends HTMLElement {
 
         const absX = Math.abs(deltaX)
         const x = AppNumber.mapRange(absX,0,window.innerWidth,0,80)
-        if (absX > this.dialog.clientWidth * 0.3) {
+        if (absX > Math.min(200, this.dialog.clientWidth * 0.3)) {
             this.closePage(x)
         } else if (absX > 1) {
             this.dialog.removeAttribute('style')

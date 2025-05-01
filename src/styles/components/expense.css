@@ -6,7 +6,8 @@ filter-form.custom-form {
         border-radius: var(--radius-4);
         margin-block: var(--size-5);
         overflow: hidden;
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        /* outline: 2px solid var(--bg-card);
+        outline-offset: -2px; */
     }
 
     .expense-group {

@@ -19,11 +19,12 @@ export class CategoryModal extends ModalDialog {
         this.onFormInput = this.onFormInput.bind(this)
     }
 
-    attributeChangedCallback(_1: string, _2:string, value: string) {
-        this.formEl.setAttribute('id', value)
+    attributeChangedCallback(_1: string, oldValue:string, newValue: string) {
         this.formEl.removeEventListener('input', this.onFormInput)
 
         requestAnimationFrame(() => {
+            if (oldValue != newValue) this.dialogScrollTop()
+            this.formEl.setAttribute('id', newValue)
             this.formEl.addEventListener('input', this.onFormInput)
         })
     }
@@ -81,6 +82,7 @@ export class CategoryModal extends ModalDialog {
         await CategoryService.addCategory(userSignal.get(), category)
         appLoading.hide()
         this.closeModal()
+        this.formEl.clear()
     }
 
     private async updateCategory(id: string, category: Partial<Omit<CategoryType, "id">>) {

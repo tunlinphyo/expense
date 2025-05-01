@@ -1,10 +1,10 @@
-// import { appLoading } from ".."
 import { ReactiveForm } from "../../elements"
 import { CurrencyService } from "../../firebase/currencyService"
 import { ExpenseService } from "../../firebase/expenseService"
 import { effect } from "../../signal"
 import { currencySignal, userSignal } from "../../store/signal"
 import { ExpenseType } from "../../types"
+import { wait } from "../../utils"
 import { AppDate } from "../../utils/date"
 
 type FormExpense = Omit<ExpenseType, 'amount' | 'date' | 'category'> & {
@@ -68,26 +68,23 @@ export class ExpenseForm extends ReactiveForm {
         }
     }
 
-    attributeChangedCallback(name: string, _:string, newValue: string) {
+    attributeChangedCallback(name: string, oldValue:string, newValue: string) {
         if (name === 'id') {
-            // appLoading.show()
+            if (newValue === oldValue) return
             this.childrenSettled(() => {
                 if (!newValue) {
                     this.setFormData(this.defaultData)
-                    // appLoading.hide()
                 } else {
-                    this.clear()
                     this.setExpense(newValue)
-                    // .finally(() => {
-                    //     appLoading.hide()
-                    // })
                 }
             })
         }
     }
 
     private async setExpense(id: string) {
+        this.setAttribute('data-loading', '')
         const expense = await ExpenseService.getExpense(userSignal.get(), id)
+        await wait()
         if (expense) {
             const data: FormExpense = {
                 id: expense.id,
@@ -100,6 +97,7 @@ export class ExpenseForm extends ReactiveForm {
                 name: expense.category.name
             }
             this.setFormData(data)
+            this.removeAttribute('data-loading')
         }
     }
 

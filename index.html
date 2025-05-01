@@ -95,6 +95,18 @@
                             </template>
                         </expense-list>
 
+                        <expense-pagination>
+                            <button type="button" data-icon-button data-button="prev" disabled data-bind-toggle="disabled:prevDisable">
+                                <svg-icon name="prev"></svg-icon>
+                            </button>
+                            <div class="page">
+                                Page: <span data-bind-text="page"></span>
+                            </div>
+                            <button type="button" data-icon-button data-button="next" disabled data-bind-toggle="disabled:nextDisable">
+                                <svg-icon name="next"></svg-icon>
+                            </button>
+                        </expense-pagination>
+
                         <filter-modal id="expenseFilter">
                             <header slot="header" class="modal-header">
                                 <button data-button="close">
@@ -150,11 +162,11 @@
                         <firebase-auth>
                             <template id="user">
                                 <div class="user-card">
-                                    <img data-user-photo width="76" height="76" alt="logined user" />
+                                    <img data-user-photo width="84" height="84" alt="logined user" />
                                     <h2 data-user-name></h2>
                                     <div data-user-email></div>
                                     <button type="button" data-button="logout">
-                                        <svg-icon name="logout" size="18"></svg-icon>
+                                        <svg-icon name="logout" size="22"></svg-icon>
                                         Logout
                                     </button>
                                 </div>
@@ -183,11 +195,7 @@
                                     </button>
 
                                     <modal-dialog data-half>
-                                        <header slot="header" class="modal-header">
-                                            <button data-button="close">
-                                                <svg-icon name="close" size="14"></svg-icon>
-                                            </button>
-                                        </header>
+                                        <header slot="header" class="modal-header"></header>
                                         <currency-list class="currency-list">
                                             <template>
                                                 <dynamic-item>
@@ -246,13 +254,15 @@
             </header>
 
             <section>
-                <overview-yearly class="overview-card bar-chart">
-                    <header>
-                        <h3>
-                            <date-display data-line-title format="YYYY"></date-display>
-                        </h3>
-                    </header>
-                    <overview-linechart></overview-linechart>
+                <overview-yearly>
+                    <div class="overview-card bar-chart">
+                        <header>
+                            <h3>
+                                <date-display data-line-title format="YYYY"></date-display>
+                            </h3>
+                        </header>
+                        <overview-linechart></overview-linechart>
+                    </div>
                 </overview-yearly>
 
                 <overview-monthly>

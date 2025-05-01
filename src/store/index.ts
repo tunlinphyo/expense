@@ -12,17 +12,16 @@ export const appStore = async () => {
     let cateogryUnsubscribe: () => void
 
     const icons = await IconService.getAllIcons()
-    console.log('ICONS:::::::::::::::::::::::::::::::', icons)
     iconsSignal.set(icons)
 
     const colors = await ColorService.getAllColors()
-    console.log('COLORS:::::::::::::::::::::::::::::::', colors)
     colorsSignal.set(colors)
 
     observeAuthState(async (user) => {
         const userId = user?.uid || 'guest'
         userSignal.set(userId)
-        categorySignal.set({})
+        // getCategories(userId)
+        // categorySignal.set({})
 
         const currency = await getCurrency(userId)
         if (currency) {
@@ -48,7 +47,6 @@ export const appStore = async () => {
 
 async function getCurrency(userId: string) {
     const currency = await AppService.getField(userId, 'currency')
-    console.log('CURRENCY:::::::::::::::::::::::::::::::', currency)
     if (currency) return currency.data as string
     return null
 }
@@ -60,7 +58,6 @@ async function getCategories(userId: string) {
             return [data.id, data]
         })
     )
-    console.log("CATEGORIES:::::::::::::::::::::::::::", categoryMap)
     categorySignal.set(categoryMap)
 }
 

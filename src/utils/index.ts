@@ -1,3 +1,4 @@
+
 export function deepEqual(a: any, b: any): boolean {
     if (a === b) return true
 
@@ -112,4 +113,10 @@ export function isEmptyObject(obj: unknown): obj is Record<string, never> {
 
 export function isDarkMode(): boolean {
     return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+}
+
+export function wait(delay: number = 800) {
+    return new Promise(resolve => {
+        setTimeout(resolve, delay)
+    })
 }

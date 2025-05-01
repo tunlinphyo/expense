@@ -5,6 +5,7 @@ import { CurrencyDisplay } from "../currency-display"
 export class CurrentTotal extends HTMLElement {
     private renderRoot: ShadowRoot
     private dispalyEl: CurrencyDisplay | null
+    private unsubscribe?: () => void
 
     constructor() {
         super()
@@ -15,12 +16,16 @@ export class CurrentTotal extends HTMLElement {
     connectedCallback() {
         this.render()
 
-        effect(() => {
+        this.unsubscribe = effect(() => {
             if (this.dispalyEl) {
                 this.dispalyEl.setAttribute('value', totalSignal.get().toString())
                 this.adjustFontSize(this.dispalyEl)
             }
         }, [totalSignal, currencySignal])
+    }
+
+    disconnectedCallback() {
+        this.unsubscribe?.()
     }
 
     private render() {

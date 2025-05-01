@@ -11,10 +11,11 @@ export const hostStyles = css`
         border: none;
         outline: none;
         background-color: var(--bg-primary);
+        overflow-y: auto;
 
         &::backdrop {
             background-color: var(--bg-backdrop);
-            backdrop-filter: blur(10px) brightness(0.9);
+            backdrop-filter: blur(15px) brightness(0.9);
             opacity: 0;
             transition: opacity .2s ease;
         }
@@ -44,7 +45,7 @@ export const hostStyles = css`
 
     ::slotted(header) {
         width: 100%;
-        height: 60px;
+        min-height: 60px;
     }
     ::slotted(footer) {
         position: sticky;
@@ -54,7 +55,7 @@ export const hostStyles = css`
     @media (prefers-color-scheme: dark) {
         dialog {
             &::backdrop {
-                backdrop-filter: blur(10px) brightness(1.2);
+                backdrop-filter: blur(15px) brightness(1.2);
             }
         }
     }

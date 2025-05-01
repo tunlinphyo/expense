@@ -116,7 +116,7 @@ function attributeToggling(
         const newVal = getValueByPath(newData, path)
         const oldVal = getValueByPath(oldData, path)
         if (!deepEqual(newVal, oldVal)) {
-            const value = Boolean(getValue(newVal))
+            const value = Boolean(newVal)
             if (value) {
                 node?.setAttribute(attrName, '')
             } else {

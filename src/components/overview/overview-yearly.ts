@@ -2,6 +2,7 @@ import { DateDisplay } from "../../elements"
 import { ExpenseService } from "../../firebase/expenseService"
 import { userSignal } from "../../store/signal"
 import { TotalExpense } from "../../types"
+import { wait } from "../../utils"
 import { OverviewLinechart } from "./overview-linechart"
 
 
@@ -47,13 +48,16 @@ export class OverviewYearly extends HTMLElement {
     }
 
     private async loadData(year: number) {
+        this.toggleAttribute('data-loading', true)
         const result = await ExpenseService.monthlyTotal(userSignal.get(), year)
+        await wait()
         const list: TotalExpense[] = Object.entries(result).map(([id, total]) => ({
             id,
             date: new Date(`${id}-01`),
             total
         }))
         if (this.chartEl) this.chartEl.list = list
+        this.toggleAttribute('data-loading', false)
     }
 
 }

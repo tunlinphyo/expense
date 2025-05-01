@@ -9,7 +9,8 @@ import {
     Timestamp,
     onSnapshot,
     updateDoc,
-    deleteDoc
+    deleteDoc,
+    DocumentChangeType
 } from "firebase/firestore"
 import { QueryConstraint, limit, orderBy, startAfter } from "firebase/firestore"
 import { db } from "./firebase"
@@ -147,54 +148,44 @@ export class ExpenseService {
         return grouped
     }
 
-    static onExpenseChange(
-        userId: string,
-        callback: () => void
-    ): () => void {
-        return onSnapshot(this.collectionRef(userId), () => {
-            callback()
-        })
-    }
-
     // static onExpenseChange(
     //     userId: string,
-    //     callback: (change: { type: DocumentChangeType; expense: ExpenseType }) => void
+    //     callback: () => void
     // ): () => void {
-    //     let isFirstSnapshot = true
-
-    //     return onSnapshot(this.collectionRef(userId), async (snapshot) => {
-    //         if (isFirstSnapshot) {
-    //             isFirstSnapshot = false
-    //             return
-    //         }
-
-    //         const changes = snapshot.docChanges().map(change => {
-    //             const d = change.doc.data()
-    //             return {
-    //                 type: change.type,
-    //                 expense: {
-    //                     ...d,
-    //                     id: change.doc.id,
-    //                     date: (d.date as Timestamp).toDate()
-    //                 } as ExpenseType
-    //             }
-    //         })
-
-    //         if (changes.length > 0) {
-    //             const data = changes[0]
-    //             const category = await CategoryService.getCategory(userId, data.expense.categoryId)
-    //             if (category) data.expense.category = category
-    //             callback(data)
-    //         }
+    //     return onSnapshot(this.collectionRef(userId), () => {
+    //         callback()
     //     })
     // }
+
+    static onExpenseChange(
+        userId: string,
+        callback: (type: DocumentChangeType) => void
+    ): () => void {
+        let isFirstSnapshot = true
+
+        return onSnapshot(this.collectionRef(userId), async (snapshot) => {
+            if (isFirstSnapshot) {
+                isFirstSnapshot = false
+                return
+            }
+
+            const changes = snapshot.docChanges().map(change => {
+                return change.type
+            })
+
+            if (changes.length > 0) {
+                const data = changes[0]
+                callback(data)
+            }
+        })
+    }
 
     static async paginatedQuery(
         userId: string,
         q: ExpenseQuery,
         pageSize = 20,
         lastDoc?: any // last document from previous page
-    ): Promise<{ data: ExpenseType[], lastVisible: any, hasMore: boolean }> {
+    ): Promise<{ data: ExpenseType[], docSnap: any, hasMore: boolean }> {
         const constraints: QueryConstraint[] = [
             orderBy("date", "desc"),
             limit(pageSize)
@@ -232,7 +223,7 @@ export class ExpenseService {
 
         return {
             data,
-            lastVisible: expenseSnap.docs[expenseSnap.docs.length - 1] || null,
+            docSnap: expenseSnap.docs.at?.(-1) || null,
             hasMore
         }
     }

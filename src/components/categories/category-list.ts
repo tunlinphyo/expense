@@ -4,6 +4,8 @@ import { InlineLoading } from "../inline-loading"
 import { CategoryService } from "../../firebase/categoryService"
 import { effect } from "../../signal"
 import { categorySignal, userSignal } from "../../store/signal"
+import { html, raw } from "../../utils"
+import { EMPTY_CATEGORY } from "../svg"
 
 type CategoryItem = {
     id: string,
@@ -48,6 +50,17 @@ export class CategoryList extends DynamicList<CategoryItem> {
         } finally {
             this.loadingEl.remove()
         }
+    }
+
+    protected emptyEl() {
+        const container = document.createElement('div')
+        container.className = 'empty-container'
+        const h4 = document.createElement('h4')
+        h4.textContent = 'No category'
+        container.appendChild(html`${raw(EMPTY_CATEGORY)}`)
+        container.appendChild(h4)
+
+        return container
     }
 }
 

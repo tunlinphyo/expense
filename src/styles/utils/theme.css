@@ -12,16 +12,19 @@
     --primary: var(--color-blue);
     --secondary: var(--color-pink);
 
-    --bg-primary: light-dark(var(--gray-6), rgb(0,0,0));
+    --white: rgb(255,255,255);
+    --black: rgb(0,0,0);
+
+    --bg-primary: light-dark(var(--gray-6), var(--black));
     --bg-accent: var(--gray-5);
 
     --fg-primary: light-dark(rgb(44,44,46), rgb(242,242,247));
     --fg-accent: var(--gray);
 
-    --bg-tooltip: light-dark(rgb(255,255,255), rgb(0,0,0));
-    --bg-card: light-dark(rgb(255,255,255), var(--gray-6));
+    --bg-tooltip: light-dark(var(--white), var(--black));
+    --bg-card: light-dark(var(--white), var(--gray-6));
     --bg-form: light-dark(var(--gray-6), var(--gray-4));
-    --bg-popover: light-dark(rgb(255,255,255), var(--gray-6));
+    --bg-popover: light-dark(var(--white), var(--gray-6));
 
     --bg-picker: light-dark(var(--gray-6), var(--gray-6));
 
@@ -35,6 +38,11 @@
         color-mix(in srgb, var(--gray-4) 20%, transparent),
         color-mix(in srgb, rgb(10,10,12) 20%, transparent)
     );
+
+
+    --bg-loading: light-dark(var(--white), var(--gray-6));
+    --bg-wave: light-dark(var(--gray-6), var(--gray-5));
+
 
     @media (prefers-reduced-transparency: reduce) {
         --glass-alpha: 1;

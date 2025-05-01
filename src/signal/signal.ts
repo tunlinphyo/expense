@@ -224,5 +224,23 @@ export namespace Signal {
 
             return () => watcher.unwatch(...signals) // Dispose function
         }
+        // export function effect(callback: () => void, signals: Signal<any>[]): () => void {
+        //     let initialized = false
+
+        //     const watcher = new Watcher(() => {
+        //         if (initialized) {
+        //             callback()
+        //         } else {
+        //             initialized = true
+        //         }
+        //     })
+
+        //     // Initial dependency tracking only, no callback call
+        //     untrack(() => {
+        //         watcher.watch(...signals)
+        //     })
+
+        //     return () => watcher.unwatch(...signals)
+        // }
     }
 }

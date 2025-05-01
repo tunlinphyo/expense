@@ -59,6 +59,12 @@ export class ModalDialog extends HTMLElement {
         })
     }
 
+    protected dialogScrollTop() {
+        requestAnimationFrame(() => {
+            this.dialog.scrollTo(0, 0)
+        })
+    }
+
     protected render() {
         this.renderRoot.adoptedStyleSheets = [ hostStyles, modalStyles ]
         const elem = html`

@@ -31,6 +31,31 @@ expense-group {
         border-radius: var(--radius-4);
         background-color: var(--bg-card);
 
+        &:has(inline-loading) {
+            & li {
+                display: none;
+            }
+            .emptyData {
+                display: none;
+            }
+        }
+
+        &:has(.emptyData) {
+            background-color: transparent;
+        }
+
+        & inline-loading {
+            border-radius: var(--radius-4);
+            background: linear-gradient(
+                100deg,
+                var(--bg-loading) 30%,
+                var(--bg-wave) 50%,
+                var(--bg-loading) 70%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 1s infinite linear;
+        }
+
         & li {
             &:not(:last-child) {
                 border-bottom: 1px solid var(--bg-primary);
@@ -114,6 +139,21 @@ expense-group {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    :where(expense-pagination) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        & button[data-icon-button] {
+            width: 60px;
+
+            &:disabled {
+                opacity: .3;
+                pointer-events: none;
             }
         }
     }

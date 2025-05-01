@@ -1,10 +1,10 @@
-import { appToast } from "..";
+import { appToast } from ".."
 import { DynamicList } from "../../elements"
-import { AppService } from "../../firebase/appService";
-import { CurrencyService } from "../../firebase/currencyService";
-import { effect } from "../../signal";
-import { currencySignal, userSignal } from "../../store/signal";
-import { Currency } from "../../types";
+import { AppService } from "../../firebase/appService"
+import { CurrencyService } from "../../firebase/currencyService"
+import { effect } from "../../signal"
+import { currencySignal, userSignal } from "../../store/signal"
+import { Currency } from "../../types"
 
 type CurrencyItem = {
     id: string,

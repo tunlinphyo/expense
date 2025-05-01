@@ -4,6 +4,7 @@ import { ExpenseService } from "../../firebase/expenseService"
 import { userSignal } from "../../store/signal"
 import { DoughnutChart } from "./doughnut-chart"
 import { OverviewList } from "./overview-list"
+import { wait } from "../../utils"
 
 
 export class OverviewMonthly extends HTMLElement {
@@ -64,10 +65,13 @@ export class OverviewMonthly extends HTMLElement {
     }
 
     private async loadData(monthString: string) {
+        this.toggleAttribute('data-loading', true)
+
         const [y, m] = monthString.split('-')
         const year = Number(y)
         const month = Number(m)
         const result = await ExpenseService.categoryTotal(userSignal.get(), year, month)
+        await wait()
         const list: CategoryTotal[] = Object.entries(result).map(([id, data]) => ({
             id,
             category: data.category,
@@ -76,6 +80,8 @@ export class OverviewMonthly extends HTMLElement {
         if (this.doughnutChart) this.doughnutChart.list = list
         this.renderTotal(list)
         this.renderList(list)
+
+        this.toggleAttribute('data-loading', false)
     }
 
     private async renderTotal(list: CategoryTotal[]) {

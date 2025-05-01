@@ -34,12 +34,8 @@ export const resetStyles = css`
 
 export const inlineLoading = css`
     :host {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
         width: 100%;
-        height: 30vh;
+        min-height: 30vh;
     }
 `
 

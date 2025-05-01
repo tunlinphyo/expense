@@ -163,14 +163,30 @@ body:has(category-modal[modal-open]) {
     }
 }
 
+.emptyData {
+    min-height: 25vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--radius-4);
 
-p {
-    margin-block: var(--size-6);
-    padding: var(--size-3);
-    border-radius: var(--radius-3);
-    background-color: var(--bg-card);
+    .empty-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: var(--size-3);
 
-    &:where(:last-child) {
-        margin: 0;
+        & svg {
+            color: var(--primary);
+            max-width: 180px;
+            max-height: 160px;
+        }
+
+        & h4 {
+            margin: 0;
+            font-weight: normal;
+            font-size: var(--text-md);
+        }
     }
 }

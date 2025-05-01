@@ -56,6 +56,8 @@ export class DynamicList<T extends WithId> extends HTMLElement {
         }
 
         this._list = [...newList]
+
+        this._toggleEmptyData(!!this.list.length)
     }
 
     connectedCallback(): void {
@@ -106,6 +108,28 @@ export class DynamicList<T extends WithId> extends HTMLElement {
     private _setItemData(elem: DynamicItem<T>, data: T) {
         if (deepEqual(elem.data, data)) return
         elem.data = data
+    }
+
+    private _toggleEmptyData(isList: boolean) {
+        let elem = this.querySelector('.emptyData')
+        if (isList) {
+            if (elem) elem.remove()
+        } else {
+            if (!elem) {
+                const li = document.createElement('li')
+                li.setAttribute('role', 'listitem')
+                li.className = 'emptyData'
+
+                li.appendChild(this.emptyEl())
+                this.appendChild(li)
+            }
+        }
+    }
+
+    protected emptyEl() {
+        const span = document.createElement('span')
+        span.textContent = 'No data'
+        return span
     }
 }
 

@@ -1,4 +1,28 @@
 .custom-form {
+    &[data-loading] {
+        .expense-card,
+        .form-card {
+            position: relative;
+            overflow: hidden;
+
+            &::before {
+                content: '';
+                display: block;
+                position: absolute;
+                inset: 0;
+
+                background: linear-gradient(
+                    100deg,
+                    var(--bg-loading) 30%,
+                    var(--bg-wave) 50%,
+                    var(--bg-loading) 70%
+                );
+                background-size: 200% 100%;
+                animation: shimmer 1s infinite linear;
+            }
+        }
+    }
+
     .form-error {
         font-size: var(--text-sm);
         color: #f00;
@@ -73,6 +97,14 @@
         grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
         padding: var(--size-4) var(--size-3);
         gap: var(--size-3);
+
+        &:has(.emptyData) {
+            grid-template-columns: 1fr;
+
+            :where(li, dynamic-item) {
+                border-radius: var(--radius-4);
+            }
+        }
 
         :where(li, dynamic-item) {
             aspect-ratio: 1 / 1;

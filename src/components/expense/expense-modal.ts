@@ -22,9 +22,10 @@ export class ExpenseModal extends ModalDialog {
         return ['date-picker']
     }
 
-    attributeChangedCallback(_: string, _2:string, value: string) {
+    attributeChangedCallback(_: string, oldValue:string, newValue: string) {
         requestAnimationFrame(() => {
-            this.formEl.setAttribute('id', value)
+            if (oldValue != newValue) this.dialogScrollTop()
+            this.formEl.setAttribute('id', newValue)
         })
 
         this.formEl.addEventListener('input', () => {
@@ -83,6 +84,7 @@ export class ExpenseModal extends ModalDialog {
         await ExpenseService.addExpense(userSignal.get(), data)
         appLoading.hide()
         this.closeModal()
+        this.formEl.clear()
     }
 
     private async updateExpense(id: string, expense: Partial<Omit<ExpenseType, "id">>) {

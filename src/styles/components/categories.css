@@ -13,6 +13,10 @@
         flex-direction: column;
         gap: var(--size-2);
 
+        .emptyData {
+            height: 60vh;
+        }
+
         & button[data-button] {
             inline-size: 100%;
             border: none;
