@@ -1,7 +1,11 @@
 .custom-form {
     &[data-loading] {
         .expense-card,
-        .form-card {
+        .form-card,
+        .input-loading,
+        .input-container,
+        .radio-loading li,
+        category-icon {
             position: relative;
             overflow: hidden;
 
@@ -21,11 +25,23 @@
                 animation: shimmer 1s infinite linear;
             }
         }
+
+        .input-container,
+        .input-loading,
+        .radio-loading li,
+        category-icon {
+            z-index: 2;
+            &::before {
+                --bg-wave: light-dark(var(--gray-5), var(--gray-4));
+                --bg-loading: light-dark(var(--gray-6), var(--gray-5));
+                border-radius: var(--radius-3);
+            }
+        }
     }
 
     .form-error {
         font-size: var(--text-sm);
-        color: #f00;
+        color: var(--color-red);
     }
 
     .form-card {
@@ -46,14 +62,18 @@
         padding: var(--size-5) var(--size-4);
         gap: var(--size-3);
 
-        > input {
+        .input-loading {
             width: 100%;
-            height: var(--size-9);
-            text-align: center;
-            font-size: var(--text-xl);
-            font-weight: bold;
-            border-radius: var(--radius-3);
-            /* text-shadow: 0 0 2px var(--fg-accent); */
+
+            & input {
+               width: 100%;
+               height: var(--size-9);
+               text-align: center;
+               font-size: var(--text-xl);
+               font-weight: bold;
+               border-radius: var(--radius-3);
+               /* text-shadow: 0 0 2px var(--fg-accent); */
+           }
         }
     }
 
@@ -78,10 +98,10 @@
             & textarea {
                 width: 100%;
                 min-height: 128px;
-                padding: var(--space-1);
+                padding: var(--size-1);
                 font-size: var(--text-base);
                 background-color: transparent;
-                border-radius: var(--rounded-md);
+                border-radius: var(--radius-2);
                 resize: none;
             }
         }
@@ -145,6 +165,11 @@
                 &[data-icon] {
                     background-color: var(--bg-form);
                     color: var(--fg-primary);
+                    
+                    & svg {
+                        width: 22px;
+                        height: 22px;
+                    }
                 }
             }
         }
@@ -153,20 +178,18 @@
 
     & button[data-button=delete] {
         margin-inline: auto;
-        width: 52px;
-        aspect-ratio: 1;
-        background-color: var(--color-red);
-        color: var(--bg-card);
-        border: none;
-        padding: 0;
-        border-radius: 50%;
+        margin-block: var(--size-3);
+        background-color: color-mix(in srgb, var(--color-red) 15%, transparent);
+        color: var(--color-red);
 
-        place-content: center;
         display: none;
 
+        & svg-icon {
+            color: var(--color-red);
+        }
+
         &[data-show] {
-            display: block;
-            display: grid;
+            display: flex;
         }
     }
 }

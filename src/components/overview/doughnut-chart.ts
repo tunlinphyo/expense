@@ -52,6 +52,8 @@ export class DoughnutChart extends HTMLElement {
             this.doughnutChart.destroy()
             this.doughnutChart = null
         }
+        let tooltipEl = document.getElementById('chartjs-custom-tooltip') as HTMLDivElement | null
+        tooltipEl?.remove()
     }
 
     private render() {

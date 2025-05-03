@@ -1,7 +1,7 @@
 #settings {
     .user-card {
         margin-block: var(--size-6);
-        padding: var(--size-5);
+        padding: var(--size-7) var(--size-5);
         border-radius: var(--radius-4);
         background-color: var(--bg-card);
 
@@ -17,17 +17,7 @@
         }
 
         & button[data-button] {
-            padding: 0 var(--size-5);
-            height: 42px;
-            margin-top: var(--size-2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: var(--size-2);
-            background-color: var(--bg-accent);
-            border: 2px solid var(--bg-accent);
-            border-radius: var(--radius-5);
-            color: var(--fg-primary);
+            margin-top: var(--size-3);
 
             &[data-button=logout] {
                 :where(svg-icon) {
@@ -94,6 +84,7 @@
         margin: 0 auto;
         padding: 0;
         list-style: none;
+        padding-block: var(--size-3);
 
         display: flex;
         flex-direction: column;
@@ -101,27 +92,24 @@
 
         & label {
             display: grid;
-            grid-template-columns: 36px 1fr 28px;
+            grid-template-columns: 40px 1fr 28px;
             grid-template-rows: 52px;
             align-items: center;
             border-radius: var(--radius-2);
             outline: 2px solid transparent;
             outline-offset: -2px;
             transition: .3s ease;
-            padding-inline: var(--size-2);
-            gap: var(--size-5);
-
-            &:has(input:focus) {
-                outline-color: var(--secondary);
-                outline-offset: 2px;
-            }
+            padding-inline: var(--size-3);
+            gap: var(--size-6);
 
             .flag {
-                width: 36px;
-                height: 36px;
+                width: 40px;
+                height: 28px;
                 border: 2px solid var(--secondary);
                 border-radius: 50%;
+                border-radius: var(--radius-drawn-1);
                 overflow: hidden;
+                box-shadow: 0 0 10px var(--secondary);
 
                 > img {
                     width: 100%;
@@ -141,6 +129,32 @@
             .custom-radio {
                 color: var(--primary);
                 scale: 0;
+            }
+        }
+
+        & li:nth-child(1) {
+            .flag {
+                border-radius: var(--radius-drawn-5);
+            }
+        }
+        & li:nth-child(2) {
+            .flag {
+                border-radius: var(--radius-drawn-1);
+            }
+        }
+        & li:nth-child(2) {
+            .flag {
+                border-radius: var(--radius-drawn-2);
+            }
+        }
+        & li:nth-child(4) {
+            .flag {
+                border-radius: var(--radius-drawn-3);
+            }
+        }
+        & li:nth-child(5) {
+            .flag {
+                border-radius: var(--radius-drawn-4);
             }
         }
     }

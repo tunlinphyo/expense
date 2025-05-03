@@ -87,7 +87,13 @@ export class CategoryService {
         userId: string,
         callback: () => void
     ): () => void {
+        let isFirstSnapshot = true
+        
         return onSnapshot(this.collectionRef(userId), () => {
+            if (isFirstSnapshot) {
+                isFirstSnapshot = false
+                return
+            }
             callback()
         })
     }

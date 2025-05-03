@@ -23,7 +23,9 @@ export class CategoryModal extends ModalDialog {
         this.formEl.removeEventListener('input', this.onFormInput)
 
         requestAnimationFrame(() => {
-            if (oldValue != newValue) this.dialogScrollTop()
+            if (oldValue != newValue) {
+                this.dialogScrollTop()
+            }
             this.formEl.setAttribute('id', newValue)
             this.formEl.addEventListener('input', this.onFormInput)
         })
@@ -90,6 +92,8 @@ export class CategoryModal extends ModalDialog {
         await CategoryService.updateCategory(userSignal.get(), id, category)
         appLoading.hide()
         this.closeModal()
+        this.formEl.clear()
+        this.toggleAction(false)
     }
 
     private async deleteCategory(id: string) {

@@ -1,5 +1,7 @@
 import { ModalDialog, PageDialog } from "../elements"
 import { appStore } from "../store"
+import { AppDate } from "../utils/date"
+import { ExpenseGroup } from "./expenses/expense-group"
 
 export class ExpenseApp extends HTMLElement {
     constructor() {
@@ -30,6 +32,11 @@ export class ExpenseApp extends HTMLElement {
     private openPage(button: HTMLButtonElement) {
         const pageEl = this.querySelector<PageDialog>(`#${button.dataset.pageId}`)
         if (!pageEl) return console.error(`No page-dialog with id: ${button.dataset.pageId}`)
+
+        if (button.dataset.pageId === 'overviewPage') {
+            const month = this.onOverviewOpen()
+            pageEl.setAttribute('month', month)
+        }
         pageEl.openPage()
     }
 
@@ -40,6 +47,11 @@ export class ExpenseApp extends HTMLElement {
         if (button.hasAttribute('data-id'))
             modalEl.setAttribute('data-id', button.dataset.id || '')
         modalEl.openModal()
+    }
+
+    private onOverviewOpen() {
+        const expenseGroup = this.querySelector<ExpenseGroup>(`expense-group`)
+        return expenseGroup?.getFilterDate() || AppDate.getLocalISODate()
     }
 }
 

@@ -3,6 +3,7 @@ import { ModalDialog } from "../../elements"
 import { ExpenseService } from "../../firebase/expenseService"
 import { userSignal } from "../../store/signal"
 import type { ExpenseType } from "../../types"
+import { AppDate } from "../../utils/date"
 import { ExpenseForm } from "./expense-form"
 
 
@@ -42,21 +43,28 @@ export class ExpenseModal extends ModalDialog {
             if (dirty) {
                 try {
                     const data = this.formEl.getFormData()
+                    const initialDate = this.formEl.getDate()
                     if (data.id) {
+                        const oldTime = initialDate ? new Date(initialDate) : new Date()
+                        const dateWithTime = AppDate.addTimeToDate(new Date(data.date), oldTime)
+
                         const expense: Partial<Omit<ExpenseType, "id">> = {
                             categoryId: data.categoryId,
                             amount: Number(data.amount),
-                            date: new Date(data.date),
+                            date: dateWithTime,
                             note: data.note
                         }
                         this.updateExpense(data.id, expense)
                     } else {
+                        const dateWithTime = AppDate.addTimeToDate(new Date(data.date))
+
                         const expense: Omit<ExpenseType, "id" | "category"> = {
                             categoryId: data.categoryId,
                             amount: Number(data.amount),
-                            date: new Date(data.date),
+                            date: dateWithTime,
                             note: data.note
                         }
+                        console.log("NEW_EXP", data.date, expense)
                         this.addExpense(expense)
                     }
                 } catch (e) {
@@ -92,6 +100,8 @@ export class ExpenseModal extends ModalDialog {
         await ExpenseService.updateExpense(userSignal.get(), id, expense)
         appLoading.hide()
         this.closeModal()
+        this.formEl.clear()
+        this.toggleAction(false)
     }
 
     private async deleteExpense(id: string) {

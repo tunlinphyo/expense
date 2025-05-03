@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, getDoc, onSnapshot, setDoc } from "firebase/firestore"
+import { collection, doc, documentId, getDocs, getDoc, onSnapshot, query, orderBy, setDoc } from "firebase/firestore"
 import { db } from "./firebase"
 import type { IconType } from "../types"
 
@@ -21,7 +21,8 @@ export class IconService {
     }
 
     static async getAllIcons(): Promise<IconType[]> {
-        const snapshot = await getDocs(this.collectionRef)
+        const q = query(this.collectionRef, orderBy(documentId(), "asc"))
+        const snapshot = await getDocs(q)
         return snapshot.docs.map(doc => ({
             id: doc.id,
             icon: doc.data().icon

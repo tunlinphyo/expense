@@ -35,6 +35,10 @@ export class ReactiveForm extends HTMLElement {
         setFormValues(this, this.initData)
     }
 
+    getInitData() {
+        return this.initData
+    }
+
     setFormData(formData: FormDataType) {
         this.data = formData
     }

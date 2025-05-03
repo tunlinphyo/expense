@@ -44,7 +44,13 @@ export class AppService {
         userId: string,
         callback: (datas: AppData[]) => void
     ): () => void {
+        let isFirstSnapshot = true
+        
         return onSnapshot(this.collectionRef(userId), (snapshot) => {
+            if (isFirstSnapshot) {
+                isFirstSnapshot = false
+                return
+            }
             const datas = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()

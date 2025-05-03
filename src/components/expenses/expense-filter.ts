@@ -31,7 +31,7 @@ export class ExpenseFilter extends HTMLElement {
     connectedCallback() {
         this.render()
 
-        this.consumer.subscribe((value, oldValue) => {
+        this.consumer.subscribe((value) => {
             const dateString = AppDate.getLocalISODate(new Date(value.year, value.month, 1))
             this.dateDisplay.setAttribute('value', dateString)
             this.setBadge(value.categories.length)

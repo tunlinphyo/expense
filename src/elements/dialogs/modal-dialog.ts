@@ -1,4 +1,5 @@
 import { html } from "../../utils"
+import { modalIn, modalOut } from "../animation"
 import { hostStyles, modalStyles } from "./styles"
 
 export class ModalDialog extends HTMLElement {
@@ -60,9 +61,7 @@ export class ModalDialog extends HTMLElement {
     }
 
     protected dialogScrollTop() {
-        requestAnimationFrame(() => {
-            this.dialog.scrollTo(0, 0)
-        })
+        this.dialog.scrollTo({ top: 0, behavior: 'instant' })
     }
 
     protected render() {
@@ -131,35 +130,13 @@ export class ModalDialog extends HTMLElement {
     }
 
     private openAnimation(deltaY: number = 0) {
-        return this.dialog.animate([
-            // { translate: `0 ${deltaY || 120 }px`, opacity: deltaY > 0 ? 1 : 0 },
-            // { translate: '0 0', opacity: 1 },
-            { translate: `0 ${deltaY || 200 }px` },
-            { translate: '0 0' },
-        ], {
-            // duration: 600,
-            // easing: 'cubic-bezier(0.34, 1.2, 0.64, 1)',
-            duration: 200,
-            easing: 'ease'
-            // easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
-        })
+        return modalIn(this.dialog, deltaY)
     }
 
     private closeAnimation(deltaY: number = 0) {
         this.dialog.classList.add('closing')
 
-        return this.dialog.animate([
-            // { translate: `0 ${deltaY}px`, opacity: 1 },
-            // { translate: `0 ${deltaY + 120}px`, opacity: 1 },
-            { translate: `0 ${deltaY}px`, opacity: 1 },
-            { translate: `0 ${deltaY + 20}px`, opacity: 0 },
-        ], {
-            // duration: 600,
-            // easing: 'cubic-bezier(0.34, 1.2, 0.64, 1)'
-            duration: 200,
-            easing: 'cubic-bezier(0, 0, 0.2, 1)'
-            // easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
-        })
+        return modalOut(this.dialog, deltaY)
     }
 }
 

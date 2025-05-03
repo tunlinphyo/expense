@@ -11,6 +11,7 @@ export class CurrentTotal extends HTMLElement {
         super()
         this.renderRoot = this.attachShadow({ mode: 'open' })
         this.dispalyEl = this.querySelector<CurrencyDisplay>('currency-display')
+        this.dispalyEl?.setAttribute('mini-sign', '')
     }
 
     connectedCallback() {
@@ -35,7 +36,7 @@ export class CurrentTotal extends HTMLElement {
 
     private adjustFontSize(element: CurrencyDisplay, maxFontSize: number = 120, minFontSize: number = 24) {
         const textLength = element.textLength
-        const newSize = Math.max(minFontSize, maxFontSize - textLength * 7)
+        const newSize = Math.max(minFontSize, maxFontSize - textLength * 6)
         // const factor = Math.pow(Math.sqrt(textLength), 0)
         // const scale = Math.min(1, factor)
         // const reversedScale = 1 - scale

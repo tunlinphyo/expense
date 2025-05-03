@@ -16,4 +16,12 @@ export class AppNumber {
     ): number {
         return ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin
     }
+    
+    public static format(
+        value: number,
+        options: Intl.NumberFormatOptions = {},
+        locale: string = "en-US"
+    ): string {
+        return new Intl.NumberFormat(locale, options).format(value)
+    }
 }

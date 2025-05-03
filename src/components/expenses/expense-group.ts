@@ -49,6 +49,11 @@ export class ExpenseGroup extends HTMLElement {
         this.removeEventListener('paginator', this.onPaginator)
     }
 
+    getFilterDate() {
+        const v = this.provider.value
+        return `${v.year}-${String(v.month + 1).padStart(2, '0')}`
+    }
+
     private onFilterChange(e: Event) {
         const customE = e as CustomEvent
         this.provider.setValue(customE.detail)

@@ -10,6 +10,7 @@ import { categorySignal, colorsSignal, currencySignal, iconsSignal, userSignal }
 export const appStore = async () => {
     let appUnsubscribe: () => void
     let cateogryUnsubscribe: () => void
+    let initLoaded = false
 
     const icons = await IconService.getAllIcons()
     iconsSignal.set(icons)
@@ -18,10 +19,17 @@ export const appStore = async () => {
     colorsSignal.set(colors)
 
     observeAuthState(async (user) => {
+        appUnsubscribe?.()
+        cateogryUnsubscribe?.()
+
         const userId = user?.uid || 'guest'
+        if (!initLoaded) {
+            initLoaded = true
+            categorySignal.set({})
+        } 
+            
         userSignal.set(userId)
-        // getCategories(userId)
-        // categorySignal.set({})
+        getCategories(userId)
 
         const currency = await getCurrency(userId)
         if (currency) {
@@ -29,9 +37,6 @@ export const appStore = async () => {
         } else {
             await AppService.setField(userId, 'currency', currencySignal.get())
         }
-
-        appUnsubscribe?.()
-        cateogryUnsubscribe?.()
 
         appUnsubscribe = AppService.onFieldChange(userId, 'currency', currency => {
             if (currency) currencySignal.set(currency)

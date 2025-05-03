@@ -27,6 +27,12 @@
             border-radius: 50%;
             display: grid;
             place-content: center;
+            /* border: 2px solid var(--bg-card); */
+
+            > svg {
+                width: 22px;
+                height: 22px;
+            }
         }
 
         .name {

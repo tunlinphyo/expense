@@ -27,7 +27,7 @@
             position: fixed;
             z-index: calc(infinity);
             inset: 0;
-            background-color: var(--bg-card);
+            background-color: var(--bg-primary);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -67,11 +67,11 @@
                         <expense-filter>
                             <div class="actions">
                                 <button type="button" data-icon-button data-button="page" data-page-id="overviewPage">
-                                    <svg-icon name="graph" size="18"></svg-icon>
+                                    <svg-icon name="graph" size="17"></svg-icon>
                                 </button>
                                 <button type="button" data-icon-button data-button="modal" data-modal-id="expenseFilter">
                                     <div class="badge" data-badge="0"></div>
-                                    <svg-icon name="filter" size="18"></svg-icon>
+                                    <svg-icon name="filter" size="15"></svg-icon>
                                 </button>
                             </div>
                         </expense-filter>
@@ -82,7 +82,7 @@
                                     <button type="button" data-button="modal" data-modal-id="expenseModal" data-bind-attr="data-id:id">
                                         <category-icon
                                             data-bind-attr="data-bg-color:category.color;icon:category.icon"
-                                            size="24"
+                                            size="22"
                                             width="56"
                                         ></category-icon>
                                         <div class="name">
@@ -99,9 +99,7 @@
                             <button type="button" data-icon-button data-button="prev" disabled data-bind-toggle="disabled:prevDisable">
                                 <svg-icon name="prev"></svg-icon>
                             </button>
-                            <div class="page">
-                                Page: <span data-bind-text="page"></span>
-                            </div>
+                            <div class="page" data-bind-text="page"></div>
                             <button type="button" data-icon-button data-button="next" disabled data-bind-toggle="disabled:nextDisable">
                                 <svg-icon name="next"></svg-icon>
                             </button>
@@ -109,13 +107,9 @@
 
                         <filter-modal id="expenseFilter">
                             <header slot="header" class="modal-header">
-                                <button data-button="close">
-                                    <svg-icon name="close" size="14"></svg-icon>
-                                </button>
+                                <span></span>
                                 <h2>Filters</h2>
-                                <button data-button="action" class="button-action">
-                                    <svg-icon name="done"></svg-icon>
-                                </button>
+                                <span></span>
                             </header>
 
                             <filter-form class="custom-form">
@@ -141,13 +135,21 @@
                                                     data-sync="icon:color:name"
                                                     data-bind-attr="value:item.id;data-icon:item.icon;data-color:item.color;data-name:item.name"
                                                 />
-                                                <category-icon data-icon-current data-bind-attr="icon:item.icon;data-bg-color:item.color" width="56" size="24"></category-icon>
+                                                <category-icon data-icon-current data-bind-attr="icon:item.icon;data-bg-color:item.color" width="56" size="22"></category-icon>
                                             </label>
                                             <div class="category-name" data-bind-text="item.name"></div>
                                         </dynamic-item>
                                     </template>
                                 </category-list>
+
                             </filter-form>
+
+                            <footer>
+                                <button type="button" data-button="action" data-primary-button>
+                                    <svg-icon name="done" size="17"></svg-icon>
+                                    <span>Done</span>
+                                </button>
+                            </footer>
                         </filter-modal>
                     </expense-group>
                 </main-page>
@@ -165,7 +167,7 @@
                                     <img data-user-photo width="84" height="84" alt="logined user" />
                                     <h2 data-user-name></h2>
                                     <div data-user-email></div>
-                                    <button type="button" data-button="logout">
+                                    <button type="button" data-button="logout" data-primary-button>
                                         <svg-icon name="logout" size="22"></svg-icon>
                                         Logout
                                     </button>
@@ -174,11 +176,11 @@
 
                             <template id="guest">
                                 <div class="user-card">
-                                    <img src="/avatar.png" alt="guest user" width="76" height="76" />
+                                    <img src="/avatar.png" alt="guest user" width="84" height="84" />
                                     <h2>Guest</h2>
-                                    <button type="button" data-button="login">
+                                    <button type="button" data-button="login" data-primary-button>
                                         Login with Google
-                                        <svg-icon name="google"></svg-icon>
+                                        <svg-icon name="google" size="20"></svg-icon>
                                     </button>
                                 </div>
                             </template>
@@ -195,7 +197,11 @@
                                     </button>
 
                                     <modal-dialog data-half>
-                                        <header slot="header" class="modal-header"></header>
+                                        <header slot="header" class="modal-header">
+                                            <span></span>
+                                            <h2>Currency</h2>
+                                            <span></span>
+                                        </header>
                                         <currency-list class="currency-list">
                                             <template>
                                                 <dynamic-item>
@@ -290,7 +296,7 @@
                             <dynamic-item>
                                 <category-icon
                                     data-bind-attr="data-bg-color:category.color;icon:category.icon"
-                                    size="24"
+                                    size="22"
                                     width="56"
                                 ></category-icon>
                                 <div class="detail">
@@ -354,7 +360,7 @@
                         <button data-button="modal" data-modal-id="categoryModal" data-bind-attr="data-id:id">
                             <category-icon
                                 data-bind-attr="data-bg-color:item.color;icon:item.icon"
-                                size="24"
+                                size="22"
                                 width="56"
                             ></category-icon>
                             <div class="name" data-bind-text="item.name"></div>
@@ -389,13 +395,15 @@
                 <div class="form-card">
                     <div class="custom-group">
                         <category-icon data-icon-current data-bind-attr="icon:icon;data-bg-color:color" width="80" size="38"></category-icon>
-                        <input data-bind-attr="data-color:color" data-form-input type="text" id="name" name="name"
-                            placeholder="Category Name" />
+                        <div class="input-loading">
+                            <input data-bind-attr="data-color:color" data-form-input type="text" id="name" name="name"
+                                placeholder="Category Name" />
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-card">
-                    <color-list class="radio-group">
+                    <color-list class="radio-group radio-loading">
                         <template>
                             <dynamic-item>
                                 <label data-color data-bind-attr="data-bg-color:color.id">
@@ -407,7 +415,7 @@
                 </div>
 
                 <div class="form-card">
-                    <icon-list class="radio-group">
+                    <icon-list class="radio-group radio-loading">
                         <template>
                             <dynamic-item>
                                 <label data-icon>
@@ -420,8 +428,12 @@
                 </div>
 
                 <div class="footer">
-                    <button type="button" data-button="delete" title="Delete expense" data-bind-toggle="data-show:id">
-                        <svg-icon name="trash" size="22"></svg-icon>
+                    <button type="button" 
+                        data-button="delete" 
+                        data-bind-toggle="data-show:id"
+                        data-primary-button>
+                        <svg-icon name="trash" size="18"></svg-icon>
+                        Delete
                     </button>
                 </div>
             </category-form>
@@ -470,7 +482,7 @@
                                         data-sync="icon:color:name"
                                         data-bind-attr="value:item.id;data-icon:item.icon;data-color:item.color;data-name:item.name"
                                     />
-                                    <category-icon data-icon-current data-bind-attr="icon:item.icon;data-bg-color:item.color" width="56" size="24"></category-icon>
+                                    <category-icon data-icon-current data-bind-attr="icon:item.icon;data-bg-color:item.color" width="56" size="22"></category-icon>
                                 </label>
                                 <div class="category-name" data-bind-text="item.name"></div>
                             </dynamic-item>
@@ -497,8 +509,12 @@
                 </div>
 
                 <div class="footer">
-                    <button type="button" data-button="delete" title="Delete expense" data-bind-toggle="data-show:id">
-                        <svg-icon name="trash" size="22"></svg-icon>
+                    <button type="button" 
+                        data-button="delete" 
+                        data-bind-toggle="data-show:id"
+                        data-primary-button>
+                        <svg-icon name="trash" size="18"></svg-icon>
+                        Delete
                     </button>
                 </div>
             </expense-form>

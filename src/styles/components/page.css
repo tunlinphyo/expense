@@ -18,7 +18,7 @@
     }
 
     & h2 {
-        font-size: var(--text-md);
+        font-size: var(--text-lg);
         text-align: center;
         color: var(--fg-primary);
     }

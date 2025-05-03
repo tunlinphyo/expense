@@ -1,6 +1,6 @@
 import { User } from "firebase/auth"
 import { loginWithGoogle, logout, observeAuthState } from "../../firebase/authService"
-import { actionSheet, appToast } from ".."
+import { actionSheet, appLoading, appToast } from ".."
 
 export class FirebaseAuth extends HTMLElement {
     private userTemplate?: HTMLTemplateElement
@@ -29,6 +29,7 @@ export class FirebaseAuth extends HTMLElement {
     private onClick(e: Event) {
         const target = e.target as HTMLElement
         if (target.dataset.button === "login") {
+            appLoading.show()
             loginWithGoogle()
                 .then(() => {
                     appToast.showMessage('Login success', 'check-circle')
@@ -36,6 +37,9 @@ export class FirebaseAuth extends HTMLElement {
                 .catch(error => {
                     appToast.showMessage(error.message, null, true)
                 })
+                .finally(() => {
+                    appLoading.hide()
+                }) 
         } else if (target.dataset.button === "logout") {
             actionSheet.openSheet({
                 title: 'Are you sure?',

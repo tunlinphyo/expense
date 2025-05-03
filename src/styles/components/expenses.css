@@ -113,7 +113,7 @@ expense-group {
             gap: var(--size-2);
 
             & button {
-                width: 42px;
+                /* width: 46px; */
                 color: var(--primary);
 
                 &[data-modal-id=expenseFilter] {
@@ -147,14 +147,32 @@ expense-group {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding-inline: var(--size-4);
 
         & button[data-icon-button] {
             width: 60px;
+            background-color: var(--bg-card);
+            border: 2px solid var(--bg-card);
+
+            & svg-icon {
+                color: var(--fg-accent);
+            }
 
             &:disabled {
-                opacity: .3;
+                /* opacity: .3; */
                 pointer-events: none;
+                background-color: var(--bg-primary);
+
+                & svg-icon {
+                    color: var(--gray-4);
+                }
             }
+        }
+
+        .page {
+            color: var(--fg-accent);
+            font-size: var(--text-xl);
+            opacity: .5;
         }
     }
 }

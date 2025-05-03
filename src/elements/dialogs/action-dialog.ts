@@ -1,4 +1,5 @@
 import { html } from "../../utils"
+import { modalIn, modalOut } from "../animation"
 import { actionStyles, hostStyles } from "./styles"
 
 export class ActionDialog extends HTMLElement {
@@ -63,29 +64,13 @@ export class ActionDialog extends HTMLElement {
     }
 
     private openAnimation(deltaY: number = 0) {
-        return this.dialog.animate([
-            { translate: `0 ${deltaY || 100 }px`, opacity: 0 },
-            { translate: '0 0', opacity: 1 },
-        ], {
-            // duration: 600,
-            // easing: 'cubic-bezier(0.34, 1.2, 0.64, 1)',
-            duration: 200,
-            easing: 'ease'
-        })
+        return modalIn(this.dialog, deltaY)
     }
 
     private closeAnimation(deltaY: number = 0) {
         this.dialog.classList.add('closing')
 
-        return this.dialog.animate([
-            { translate: `0 ${deltaY}px`, opacity: 1 },
-            { translate: `0 ${deltaY + 100}px`, opacity: 0 },
-        ], {
-            // duration: 600,
-            // easing: 'cubic-bezier(0.34, 1.2, 0.64, 1)'
-            duration: 200,
-            easing: 'ease'
-        })
+        return modalOut(this.dialog, deltaY)
     }
 }
 

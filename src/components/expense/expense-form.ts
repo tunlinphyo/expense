@@ -1,10 +1,11 @@
+import { appToast } from ".."
 import { ReactiveForm } from "../../elements"
 import { CurrencyService } from "../../firebase/currencyService"
 import { ExpenseService } from "../../firebase/expenseService"
 import { effect } from "../../signal"
 import { currencySignal, userSignal } from "../../store/signal"
 import { ExpenseType } from "../../types"
-import { wait } from "../../utils"
+import { allSettles, wait } from "../../utils"
 import { AppDate } from "../../utils/date"
 
 type FormExpense = Omit<ExpenseType, 'amount' | 'date' | 'category'> & {
@@ -27,6 +28,7 @@ export class ExpenseForm extends ReactiveForm {
         name: ''
     }
     private unsubscribe?: () => void
+    private _initialDate: Date | null = null
 
     static get observedAttributes(): string[] {
         return ['id']
@@ -50,6 +52,17 @@ export class ExpenseForm extends ReactiveForm {
         super.disconnectedCallback()
         this.removeEventListener('change', this.onCategoryChange)
         this.unsubscribe?.()
+    }
+
+    clear() {
+        if (!this.data.id) 
+            this.data = this.defaultData
+        else 
+            this.data = this.getFormData()
+    }
+
+    getDate() {
+        return this._initialDate
     }
 
     private async updateCurrencySign(id: string) {
@@ -83,9 +96,14 @@ export class ExpenseForm extends ReactiveForm {
 
     private async setExpense(id: string) {
         this.setAttribute('data-loading', '')
-        const expense = await ExpenseService.getExpense(userSignal.get(), id)
-        await wait()
-        if (expense) {
+        const promises = [
+            ExpenseService.getExpense(userSignal.get(), id),
+            wait()
+        ]
+        this._initialDate = null
+        const success = await allSettles<ExpenseType>(promises, (expense) => {
+            this._initialDate = expense.date
+
             const data: FormExpense = {
                 id: expense.id,
                 categoryId: expense.categoryId,
@@ -97,8 +115,12 @@ export class ExpenseForm extends ReactiveForm {
                 name: expense.category.name
             }
             this.setFormData(data)
-            this.removeAttribute('data-loading')
+        })
+        if (!success) {
+            appToast.showMessage('Error occur', null, true)
+            this.setFormData(this.defaultData)
         }
+        this.removeAttribute('data-loading')
     }
 
     private childrenSettled(callback: () => void) {

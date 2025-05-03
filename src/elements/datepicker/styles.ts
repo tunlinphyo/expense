@@ -12,9 +12,28 @@ export const pickerStyle = css`
         min-height: 300px;
         max-height: calc(100% - 20px);
         inset: auto 0 0;
-        border-radius: 1.5rem 1.5rem 0 0;
-        padding-block-start: var(--size-4);
+        border-radius: 2rem 2rem 0 0;
+        padding-block: var(--size-6);
         background-color: var(--bg-picker);
+
+        .touch-tracker {
+            width: 2.5em;
+            height: 5px;
+            border-radius: 5px;
+            background-color: var(--gray);
+            
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            translate: -50% 0;
+
+            &::before {
+                content: '';
+                display: block;
+                position: absolute;
+                inset: -30px -60px;
+            }
+        }
     }
     header {
         padding-inline: var(--size-4);
@@ -26,19 +45,40 @@ export const pickerStyle = css`
         padding-inline: var(--size-4);
 
         :where(button) {
-            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--size-2);
+            height: 46px;
             border: none;
-            background-color: transparent;
             color: var(--primary);
+            font-family: var(--font-family);
             font-size: var(--text-md);
+            font-weight: 500;
             text-transform: capitalize;
             padding-inline: var(--size-2);
+            background-color: transparent;
+            border-radius: var(--radius-5);
         }
     }
     @media (display-mode: fullscreen), (display-mode: standalone) {
         dialog {
             padding-block-end: 34px;
         }
+    }
+`
+
+export const monthPickerStyle = css`
+    dialog {
+        & year-month {
+            margin-block: var(--size-4);
+        }
+    }
+`
+
+export const datePickerStyle = css`
+    dialog {
+        padding-block-start: var(--size-8);
     }
 `
 
@@ -64,7 +104,7 @@ export const calendarStyle = css`
                 background-color: transparent;
                 color: var(--primary);
 
-                width: 40px;
+                width: 44px;
                 aspect-ratio: 1;
                 background-color: var(--bg-accent);
                 border-radius: 50%;
@@ -79,6 +119,8 @@ export const calendarStyle = css`
             background: transparent;
             border: none;
             color: var(--fg-primary);
+            font-weight: 500;
+            font-family: var(--font-family);
 
             display: flex;
             justify-content: flex-start;
@@ -215,7 +257,7 @@ export const yearMonthStyle = css`
         display: block;
         position: absolute;
         width: 100%;
-        height: 50px;
+        height: 80px;
         left: 0;
         pointer-events: none;
     }
@@ -254,8 +296,8 @@ export const yearMonthStyle = css`
         margin: calc(var(--h) * 0.5) 0;
     }
     li {
-        height: 32px;
-        line-height: 32px;
+        height: 34px;
+        line-height: 34px;
         font-size: var(--text-lg);
         scroll-snap-align: center;
         text-align: left;

@@ -15,9 +15,13 @@ export const hostStyles = css`
 
         &::backdrop {
             background-color: var(--bg-backdrop);
-            backdrop-filter: blur(15px) brightness(0.9);
+            backdrop-filter: blur(10px) brightness(0.9);
             opacity: 0;
             transition: opacity .2s ease;
+
+            /* background-image: radial-gradient( rgba(0,0,0,0) 1px, var(--bg-backdrop) 1px );
+            background-size: 4px 4px;
+            backdrop-filter: brightness(1) blur(5px); */
         }
         &[open] {
             &::backdrop {
@@ -37,6 +41,7 @@ export const hostStyles = css`
         section {
             display: grid;
             grid-template-columns: var(--layout-column);
+            padding-block-end: var(--size-7);
         }
         ::slotted(*) {
             grid-column: body;
@@ -55,7 +60,7 @@ export const hostStyles = css`
     @media (prefers-color-scheme: dark) {
         dialog {
             &::backdrop {
-                backdrop-filter: blur(15px) brightness(1.2);
+                backdrop-filter: blur(10px) brightness(1.2);
             }
         }
     }
@@ -72,6 +77,12 @@ export const pageStyles = css`
     section {
         min-height: calc(100svh - 180px);
     }
+    section {
+        padding-block-end: var(--size-5);
+    }
+    ::slotted(footer) {
+        padding-block-end: var(--size-5);
+    }
     @media (display-mode: fullscreen), (display-mode: standalone) {
         section {
             padding-block-end: 40px;
@@ -86,18 +97,17 @@ export const modalStyles = css`
     dialog {
         width: 100%;
         max-width: clamp(0rem, 100vw, 35rem);
-        height: calc(100% - 20px);
-        max-height: 100%;
-        inset: 20px 0 0;
-        border-radius: 1.5rem 1.5rem 0 0;
+        height: auto;
+        max-height: calc(100% - 20px);
+        inset: auto 0 0;
+        border-radius: 2rem 2rem 0 0;
     }
     :host([data-half]) {
         dialog {
             max-width: clamp(0rem, 100vw, 30rem);
-            height: auto;
             min-height: 200px;
-            inset: auto 0 0;
-            // background-color: var(--bg-picker);
+            max-height: 75vh;
+            background-color: var(--bg-picker);
         }
     }
     ::slotted(header) {
@@ -106,7 +116,7 @@ export const modalStyles = css`
     }
     @media (display-mode: fullscreen), (display-mode: standalone) {
         section {
-            padding-block-end: 40px;
+            padding-block-end: 60px;
         }
     }
 `

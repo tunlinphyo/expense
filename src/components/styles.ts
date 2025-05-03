@@ -64,3 +64,10 @@ export const loadingIcon = css`
         }
     }
 `
+
+export const currencyStyles = css`
+    .sign {
+        font-size: max(.5em, 1rem);
+        margin-inline-end: .1em;
+    }
+`

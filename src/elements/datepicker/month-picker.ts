@@ -1,7 +1,8 @@
 import { html } from "../../utils"
 import { AppDate } from "../../utils/date"
+import { modalIn, modalOut } from "../animation"
 import { hostStyles } from "../dialogs/styles"
-import { pickerStyle } from "./styles"
+import { monthPickerStyle, pickerStyle } from "./styles"
 import { YearMonth } from "./year-month"
 
 import './year-month'
@@ -11,6 +12,11 @@ export class MonthPicker extends HTMLElement {
     private inputEl: HTMLInputElement
     private dialog: HTMLDialogElement
     private yearMonth!: YearMonth
+    private touchTracker!: HTMLElement
+
+    private startY: number = 0
+    private currentY: number = 0
+    private isDragging: boolean = false
 
     static get observedAttributes() {
         return ['value']
@@ -41,15 +47,20 @@ export class MonthPicker extends HTMLElement {
     constructor() {
         super()
         this.renderRoot = this.attachShadow({ mode: 'open' })
-        this.renderRoot.adoptedStyleSheets = [hostStyles, pickerStyle]
+        this.renderRoot.adoptedStyleSheets = [hostStyles, pickerStyle, monthPickerStyle]
         this.dialog = document.createElement('dialog')
         this.inputEl = this.createInput()
         this.yearMonth = this.createYearMonth()
+        this.touchTracker = document.createElement('div')
 
         this.onDateChange = this.onDateChange.bind(this)
         this.onDialogClick = this.onDialogClick.bind(this)
         this.onClick = this.onClick.bind(this)
         this.yearMonthChange = this.yearMonthChange.bind(this)
+
+        this.onTouchStart = this.onTouchStart.bind(this)
+        this.onTouchMove = this.onTouchMove.bind(this)
+        this.onTouchEnd = this.onTouchEnd.bind(this)
     }
 
     connectedCallback() {
@@ -59,12 +70,20 @@ export class MonthPicker extends HTMLElement {
         this.dialog.addEventListener('click', this.onDialogClick)
         this.yearMonth.addEventListener('change', this.yearMonthChange)
         this.addEventListener('click', this.onClick)
+
+        this.dialog.addEventListener('touchstart', this.onTouchStart, true)
+        this.dialog.addEventListener('touchmove', this.onTouchMove, true)
+        this.dialog.addEventListener('touchend', this.onTouchEnd)
     }
 
     disconnectedCallback() {
         this.dialog.removeEventListener('click', this.onDialogClick)
         this.yearMonth.removeEventListener('change', this.yearMonthChange)
         this.removeEventListener('click', this.onClick)
+
+        this.dialog.removeEventListener('touchstart', this.onTouchStart, true)
+        this.dialog.removeEventListener('touchmove', this.onTouchMove, true)
+        this.dialog.removeEventListener('touchend', this.onTouchEnd)
     }
 
     openModal() {
@@ -86,16 +105,20 @@ export class MonthPicker extends HTMLElement {
         const footerEl = html`
             <footer>
                 <button type="button" data-button="today">
+                    <!-- <svg-icon name="calendar"></svg-icon> -->
                     today
                 </button>
                 <button type="button" data-button="done">
+                    <!-- <svg-icon name="done" size="18"></svg-icon> -->
                     done
                 </button>
             </footer>
         `
 
-        this.dialog.append(this.yearMonth)
-        this.dialog.append(footerEl)
+        this.touchTracker.classList.add('touch-tracker')
+        this.dialog.appendChild(this.touchTracker)
+        this.dialog.appendChild(this.yearMonth)
+        this.dialog.appendChild(footerEl)
 
         this.renderRoot.appendChild(slot)
         this.renderRoot.appendChild(this.dialog)
@@ -141,7 +164,7 @@ export class MonthPicker extends HTMLElement {
 
     private dispalyDate() {
         const el = this.querySelector('date-display')
-        if (!el) return console.log('NOT_FOUND')
+        if (!el) return
         el.setAttribute('value', this.value)
     }
 
@@ -176,26 +199,51 @@ export class MonthPicker extends HTMLElement {
         })
     }
 
+    private onTouchStart(event: TouchEvent): void {
+        const target = event.target as HTMLElement
+
+        if (target !== this.touchTracker) return
+        if (event.touches.length !== 1) return
+
+        this.startY = event.touches[0].clientY
+        this.currentY = this.startY
+
+        this.isDragging = true
+    }
+
+    private onTouchMove(event: TouchEvent): void {
+        if (!this.isDragging) return
+
+        this.currentY = event.touches[0].clientY
+        const deltaY = this.currentY - this.startY
+        if (deltaY > 0) {
+            event.preventDefault()
+            this.dialog.style.transform = `translateY(${deltaY}px)`
+        }
+    }
+
+    private onTouchEnd(): void {
+        this.dialog.removeAttribute('style')
+        if (!this.isDragging) return
+
+        const deltaY = this.currentY - this.startY
+        this.isDragging = false
+
+        if (deltaY > this.dialog.clientHeight * 0.3) {
+            this.closeModal(deltaY)
+        } else if (deltaY > 1) {
+            this.openAnimation(deltaY)
+        }
+    }
+
     private openAnimation(deltaY: number = 0) {
-        return this.dialog.animate([
-            { translate: `0 ${deltaY || 100 }px`, opacity: 0 },
-            { translate: '0 0', opacity: 1 },
-        ], {
-            duration: 200,
-            easing: 'ease',
-        })
+        return modalIn(this.dialog, deltaY)
     }
 
     private closeAnimation(deltaY: number = 0) {
         this.dialog.classList.add('closing')
 
-        return this.dialog.animate([
-            { translate: `0 ${deltaY}px`, opacity: 1 },
-            { translate: `0 ${deltaY + 100}px`, opacity: 0 },
-        ], {
-            duration: 200,
-            easing: 'ease'
-        })
+        return modalOut(this.dialog, deltaY)
     }
 }
 

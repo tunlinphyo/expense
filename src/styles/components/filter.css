@@ -1,0 +1,25 @@
+#expenseFilter {
+    :where(footer) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        :where(*) {
+            pointer-events: auto;
+        }
+
+        & button[data-button=action] {
+            margin-block: var(--size-3);
+            gap: 0.75rem;
+            background-color: light-dark(rgb(219,219,224), var(--black));
+        }
+    }
+
+    .input-group {
+        padding-block-start: var(--size-3);
+    }
+
+    .radio-group {
+        padding-inline: 0.75rem;
+    }
+}

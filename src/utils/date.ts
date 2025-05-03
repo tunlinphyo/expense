@@ -33,4 +33,10 @@ export class AppDate {
         const formatter = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric' })
         return formatter.format(date)
     }
+
+    public static addTimeToDate(date: Date, now: Date = new Date()): Date {
+        const result = new Date(date) // clone original date
+        result.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds())
+        return result
+    }
 }

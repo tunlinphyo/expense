@@ -208,39 +208,49 @@ export namespace Signal {
             }
         }
 
-        export function effect(callback: () => void, signals: Signal<any>[]): () => void {
+        // export function effect(callback: () => void, signals: Signal<any>[]): () => void {
+        //     const watcher = new Watcher(() => {
+        //         runEffect()
+        //     })
+
+        //     function runEffect() {
+        //         untrack(() => {
+        //             watcher.watch(...signals) // Reset all old subscriptions
+        //             callback()      // Run and track dependencies
+        //         })
+        //     }
+
+        //     runEffect() // Initial run
+
+        //     return () => watcher.unwatch(...signals) // Dispose function
+        // }
+        
+        export function effect(callback: () => void, signals: Signal<any>[], runImmediately = true): () => void {
+            let isInitial = true
+        
             const watcher = new Watcher(() => {
+                if (isInitial && !runImmediately) {
+                    isInitial = false
+                    return
+                }
                 runEffect()
             })
-
+        
             function runEffect() {
                 untrack(() => {
-                    watcher.watch(...signals) // Reset all old subscriptions
-                    callback()      // Run and track dependencies
+                    watcher.watch(...signals) // Reset subscriptions
+                    callback()                // Track and run
                 })
             }
-
-            runEffect() // Initial run
-
-            return () => watcher.unwatch(...signals) // Dispose function
+        
+            if (runImmediately) {
+                runEffect()
+            } else {
+                // Track without executing the callback
+                untrack(() => watcher.watch(...signals))
+            }
+        
+            return () => watcher.unwatch(...signals)
         }
-        // export function effect(callback: () => void, signals: Signal<any>[]): () => void {
-        //     let initialized = false
-
-        //     const watcher = new Watcher(() => {
-        //         if (initialized) {
-        //             callback()
-        //         } else {
-        //             initialized = true
-        //         }
-        //     })
-
-        //     // Initial dependency tracking only, no callback call
-        //     untrack(() => {
-        //         watcher.watch(...signals)
-        //     })
-
-        //     return () => watcher.unwatch(...signals)
-        // }
     }
 }

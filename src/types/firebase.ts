@@ -1,7 +1,8 @@
 export interface ColorType {
     id: string;
     name: string;
-    codes: [string, string] // [light, dark]
+    codes: [string, string]; // [light, dark]
+    order: number;
 }
 
 export interface IconType {

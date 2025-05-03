@@ -26,7 +26,7 @@
     --bg-form: light-dark(var(--gray-6), var(--gray-4));
     --bg-popover: light-dark(var(--white), var(--gray-6));
 
-    --bg-picker: light-dark(var(--gray-6), var(--gray-6));
+    --bg-picker: var(--gray-6);
 
     --highlight: color-mix(in srgb, var(--primary) 30%, transparent);
 
@@ -35,10 +35,11 @@
     --card-highlight: color-mix(in srgb, var(--bg-card) 50%, transparent);
 
     --bg-backdrop: light-dark(
-        color-mix(in srgb, var(--gray-4) 20%, transparent),
-        color-mix(in srgb, rgb(10,10,12) 20%, transparent)
+        color-mix(in srgb, var(--gray-4) 10%, transparent),
+        color-mix(in srgb, var(--gray-2) 25%, transparent)
     );
-
+    /* --bg-backdrop: var(--gray-4); */
+    /* --bg-backdrop: color-mix(in srgb, var(--gray-4) 20%, transparent); */
 
     --bg-loading: light-dark(var(--white), var(--gray-6));
     --bg-wave: light-dark(var(--gray-6), var(--gray-5));

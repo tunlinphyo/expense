@@ -6,7 +6,8 @@
 
 html,
 body {
-    font-family: 'Poppins', sans-serif;
+    --font-family: 'Poppins', sans-serif;
+    font-family: var(--font-family);
     font-size: 16px;
 
     inline-size: 100%;
@@ -47,13 +48,30 @@ body {
         background-color: transparent;
         color: var(--fg-primary);
 
-        width: 40px;
+        width: 44px;
         aspect-ratio: 1;
         background-color: var(--bg-accent);
         border-radius: 50%;
 
         display: grid;
         place-content: center;
+    }
+
+    [data-primary-button] {
+        padding: 0 var(--size-4);
+        height: 48px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: var(--size-2);
+        background-color: light-dark(var(--gray-5), var(--black));
+        border: none;
+        border-radius: var(--radius-5);
+        color: var(--fg-primary);
+
+        & svg-icon {
+            color: var(--primary);
+        }
     }
 
     [data-aria-only] {

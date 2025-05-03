@@ -44,7 +44,13 @@ export class CurrencyService {
     }
 
     static onCurrencyChange(callback: (icons: Currency[]) => void): () => void {
+        let isFirstSnapshot = true
         return onSnapshot(this.collectionRef, (snapshot) => {
+            if (isFirstSnapshot) {
+                isFirstSnapshot = false
+                return
+            }
+            
             const currency = snapshot.docs.map(doc => ({
                 id: doc.id,
                 name: doc.data().name,

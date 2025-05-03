@@ -43,6 +43,10 @@ export class OverviewMonthly extends HTMLElement {
 
     private toggleListeners(inView: boolean) {
         if (inView) {
+            const monthAttr = document.getElementById('overviewPage')?.getAttribute('month')
+            if (monthAttr && this.monthPicker) 
+                this.monthPicker.setAttribute('value', monthAttr)
+
             this.monthPicker?.addEventListener('select', this.onMonthSelect)
 
             if (this.monthPicker && this.doughnutChart && this.titleEl) {
@@ -94,7 +98,7 @@ export class OverviewMonthly extends HTMLElement {
 
     private renderList(list: CategoryTotal[]) {
         const listEl = this.querySelector<OverviewList>('overview-list')
-        if (listEl) listEl.list = list
+        if (listEl) listEl.list = list.sort((a, b) => a.category.order - b.category.order)
     }
 }
 

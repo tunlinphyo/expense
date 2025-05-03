@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, onSnapshot, setDoc } from "firebase/firestore"
+import { collection, doc, getDocs, onSnapshot, query, orderBy, setDoc } from "firebase/firestore"
 import { db } from "./firebase"
 import type { ColorType } from "../types"
 
@@ -11,7 +11,8 @@ export class ColorService {
         const colorRef = doc(this.collectionRef, color.id)
         await setDoc(colorRef, {
             name: color.name,
-            codes: color.codes
+            codes: color.codes,
+            order: color.order
         })
     }
 
@@ -22,11 +23,13 @@ export class ColorService {
     }
 
     static async getAllColors(): Promise<ColorType[]> {
-        const snapshot = await getDocs(this.collectionRef)
+        const q = query(this.collectionRef, orderBy("order", "asc"))
+        const snapshot = await getDocs(q)
         return snapshot.docs.map(doc => ({
             id: doc.id,
             name: doc.data().name,
-            codes: doc.data().codes as [string, string]
+            codes: doc.data().codes as [string, string],
+            order: doc.data().order
         }))
     }
 
@@ -35,7 +38,8 @@ export class ColorService {
             const colors = snapshot.docs.map(doc => ({
                 id: doc.id,
                 name: doc.data().name,
-                codes: doc.data().codes as [string, string]
+                codes: doc.data().codes as [string, string],
+                order: doc.data().order
             }))
             callback(colors)
         })

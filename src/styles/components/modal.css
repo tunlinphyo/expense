@@ -35,11 +35,11 @@
     }
 
     & h2 {
-        font-size: var(--text-md);
+        font-size: var(--text-lg);
         text-align: center;
         color: var(--fg-primary);
-        align-self: flex-end;
-        height: 2.3rem;
+        height: 40px;
+        line-height: 40px;
     }
 
     & button {

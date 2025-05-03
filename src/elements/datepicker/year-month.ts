@@ -52,14 +52,20 @@ export class YearMonth extends HTMLElement {
 
         this.intersectionObserver = new IntersectionObserver(entries => {
             for (const entry of entries) {
-                if (entry.isIntersecting) {
-                    this.initPosition()
-                    this._renderDone = true
-                    requestAnimationFrame(() => {
-                        this.monthScroll.addEventListener('scroll', this.onMonthScroll)
-                        this.yearScroll.addEventListener('scroll', this.onYearScroll)
-                    })
-                    this.intersectionObserver?.disconnect()
+                if (entry.target == this) {
+                    if (entry.isIntersecting) {
+                        this.initPosition()
+                        this._renderDone = true
+    
+                        requestAnimationFrame(() => {
+                            this.monthScroll.addEventListener('scroll', this.onMonthScroll)
+                            this.yearScroll.addEventListener('scroll', this.onYearScroll)
+                        })
+                        // this.intersectionObserver?.disconnect()
+                    } else {
+                        this.monthScroll.removeEventListener('scroll', this.onMonthScroll)
+                        this.yearScroll.removeEventListener('scroll', this.onYearScroll)
+                    }
                     break
                 }
             }

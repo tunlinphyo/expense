@@ -3,7 +3,7 @@ import { updateBindings } from "../../utils/data-bind"
 export type PaginationState = {
     prevDisable: boolean
     nextDisable: boolean
-    page: number
+    page: number | string
 }
 
 export class ExpensePagination extends HTMLElement {
@@ -19,6 +19,7 @@ export class ExpensePagination extends HTMLElement {
         return this._state
     }
     set state(state: PaginationState) {
+        state.page = String(state.page).padStart(2, '0')
         updateBindings(this, state, this._state)
         this._state = {...state}
     }
@@ -52,6 +53,14 @@ export class ExpensePagination extends HTMLElement {
                 bubbles: true,
                 cancelable: true
             }))
+            this.scrollClosestNavPanelToTop(target)
+        }
+    }
+
+    private scrollClosestNavPanelToTop(elem: HTMLElement) {
+        const panel = elem.closest('nav-panel') as HTMLElement | null
+        if (panel) {
+            panel.scrollTo({ top: 0, behavior: 'instant' })
         }
     }
 }

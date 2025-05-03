@@ -49,8 +49,8 @@ export class PageDialog extends HTMLElement {
         })
     }
 
-    closePage(deltaX: number) {
-        const animation = this.closeAnimation(deltaX)
+    closePage(deltaX: number = 0, deltaY: number = 0) {
+        const animation = this.closeAnimation(deltaX, deltaY)
         this.toggleAttribute('page-open', false)
 
         animation.finished.then(() => {
@@ -103,9 +103,9 @@ export class PageDialog extends HTMLElement {
         if (x > 0) {
             event.preventDefault()
 
-            this.dialog.style.transform = `translateX(${AppNumber.mapRange(x,0,window.innerWidth,0,80)}px)`
+            this.dialog.style.translate = `${AppNumber.mapRange(x,0,window.innerWidth,0,80)}px ${AppNumber.mapRange(x,0,window.innerWidth,0,-20)}px `
             this.dialog.style.scale = `${AppNumber.mapRange(x,0,200,1,0.88)}`
-            this.dialog.style.borderRadius = `${AppNumber.mapRange(Math.min(x,200),0,200,0,40)}px`
+            this.dialog.style.borderRadius = `${AppNumber.mapRange(Math.min(x,200),0,200,0,32)}px`
             this.dialog.style.overflow = 'hidden'
         }
     }
@@ -118,40 +118,44 @@ export class PageDialog extends HTMLElement {
 
         const absX = Math.abs(deltaX)
         const x = AppNumber.mapRange(absX,0,window.innerWidth,0,80)
+        const y = AppNumber.mapRange(absX,0,window.innerWidth,0,-20)
         if (absX > Math.min(200, this.dialog.clientWidth * 0.3)) {
-            this.closePage(x)
+            this.closePage(x, y)
         } else if (absX > 1) {
-            this.dialog.removeAttribute('style')
-            this.openAnimation(x)
+            this.openAnimation(x, y)
         }
     }
 
-    private openAnimation(deltaX: number = 0) {
+    private openAnimation(deltaX: number = 0, deltaY: number = 0) {
+        const computed = getComputedStyle(this.dialog)
+        const scale = computed.scale
+        const borderRadius = computed.borderRadius
+
+        this.dialog.removeAttribute('style')
+
         return this.dialog.animate([
-            { translate: `${deltaX || 100 }px 0`, opacity: deltaX > 0 ? 1 : 0 },
-            { translate: '0 0', opacity: 1 },
+            { translate: `${deltaX || 100 }px ${deltaY}px`, opacity: deltaX > 0 ? 1 : 0, scale, borderRadius },
+            { translate: '0 0', opacity: 1, scale: 1, borderRadius: 0 },
         ], {
-            // duration: 400,
-            // easing: 'cubic-bezier(0.61, 1, 0.88, 1)'
             duration: 200,
             easing: 'ease'
-            // easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
         })
     }
 
-    private closeAnimation(deltaX: number = 0) {
+    private closeAnimation(deltaX: number = 0, deltaY: number = 0) {
+        const computed = getComputedStyle(this.dialog)
+        const scale = computed.scale
+        const borderRadius = computed.borderRadius
+
         this.dialog.removeAttribute('style')
         this.dialog.classList.add('closing')
 
         return this.dialog.animate([
-            { translate: `${deltaX}px 0`, opacity: 1 },
-            { translate: `${deltaX}px 0`, opacity: 0 },
+            { translate: `${deltaX}px ${deltaY}px`, opacity: 1, scale, borderRadius },
+            { translate: `${deltaX}px 0`, opacity: 0, scale, borderRadius },
         ], {
-            // duration: 400,
-            // easing: 'cubic-bezier(0.61, 1, 0.88, 1)'
             duration: 200,
             easing: 'ease'
-            // easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
         })
     }
 }

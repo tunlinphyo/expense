@@ -180,6 +180,36 @@ export class ExpenseService {
         })
     }
 
+    static async getTotalAmount(userId: string, q: ExpenseQuery): Promise<number> {
+        const constraints: any[] = [
+            orderBy("date", "desc")
+        ]
+
+        if (q.year) {
+            const start = new Date(q.year, q.month ?? 1, 1)
+            const end = q.month != null
+                ? new Date(q.year, q.month + 1, 0, 23, 59, 59)
+                : new Date(q.year, 11, 31, 23, 59, 59)
+
+            constraints.push(
+                where("date", ">=", Timestamp.fromDate(start)),
+                where("date", "<=", Timestamp.fromDate(end))
+            )
+        }
+
+        if (q.categories?.length) {
+            constraints.push(where("categoryId", "in", q.categories.slice(0, 10)))
+        }
+
+        const ref = this.collectionRef(userId)
+        const snap = await getDocs(query(ref, ...constraints))
+
+        return snap.docs.reduce((total, doc) => {
+            const data = doc.data()
+            return total + (data.amount || 0)
+        }, 0)
+    }
+
     static async paginatedQuery(
         userId: string,
         q: ExpenseQuery,
@@ -194,7 +224,7 @@ export class ExpenseService {
         if (lastDoc) constraints.push(startAfter(lastDoc))
 
         if (q.year) {
-            const start = Timestamp.fromDate(new Date(q.year, q.month ? q.month : 1, 1))
+            const start = Timestamp.fromDate(new Date(q.year, q.month ?? 1, 1))
             const end = Timestamp.fromDate(
                 q.month
                     ? new Date(q.year, q.month + 1, 0, 23, 59, 59)
@@ -226,35 +256,6 @@ export class ExpenseService {
             docSnap: expenseSnap.docs.at?.(-1) || null,
             hasMore
         }
-    }
-
-    static async getDailyTotals(
-        userId: string,
-        year: number,
-        month: number
-    ): Promise<Record<string, number>> {
-        const start = new Date(year, month - 1, 1)
-        const end = new Date(year, month, 0, 23, 59, 59)
-        const timestampStart = Timestamp.fromDate(start)
-        const timestampEnd = Timestamp.fromDate(end)
-
-        const q = query(
-            this.collectionRef(userId),
-            where("date", ">=", timestampStart),
-            where("date", "<=", timestampEnd)
-        )
-
-        const snap = await getDocs(q)
-        const daily: Record<string, number> = {}
-
-        for (const docSnap of snap.docs) {
-            const data = docSnap.data() as ExpenseType
-            const date = (data.date as any as Timestamp).toDate()
-            const key = date.toISOString().slice(0, 10) // YYYY-MM-DD
-            daily[key] = (daily[key] ?? 0) + data.amount
-        }
-
-        return daily
     }
 
     static async monthlyTotal(userId: string, year: number): Promise<Record<string, number>> {

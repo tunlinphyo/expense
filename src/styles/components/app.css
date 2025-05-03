@@ -102,6 +102,12 @@ body:has(category-modal[modal-open]) {
         transition-timing-function: ease;
         transition-property: translate, scale;
 
+        :where(main-page) > header {
+            & h2 {
+                font-size: var(--text-lg);
+            }
+        }
+
         /* outline: 4px solid hotpink;
         outline-offset: -4px; */
 
