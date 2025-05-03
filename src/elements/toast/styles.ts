@@ -12,12 +12,13 @@ export const popoverStyles = css`
         left: 50%;
         box-shadow: var(--shadow-4);
         background-color: var(--bg-popover);
+        font-family: var(--font-family);
 
         translate: -50% -20px;
         opacity: 0;
 
         transition-behavior: allow-discrete;
-        transition-duration: .25s;
+        transition-duration: .3s;
         transition-timing-function: ease;
         transform: translateZ(0);
     }

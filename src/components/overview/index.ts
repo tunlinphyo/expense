@@ -1,3 +1,4 @@
+import './overview-page'
 import './overview-yearly'
 import './overview-linechart'
 import './overview-monthly'

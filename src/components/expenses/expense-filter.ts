@@ -9,7 +9,7 @@ const hostStyles = css`
     date-display {
         font-size: var(--text-lg);
         color: var(--fg-color);
-        padding-inline: var(--size-2);
+        padding-inline: var(--size-3);
     }
 `
 

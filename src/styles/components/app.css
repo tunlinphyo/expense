@@ -9,15 +9,14 @@ expense-app {
     }
 }
 
-body:has(page-dialog[page-open]),
-body:has(categories-page[page-open]) {
+body:has(:where(page-dialog, overview-page, categories-page)[page-open]) {
     :is(nav-panel) {
         translate: -100px 0 !important;
+        transition-delay: 100ms;
     }
 }
 
-body:has(expense-modal[modal-open]),
-body:has(category-modal[modal-open]) {
+body:has(:where(modal-dialog, filter-modal, expense-modal, category-modal)[modal-open]) {
     :is(nav-panel) {
         scale: 0.88;
     }
@@ -82,6 +81,7 @@ body:has(category-modal[modal-open]) {
                 background-color: var(--secondary);
                 color: var(--bg-primary);
                 border: 2px solid var(--bg-glass);
+                /* box-shadow: 0 0 10px var(--secondary); */
                 border-radius: 50%;
                 padding: 0;
                 display: grid;

@@ -19,7 +19,7 @@ export class PageDialog extends HTMLElement {
         this.onTouchEnd = this.onTouchEnd.bind(this)
         this.onClick = this.onClick.bind(this)
 
-        this.render()
+        this.render()        
     }
 
     connectedCallback() {

@@ -1,4 +1,5 @@
 import { createContext } from "../context"
-import { ExpenseContext } from "../types"
+import type { ExpenseContext, OverviewContext } from "../types"
 
 export const expenseContext = createContext<ExpenseContext>('expense-context')
+export const overviewContext = createContext<OverviewContext>('overview-context')

@@ -58,9 +58,9 @@ export class ActionDialog extends HTMLElement {
                 ;(this as any).buttonClick?.(event)
             }
         }
-        if (target === this.dialog) {
-            this.closeModal()
-        }
+        // if (target === this.dialog) {
+        //     this.closeModal()
+        // }
     }
 
     private openAnimation(deltaY: number = 0) {

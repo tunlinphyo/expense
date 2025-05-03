@@ -98,8 +98,9 @@ expense-group {
 
         background-color: var(--bg-card);
         border-radius: var(--radius-5);
-        border: 1px solid var(--bg-accent);
         padding: var(--size-2);
+        outline: 2px solid var(--bg-primary);
+        /* box-shadow: 0 0 5px var(--bg-primary); */
 
         display: flex;
         justify-content: space-between;

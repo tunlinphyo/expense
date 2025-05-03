@@ -99,7 +99,9 @@ export class ModalDialog extends HTMLElement {
 
         this.startY = event.touches[0].clientY
         this.currentY = this.startY
-        if ((this.dialog.scrollTop || 0) > 0 && this.startY > 80) return
+        const top = this.dialog.offsetTop
+        if ((this.dialog.scrollTop || 0) > 0 && this.startY > top + 80) return
+        if (this.startY < (top - 10)) return
 
         this.isDragging = true
     }

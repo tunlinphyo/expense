@@ -1,42 +1,39 @@
+import { appToast } from ".."
+import { ContextConsumer } from "../../context"
 import { DateDisplay } from "../../elements"
 import { ExpenseService } from "../../firebase/expenseService"
+import { overviewContext } from "../../store/context"
 import { userSignal } from "../../store/signal"
-import { TotalExpense } from "../../types"
-import { wait } from "../../utils"
+import type { OverviewContext, TotalExpense } from "../../types"
+import { allSettles, wait } from "../../utils"
 import { OverviewLinechart } from "./overview-linechart"
-
 
 export class OverviewYearly extends HTMLElement {
     private year: number = new Date().getFullYear()
-    private observer?: IntersectionObserver
+    private consumer: ContextConsumer<OverviewContext>
 
     private titleEl: DateDisplay | null
     private chartEl: OverviewLinechart | null
 
+    private data: Record<string, number> | null = null
+
     constructor() {
         super()
+        this.consumer = new ContextConsumer<OverviewContext>(this, overviewContext)
         this.titleEl = this.querySelector<DateDisplay>('[data-line-title]')
         this.chartEl = this.querySelector<OverviewLinechart>('overview-linechart')
     }
 
     connectedCallback() {
-        this.observer = new IntersectionObserver((entries) => {
-            for (const entry of entries) {
-                this.toggleListeners(entry.isIntersecting)
-            }
-        }, {
-            root: null,
-            threshold: 0, // You can tweak this threshold
-        })
-
-        this.observer.observe(this)
-
         this.titleEl?.setAttribute('value', `${this.year}-01-01`)
+        this.consumer.subscribe((value) => {
+            this.toggleListeners(value.open)
+        })
     }
 
     disconnectedCallback() {
-        this.observer?.disconnect()
         this.chartEl?.distory()
+        this.consumer.unsubscribe()
     }
 
     private toggleListeners(inView: boolean) {
@@ -49,9 +46,19 @@ export class OverviewYearly extends HTMLElement {
 
     private async loadData(year: number) {
         this.toggleAttribute('data-loading', true)
-        const result = await ExpenseService.monthlyTotal(userSignal.get(), year)
-        await wait()
-        const list: TotalExpense[] = Object.entries(result).map(([id, total]) => ({
+        if (!this.data) {
+            const promises = [
+                ExpenseService.monthlyTotal(userSignal.get(), year),
+                wait()
+            ]
+            const success = await allSettles<Record<string, number>>(promises, (result) => {
+                this.data = result
+            })
+
+            if (!success) appToast.showMessage('Error', null, true)
+        }
+        if (!this.data) return 
+        const list: TotalExpense[] = Object.entries(this.data).map(([id, total]) => ({
             id,
             date: new Date(`${id}-01`),
             total

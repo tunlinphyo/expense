@@ -17,3 +17,9 @@ export type TotalExpense = {
     date: Date;
     total: number;
 }
+
+export type MonthlyResult = Record<string, { category: CategoryType, total: number }>
+
+export type OverviewContext = {
+    open: boolean
+}

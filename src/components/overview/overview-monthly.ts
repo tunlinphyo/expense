@@ -1,21 +1,23 @@
-import type { CategoryTotal } from "../../types"
+import type { CategoryTotal, MonthlyResult, OverviewContext } from "../../types"
 import { DateDisplay, MonthPicker } from "../../elements"
 import { ExpenseService } from "../../firebase/expenseService"
 import { userSignal } from "../../store/signal"
 import { DoughnutChart } from "./doughnut-chart"
 import { OverviewList } from "./overview-list"
-import { wait } from "../../utils"
-
+import { allSettles, wait } from "../../utils"
+import { appToast } from ".."
+import { ContextConsumer } from "../../context"
+import { overviewContext } from "../../store/context"
 
 export class OverviewMonthly extends HTMLElement {
+    private consumer: ContextConsumer<OverviewContext>
     private titleEl: DateDisplay | null
     private monthPicker: MonthPicker | null
     private doughnutChart: DoughnutChart | null
 
-    private observer?: IntersectionObserver
-
     constructor() {
         super()
+        this.consumer = new ContextConsumer<OverviewContext>(this, overviewContext)
         this.titleEl = this.querySelector<DateDisplay>('date-display')
         this.monthPicker = this.querySelector<MonthPicker>('month-picker')
         this.doughnutChart = this.querySelector<DoughnutChart>('doughnut-chart')
@@ -24,16 +26,9 @@ export class OverviewMonthly extends HTMLElement {
     }
 
     connectedCallback() {
-        this.observer = new IntersectionObserver((entries) => {
-            for (const entry of entries) {
-                this.toggleListeners(entry.isIntersecting)
-            }
-        }, {
-            root: null,
-            threshold: 0,
+        this.consumer.subscribe(value => {
+            this.toggleListeners(value.open)
         })
-
-        this.observer.observe(this)
     }
 
     disconnectedCallback() {
@@ -74,16 +69,21 @@ export class OverviewMonthly extends HTMLElement {
         const [y, m] = monthString.split('-')
         const year = Number(y)
         const month = Number(m)
-        const result = await ExpenseService.categoryTotal(userSignal.get(), year, month)
-        await wait()
-        const list: CategoryTotal[] = Object.entries(result).map(([id, data]) => ({
-            id,
-            category: data.category,
-            total: data.total
-        }))
-        if (this.doughnutChart) this.doughnutChart.list = list
-        this.renderTotal(list)
-        this.renderList(list)
+        const promises = [
+            ExpenseService.categoryTotal(userSignal.get(), year, month),
+            wait()
+        ]
+        const success = await allSettles<MonthlyResult>(promises, (result) => {
+            const list: CategoryTotal[] = Object.entries(result).map(([id, data]) => ({
+                id,
+                category: data.category,
+                total: data.total
+            }))
+            if (this.doughnutChart) this.doughnutChart.list = list
+            this.renderTotal(list)
+            this.renderList(list)
+        })
+        if (!success) appToast.showMessage('Error', null, true)
 
         this.toggleAttribute('data-loading', false)
     }

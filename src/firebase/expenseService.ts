@@ -14,7 +14,7 @@ import {
 } from "firebase/firestore"
 import { QueryConstraint, limit, orderBy, startAfter } from "firebase/firestore"
 import { db } from "./firebase"
-import type { ExpenseType, ExpenseQuery, CategoryType } from "../types"
+import type { ExpenseType, ExpenseQuery, CategoryType, MonthlyResult } from "../types"
 import { v4 as uuidv4 } from "uuid"
 import { CategoryService } from "./categoryService"
 
@@ -287,7 +287,7 @@ export class ExpenseService {
         return monthlyTotals
     }
 
-    static async categoryTotal(userId: string, year: number, month: number): Promise<Record<string, { category: CategoryType, total: number }>> {
+    static async categoryTotal(userId: string, year: number, month: number): Promise<MonthlyResult> {
         const start = new Date(year, month - 1, 1)
         const end = new Date(year, month, 0, 23, 59, 59)
 
@@ -326,7 +326,7 @@ export class ExpenseService {
             )
         }
 
-        const categoryTotals: Record<string, { category: CategoryType, total: number }> = {}
+        const categoryTotals: MonthlyResult = {}
 
         for (const expense of rawExpenses) {
             const category = categoryMap[expense.categoryId]

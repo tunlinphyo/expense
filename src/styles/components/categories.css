@@ -82,6 +82,9 @@
 
     .sticky-container {
         overflow: hidden;
+        transform: translateZ(0);
+        /* position: fixed;
+        right: 0; */
 
         & button[data-button] {
             pointer-events: auto;
@@ -90,6 +93,7 @@
             border-radius: 50%;
             background-color: var(--primary);
             border: 2px solid var(--bg-glass);
+            /* box-shadow: 0 0 10px var(--primary); */
             color: var(--bg-card);
 
             display: grid;

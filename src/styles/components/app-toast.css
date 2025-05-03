@@ -1,6 +1,7 @@
 app-toast {
     .toast {
         --default: light-dark(var(--fg-primary), var(--primary));
+        --icon-color: var(--primary);
         color: var(--color, var(--default));
         padding: var(--size-1);
 
@@ -10,17 +11,19 @@ app-toast {
         gap: var(--size-2);
 
         .icon {
-            width: 36px;
+            width: 38px;
             aspect-ratio: 1;
             border-radius: 50%;
             background-color: light-dark(var(--gray-6), var(--gray-5));
+            background-color: color-mix(in srgb, var(--icon-color) 10%, transparent);
 
             display: grid;
             place-content: center;
 
-            /* & svg-icon {
-                opacity: .8;
-            } */
+            & svg-icon {
+                color: var(--icon-color);
+                /* filter: drop-shadow(0 0 4px var(--primary)); */
+            }
         }
 
         & span {
@@ -32,8 +35,15 @@ app-toast {
             line-height: 1.2;
         }
 
+        &.check-circle {
+            --icon-color: var(--color-green);
+            --color: var(--fg-primary);
+        }
+
         &.toast--error {
+            --icon-color: var(--color-red);
             --color: var(--color-red);
         }
+
     }
 }

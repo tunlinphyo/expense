@@ -51,7 +51,7 @@
         border-radius: var(--radius-4);
         background-color: var(--bg-card);
         margin-block-start: var(--size-5);
-        padding: var(--size-7) var(--size-4);
+        padding: var(--size-3) var(--size-4) var(--size-6);
         position: relative;
         display: block;
 
@@ -60,6 +60,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            min-height: 50px;
 
             & h3 {
                 font-size: var(--text-lg);
@@ -85,8 +86,10 @@
                 aspect-ratio: 1 / 1;
                 border-radius: 50%;
                 background-color: var(--bg-doughnut);
+                border: 1px solid var(--border-doughnut);
+                /* box-shadow: 0 0 16px var(--primary); */
                 /* box-shadow: var(--shadow-3); */
-                box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+                /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
 
                 display: flex;
                 justify-content: center;

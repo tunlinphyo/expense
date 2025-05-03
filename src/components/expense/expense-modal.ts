@@ -1,4 +1,4 @@
-import { actionSheet, appLoading } from ".."
+import { actionSheet, appLoading, appToast } from ".."
 import { ModalDialog } from "../../elements"
 import { ExpenseService } from "../../firebase/expenseService"
 import { userSignal } from "../../store/signal"
@@ -64,7 +64,6 @@ export class ExpenseModal extends ModalDialog {
                             date: dateWithTime,
                             note: data.note
                         }
-                        console.log("NEW_EXP", data.date, expense)
                         this.addExpense(expense)
                     }
                 } catch (e) {
@@ -93,6 +92,7 @@ export class ExpenseModal extends ModalDialog {
         appLoading.hide()
         this.closeModal()
         this.formEl.clear()
+        appToast.showMessage('Expense added', 'check-circle')
     }
 
     private async updateExpense(id: string, expense: Partial<Omit<ExpenseType, "id">>) {
@@ -102,6 +102,7 @@ export class ExpenseModal extends ModalDialog {
         this.closeModal()
         this.formEl.clear()
         this.toggleAction(false)
+        appToast.showMessage('Expense updated', 'check-circle')
     }
 
     private async deleteExpense(id: string) {
@@ -109,6 +110,7 @@ export class ExpenseModal extends ModalDialog {
         await ExpenseService.deleteExpense(userSignal.get(), id)
         appLoading.hide()
         this.closeModal()
+        appToast.showMessage('Expense deleted')
     }
 
     private toggleAction(is: boolean) {

@@ -161,7 +161,7 @@ export const calendarStyle = css`
         &.cell-title {
             color: var(--fg-accent);
             text-transform: uppercase;
-            font-size: var(--text-xs);
+            font-size: var(--text-sm);
             font-weight: bold;
         }
 

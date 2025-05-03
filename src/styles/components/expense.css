@@ -21,22 +21,14 @@ filter-form.custom-form {
 
         transition: background-color var(--ease-time-xs) ease;
 
-        .icon-container {
-            margin-block: var(--size-2);
-            width: 96px;
-            height: 96px;
-            border-radius: 50%;
-            color: var(--bg-card);
+        :where(category-icon) {
             border: 2px solid var(--bg-card);
-
-            display: grid;
-            place-content: center;
         }
 
         .category-name-lg {
             margin-block: var(--size-1) var(--size-3);
             min-height: var(--size-6);
-            color: var(--bg-primary);
+            color: var(--bg-card);
             font-size: var(--text-lg);
             font-weight: bold;
         }
@@ -60,7 +52,7 @@ filter-form.custom-form {
                 line-height: 1;
                 padding-bottom: 5px;
                 border-radius: var(--radius-3);
-                /* text-shadow: 0 0 1px var(--fg-accent); */
+                /* box-shadow: inset 0 2px 4px 2px var(--gray-5); */
 
                 &::placeholder {
                     color: var(--fg-primary);

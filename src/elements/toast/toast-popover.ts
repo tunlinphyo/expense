@@ -31,19 +31,19 @@ export class ToastPopover extends HTMLElement {
         this.removeEventListener('touchend', this.onTouchEnd)
     }
 
-    showToast() {
+    showToast(delay: number = 4000) {
         const isOpen = this.matches(':popover-open')
         if (isOpen) {
             this.hideToast()
 
             const onEnd = () => {
-                this.withAutoHide()
+                this.withAutoHide(delay)
                 this.removeEventListener('transitionend', onEnd)
             }
 
             this.addEventListener('transitionend', onEnd)
         } else {
-            this.withAutoHide()
+            this.withAutoHide(delay)
         }
     }
 
@@ -52,12 +52,12 @@ export class ToastPopover extends HTMLElement {
         this.hidePopover()
     }
 
-    private withAutoHide() {
+    private withAutoHide(delay: number = 4000) {
         clearTimeout(this.timeout)
         this.showPopover()
         this.timeout = setTimeout(() => {
             this.hideToast()
-        }, 4000)
+        }, delay)
     }
 
     private render() {
