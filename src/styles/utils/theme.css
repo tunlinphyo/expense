@@ -44,7 +44,6 @@
     --bg-loading: light-dark(var(--white), var(--gray-6));
     --bg-wave: light-dark(var(--gray-6), var(--gray-5));
 
-
     @media (prefers-reduced-transparency: reduce) {
         --glass-alpha: 1;
     }
