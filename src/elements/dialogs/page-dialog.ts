@@ -1,5 +1,6 @@
 import { html } from "../../utils"
 import { AppNumber } from "../../utils/number"
+import { pageIn, pageOut } from "../animation"
 import { hostStyles, pageStyles } from "./styles"
 
 export class PageDialog extends HTMLElement {
@@ -103,9 +104,9 @@ export class PageDialog extends HTMLElement {
         if (x > 0) {
             event.preventDefault()
 
-            this.dialog.style.translate = `${AppNumber.mapRange(x,0,window.innerWidth,0,80)}px ${AppNumber.mapRange(x,0,window.innerWidth,0,-20)}px `
+            this.dialog.style.translate = `${AppNumber.mapRange(x,0,window.innerWidth,0,80)}px ${AppNumber.mapRange(x,0,window.innerWidth,0,-20)}px`
             this.dialog.style.scale = `${AppNumber.mapRange(x,0,200,1,0.88)}`
-            this.dialog.style.borderRadius = `${AppNumber.mapRange(Math.min(x,200),0,200,0,32)}px`
+            this.dialog.style.borderRadius = `${AppNumber.mapRange(Math.min(x,200),0,200,0,24)}px`
             this.dialog.style.overflow = 'hidden'
         }
     }
@@ -127,36 +128,13 @@ export class PageDialog extends HTMLElement {
     }
 
     private openAnimation(deltaX: number = 0, deltaY: number = 0) {
-        const computed = getComputedStyle(this.dialog)
-        const scale = computed.scale
-        const borderRadius = computed.borderRadius
-
-        this.dialog.removeAttribute('style')
-
-        return this.dialog.animate([
-            { translate: `${deltaX || 100 }px ${deltaY}px`, opacity: deltaX > 0 ? 1 : 0, scale, borderRadius },
-            { translate: '0 0', opacity: 1, scale: 1, borderRadius: 0 },
-        ], {
-            duration: 200,
-            easing: 'ease'
-        })
+        return pageIn(this.dialog, deltaX, deltaY)
     }
 
     private closeAnimation(deltaX: number = 0, deltaY: number = 0) {
-        const computed = getComputedStyle(this.dialog)
-        const scale = computed.scale
-        const borderRadius = computed.borderRadius
-
-        this.dialog.removeAttribute('style')
         this.dialog.classList.add('closing')
 
-        return this.dialog.animate([
-            { translate: `${deltaX}px ${deltaY}px`, opacity: 1, scale, borderRadius },
-            { translate: `${deltaX}px 0`, opacity: 0, scale, borderRadius },
-        ], {
-            duration: 200,
-            easing: 'ease'
-        })
+        return pageOut(this.dialog, deltaX, deltaY)
     }
 }
 

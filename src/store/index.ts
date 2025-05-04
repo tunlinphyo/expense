@@ -4,6 +4,7 @@ import { observeAuthState } from "../firebase/authService"
 import { CategoryService } from "../firebase/categoryService"
 import { ColorService } from "../firebase/colorService"
 import { IconService } from "../firebase/iconService"
+import { showLoginModal } from "./login"
 import { categorySignal, colorsSignal, currencySignal, iconsSignal, userSignal } from "./signal"
 
 
@@ -21,6 +22,13 @@ export const appStore = async () => {
     observeAuthState(async (user) => {
         appUnsubscribe?.()
         cateogryUnsubscribe?.()
+
+        removeSplash()
+        if (!user) {
+            const status = await showLoginModal()
+            console.log('STATUS', status)
+            if (status) return
+        }
 
         const userId = user?.uid || 'guest'
         if (!initLoaded) {
@@ -45,8 +53,6 @@ export const appStore = async () => {
         cateogryUnsubscribe = CategoryService.onCategoryChange(userId, () => {
             getCategories(userId)
         })
-
-        removeSplash()
     })
 }
 

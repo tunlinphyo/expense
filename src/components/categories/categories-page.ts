@@ -43,12 +43,12 @@ export class CategoriesPage extends PageDialog {
     }
 
     private scaleAnimate(isOpen: boolean) {
-        const open = { scale: 0.88, opacity: 1, borderRadius: '1.5rem' }
+        const open = { scale: "var(--modal-scale)", opacity: 1, borderRadius: '1.5rem' }
         const base = { scale: 1, opacity: 1, borderRadius: '0' }
 
         const animation = this.dialog.animate(isOpen ? [base, open] : [open, base], {
             duration: 200,
-            easing: 'ease',
+            easing: 'ease-out',
         })
 
         animation.finished.then(() => {

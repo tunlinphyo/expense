@@ -4,6 +4,7 @@ export { SplashScreen } from './splash-screen'
 import { ActionSheet } from './action-sheet'
 import { AppLoading } from './app-loading'
 import { AppToast } from './app-toast'
+import { LoginModal } from './login-modal'
 
 import './splash-screen'
 import './expense-app'
@@ -21,7 +22,9 @@ import './overview'
 import './action-sheet'
 import './app-loading'
 import './app-toast'
+import './login-modal'
 
 export const actionSheet = document.getElementById('actionSheet') as ActionSheet
 export const appLoading = document.getElementById('appLoading') as AppLoading
 export const appToast = document.getElementById('appToast') as AppToast
+export const loginModal = document.getElementById('loginModal') as LoginModal

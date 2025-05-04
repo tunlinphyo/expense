@@ -64,13 +64,13 @@ export class ActionDialog extends HTMLElement {
     }
 
     private openAnimation(deltaY: number = 0) {
-        return modalIn(this.dialog, deltaY)
+        return modalIn(this.dialog, deltaY, true)
     }
 
     private closeAnimation(deltaY: number = 0) {
         this.dialog.classList.add('closing')
 
-        return modalOut(this.dialog, deltaY)
+        return modalOut(this.dialog, deltaY, true)
     }
 }
 

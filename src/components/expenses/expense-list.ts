@@ -30,6 +30,7 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
     }
     private unsubscribe?: () => void
     private expenseUnsubscribe?: () => void
+    private ids: string[] = []
 
     private pageStack: any[] = []
     private hasMore = true
@@ -69,13 +70,14 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
             this.loadExpenses('current')
             this.fetchTotal()
 
-            this.expenseUnsubscribe = ExpenseService.onExpenseChange(userSignal.get(), (type) => {
+            this.expenseUnsubscribe = ExpenseService.onExpenseChange(userSignal.get(), ({type, id}) => {
+                const is = this.ids.includes(id)
                 const isCurrent = ["removed", "modified"].includes(type)
-                if (isCurrent) {
-                    this.loadExpenses('current')
+                if (isCurrent && is) {
+                    this.loadExpenses('current', is)
                 } else {
                     this.resetDBQuery()
-                    this.loadExpenses('next')
+                    this.loadExpenses('next', is)
                 }
                 this.fetchTotal()
             })
@@ -99,7 +101,7 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
         this.prepend(this.loadingEl)
     }
 
-    private async loadExpenses(direction: 'next' | 'prev' | 'current' = 'next') {
+    private async loadExpenses(direction: 'next' | 'prev' | 'current' = 'next', isSilent: boolean = false) {
         console.log('::::::::::EXPENSE::::::::::')
         const categoryMap = categorySignal.get()
         if (isEmptyObject(categoryMap)) {
@@ -110,7 +112,7 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
             return
         }
 
-        if (!this.loadingEl) this.appendLoading()
+        if (!this.loadingEl && !isSilent) this.appendLoading()
 
         try {
             if (direction === 'prev') {
@@ -139,6 +141,7 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
                 this.list = list
                 this.pageStack.push(expenses.docSnap)
                 this.hasMore = expenses.hasMore
+                this.ids = list.map(item => item.id)
             })
             if (!success) appToast.showMessage('Fetch error', null, true)
         } catch (error) {

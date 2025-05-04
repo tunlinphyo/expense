@@ -159,7 +159,7 @@ export class ExpenseService {
 
     static onExpenseChange(
         userId: string,
-        callback: (type: DocumentChangeType) => void
+        callback: (data: { type: DocumentChangeType, id: string }) => void
     ): () => void {
         let isFirstSnapshot = true
 
@@ -169,13 +169,14 @@ export class ExpenseService {
                 return
             }
 
-            const changes = snapshot.docChanges().map(change => {
-                return change.type
-            })
+            const changes = snapshot.docChanges()
 
             if (changes.length > 0) {
-                const data = changes[0]
-                callback(data)
+                const change = changes[0]
+                callback({
+                    type: change.type,
+                    id: change.doc.id
+                })
             }
         })
     }

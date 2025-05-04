@@ -40,7 +40,7 @@ export class OverviewYearly extends HTMLElement {
         if (inView) {
             this.loadData(this.year)
         } else {
-            this.chartEl?.distory()
+            this.chartEl?.distory?.()
         }
     }
 

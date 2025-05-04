@@ -5,6 +5,7 @@ export * from './list'
 export * from './form'
 export * from './datepicker'
 export * from './toast'
+export * from './animation'
 
 import './tabs'
 import './icon'

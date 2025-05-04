@@ -1,4 +1,6 @@
 #settings {
+    padding-block-end: 120px;
+
     .user-card {
         margin-block: var(--size-6);
         padding: var(--size-7) var(--size-5);
@@ -29,7 +31,7 @@
 
     .actions-list {
         margin: 0;
-        margin-block-start: var(--size-5);
+        margin-block: var(--size-5);
         padding: 0;
         list-style: none;
 
@@ -43,7 +45,7 @@
                 border-bottom: 1px solid var(--bg-primary);
             }
 
-            & :where(button[data-button=page], button[data-button=select]) {
+            & button:where([data-button=page], [data-button=modal], [data-button=select]) {
                 border: none;
                 background-color: transparent;
 

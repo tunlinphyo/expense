@@ -7,6 +7,7 @@ import { currencySignal, userSignal } from "../../store/signal"
 import { ExpenseType } from "../../types"
 import { allSettles, wait } from "../../utils"
 import { AppDate } from "../../utils/date"
+import { ExpenseModal } from "./expense-modal"
 
 type FormExpense = Omit<ExpenseType, 'amount' | 'date' | 'category'> & {
     amount: string;
@@ -29,6 +30,7 @@ export class ExpenseForm extends ReactiveForm {
     }
     private unsubscribe?: () => void
     private _initialDate: Date | null = null
+    private expenseUnsubscribe?: () => void
 
     static get observedAttributes(): string[] {
         return ['id']
@@ -46,12 +48,29 @@ export class ExpenseForm extends ReactiveForm {
         this.unsubscribe = effect(() => {
             this.updateCurrencySign(currencySignal.get())
         }, [currencySignal])
+
+        this.expenseUnsubscribe = ExpenseService.onExpenseChange(userSignal.get(), ({type, id}) => {
+            const currId = this.getAttribute('id')
+            if (currId === id) {
+                if (type === 'removed') {
+                    const elem = this.closest('expense-modal') as ExpenseModal | null
+                    if (elem) {
+                        elem.closeModal()
+                        appToast.showMessage('Expense deleted', null, true)
+                    }
+                }
+                if (type === 'modified') {
+                    this.setExpense(id, true)
+                }
+            }
+        })
     }
 
     disconnectedCallback() {
         super.disconnectedCallback()
         this.removeEventListener('change', this.onCategoryChange)
         this.unsubscribe?.()
+        this.expenseUnsubscribe?.()
     }
 
     clear() {
@@ -94,8 +113,8 @@ export class ExpenseForm extends ReactiveForm {
         }
     }
 
-    private async setExpense(id: string) {
-        this.setAttribute('data-loading', '')
+    private async setExpense(id: string, isSilent: boolean = false) {
+        if (!isSilent) this.setAttribute('data-loading', '')
         const promises = [
             ExpenseService.getExpense(userSignal.get(), id),
             wait()
@@ -120,7 +139,7 @@ export class ExpenseForm extends ReactiveForm {
             appToast.showMessage('Error occur', null, true)
             this.setFormData(this.defaultData)
         }
-        this.removeAttribute('data-loading')
+        if (!isSilent) this.removeAttribute('data-loading')
     }
 
     private childrenSettled(callback: () => void) {

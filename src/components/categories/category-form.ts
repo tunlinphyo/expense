@@ -4,6 +4,7 @@ import { CategoryService } from "../../firebase/categoryService"
 import { userSignal } from "../../store/signal"
 import { CategoryType } from "../../types"
 import { allSettles, wait } from "../../utils"
+import { CategoryModal } from "./category-modal"
 
 type FormCateogry = Omit<CategoryType, 'order'>
 
@@ -14,6 +15,7 @@ export class CategoryForm extends ReactiveForm {
         color: 'blue',
         icon: 'list',
     }
+    private unsubscribe?: () => void
 
     static get observedAttributes(): string[] {
         return ['id']
@@ -43,8 +45,32 @@ export class CategoryForm extends ReactiveForm {
         }
     }
 
-    private async setCategory(id: string) {
-        this.setAttribute('data-loading', '')
+    connectedCallback() {
+        super.connectedCallback()
+        this.unsubscribe = CategoryService.onCategoryChange(userSignal.get(), ({type, id}) => {
+            const currId = this.getAttribute('id')
+            if (currId === id) {
+                if (type === 'removed') {
+                    const elem = this.closest('category-modal') as CategoryModal | null
+                    if (elem) {
+                        elem.closeModal()
+                        appToast.showMessage('Category deleted', null, true)
+                    }
+                }
+                if (type === 'modified') {
+                    this.setCategory(id, true)
+                }
+            }
+        })
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback()
+        this.unsubscribe?.()
+    }
+
+    private async setCategory(id: string, isSilent: boolean = false) {
+        if (!isSilent) this.setAttribute('data-loading', '')
         const promises = [
             CategoryService.getCategory(userSignal.get(), id),
             wait()
@@ -56,7 +82,7 @@ export class CategoryForm extends ReactiveForm {
             appToast.showMessage('Error occur', null, true)
             this.setFormData(this.defaultData)
         }
-        this.removeAttribute('data-loading')
+        if (!isSilent) this.removeAttribute('data-loading')
     }
 
     private childrenSettled(callback: () => void) {

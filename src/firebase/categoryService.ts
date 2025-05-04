@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, setDoc, deleteDoc, onSnapshot, updateDoc, query, orderBy, writeBatch, where } from "firebase/firestore"
+import { collection, doc, getDoc, getDocs, setDoc, deleteDoc, onSnapshot, updateDoc, query, orderBy, writeBatch, where, DocumentChangeType } from "firebase/firestore"
 import { db } from "./firebase"
 import type { CategoryType } from "../types"
 import { v4 as uuidv4 } from "uuid"
@@ -85,16 +85,25 @@ export class CategoryService {
 
     static onCategoryChange(
         userId: string,
-        callback: () => void
+        callback: (data: { type: DocumentChangeType, id: string }) => void
     ): () => void {
         let isFirstSnapshot = true
         
-        return onSnapshot(this.collectionRef(userId), () => {
+        return onSnapshot(this.collectionRef(userId), (snapshot) => {
             if (isFirstSnapshot) {
                 isFirstSnapshot = false
                 return
             }
-            callback()
+            
+            const changes = snapshot.docChanges()
+
+            if (changes.length > 0) {
+                const change = changes[0]
+                callback({
+                    type: change.type,
+                    id: change.doc.id
+                })
+            }
         })
     }
 }

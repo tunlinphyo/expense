@@ -1,14 +1,14 @@
-import { html } from "../../utils"
-import { modalIn, modalOut } from "../animation"
-import { hostStyles, modalStyles } from "./styles"
 
-export class ModalDialog extends HTMLElement {
+import { modalIn, modalOut } from "../animation"
+import { hostStyles, scrollModalStyles } from "./styles"
+
+export class ScrollModal extends HTMLElement {
     private renderRoot: ShadowRoot
     protected dialog: HTMLDialogElement
     private startY: number = 0
     private currentY: number = 0
     private isDragging: boolean = false
-    private undraggable: boolean = false
+    private touchTracker!: HTMLElement
 
     static get touchDisabledTags(): string[] {
         return []
@@ -18,6 +18,7 @@ export class ModalDialog extends HTMLElement {
         super()
         this.renderRoot = this.attachShadow({ mode: 'open' })
         this.dialog = document.createElement('dialog')
+        this.touchTracker = document.createElement('div')
 
         this.onTouchStart = this.onTouchStart.bind(this)
         this.onTouchMove = this.onTouchMove.bind(this)
@@ -28,22 +29,22 @@ export class ModalDialog extends HTMLElement {
     }
 
     connectedCallback() {
-        this.undraggable = this.hasAttribute('undraggable')
-        this.dialog.addEventListener('touchstart', this.onTouchStart, true)
-        this.dialog.addEventListener('touchmove', this.onTouchMove, true)
+        this.dialog.addEventListener('touchstart', this.onTouchStart)
+        this.dialog.addEventListener('touchmove', this.onTouchMove)
         this.dialog.addEventListener('touchend', this.onTouchEnd)
         this.dialog.addEventListener('click', this.onClick)
     }
 
     disconnectedCallback() {
-        this.dialog.removeEventListener('touchstart', this.onTouchStart, true)
-        this.dialog.removeEventListener('touchmove', this.onTouchMove, true)
+        this.dialog.removeEventListener('touchstart', this.onTouchStart)
+        this.dialog.removeEventListener('touchmove', this.onTouchMove)
         this.dialog.removeEventListener('touchend', this.onTouchEnd)
         this.dialog.removeEventListener('click', this.onClick)
     }
 
     openModal() {
         this.dialog.showModal()
+        this.dialog.scrollTo({ top: 0, behavior: 'instant' })
         this.toggleAttribute('modal-open', true)
         this.openAnimation()
     }
@@ -63,17 +64,17 @@ export class ModalDialog extends HTMLElement {
     }
 
     protected render() {
-        this.renderRoot.adoptedStyleSheets = [ hostStyles, modalStyles ]
-        const elem = html`
-            <slot name="header"></slot>
-            <section>
-                <slot></slot>
-            </section>
-        `
+        this.renderRoot.adoptedStyleSheets = [ hostStyles, scrollModalStyles ]
+        const sectionEl = document.createElement('section')
+        sectionEl.setAttribute('data-no-scrollbar', '')
+        sectionEl.innerHTML = `<slot></slot>`
         if (this.querySelector('.modal-header'))
             this.dialog.classList.add('has-header')
+
+        this.touchTracker.classList.add('touch-tracker')
+        sectionEl.prepend(this.touchTracker)
         
-        this.dialog.appendChild(elem)
+        this.dialog.appendChild(sectionEl)
         this.renderRoot.appendChild(this.dialog)
     }
 
@@ -87,24 +88,23 @@ export class ModalDialog extends HTMLElement {
             }
         }
         if (target === this.dialog) {
-            if (this.undraggable) return
             this.closeModal()
         }
     }
 
     private onTouchStart(event: TouchEvent): void {
         const target = event.target as HTMLElement
-        const touchDisabled = (this.constructor as typeof ModalDialog).touchDisabledTags
-        if (touchDisabled.includes(target.tagName.toLowerCase())) return
-
         if (event.touches.length !== 1) return
-        if (this.undraggable) return
 
         this.startY = event.touches[0].clientY
         this.currentY = this.startY
-        const top = this.dialog.offsetTop
-        if ((this.dialog.scrollTop || 0) > 0 && this.startY > top + 80) return
-        if (this.startY < (top - 10)) return
+        const elem = this.dialog.querySelector<HTMLElement>('dialog section')!
+        const top = elem.offsetTop
+        
+        if (target !== this.touchTracker) {
+            if ((this.dialog.scrollTop || 0) > 0 && this.startY > top + 80) return
+            if (this.startY < (top - 10)) return
+        }
 
         this.isDragging = true
     }
@@ -127,7 +127,7 @@ export class ModalDialog extends HTMLElement {
         const deltaY = this.currentY - this.startY
         this.isDragging = false
 
-        if (deltaY > this.dialog.clientHeight * 0.3) {
+        if (deltaY > this.dialog.clientHeight * 0.25) {
             this.closeModal(deltaY)
         } else if (deltaY > 1) {
             this.openAnimation(deltaY)
@@ -145,4 +145,4 @@ export class ModalDialog extends HTMLElement {
     }
 }
 
-customElements.define('modal-dialog', ModalDialog)
+customElements.define('scroll-modal', ScrollModal)

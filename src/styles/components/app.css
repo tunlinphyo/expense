@@ -11,14 +11,13 @@ expense-app {
 
 body:has(:where(page-dialog, overview-page, categories-page)[page-open]) {
     :is(nav-panel) {
-        translate: -100px 0 !important;
-        transition-delay: 100ms;
+        translate: calc(var(--page-x) * -1) 0 !important;
     }
 }
 
-body:has(:where(modal-dialog, filter-modal, expense-modal, category-modal)[modal-open]) {
+body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category-modal, scroll-modal)[modal-open]) {
     :is(nav-panel) {
-        scale: 0.88;
+        scale: var(--modal-scale);
     }
 }
 
@@ -95,6 +94,7 @@ body:has(:where(modal-dialog, filter-modal, expense-modal, category-modal)[modal
         position: fixed;
         inset: 0;
         overflow-y: auto;
+        overscroll-behavior: contain;
         min-width: 100vw;
 
         transition-behavior: allow-discrete;
@@ -113,7 +113,7 @@ body:has(:where(modal-dialog, filter-modal, expense-modal, category-modal)[modal
 
         &[data-page-expenses] {
             &[hidden] {
-                translate: -100px 0;
+                translate: calc(var(--page-x) * -1) 0;
                 opacity: 0;
             }
 
@@ -122,7 +122,7 @@ body:has(:where(modal-dialog, filter-modal, expense-modal, category-modal)[modal
                 opacity: 1;
 
                 @starting-style {
-                    translate: -100px 0;
+                    translate: calc(var(--page-x) * -1) 0;
                     opacity: 0;
                 }
             }
@@ -130,7 +130,7 @@ body:has(:where(modal-dialog, filter-modal, expense-modal, category-modal)[modal
 
         &[data-page-settings] {
             &[hidden] {
-                translate: 100px 0;
+                translate: var(--page-x) 0;
                 opacity: 0;
             }
 
@@ -140,7 +140,7 @@ body:has(:where(modal-dialog, filter-modal, expense-modal, category-modal)[modal
                 opacity: 1;
 
                 @starting-style {
-                    translate: 100px 0;
+                    translate: var(--page-x) 0;
                     opacity: 0;
                 }
             }

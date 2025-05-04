@@ -44,6 +44,9 @@
     --bg-loading: light-dark(var(--white), var(--gray-6));
     --bg-wave: light-dark(var(--gray-6), var(--gray-5));
 
+    --page-x: 100px;
+    --modal-scale: .88;
+
     @media (prefers-reduced-transparency: reduce) {
         --glass-alpha: 1;
     }

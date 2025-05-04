@@ -52,7 +52,7 @@ export class OverviewMonthly extends HTMLElement {
             const month = this.monthPicker?.value || ''
             if (month) this.loadData(month)
         } else {
-            this.doughnutChart?.distory()
+            this.doughnutChart?.distory?.()
             this.monthPicker?.removeEventListener('select', this.onMonthSelect)
         }
     }

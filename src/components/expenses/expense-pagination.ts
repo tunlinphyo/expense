@@ -12,7 +12,7 @@ export class ExpensePagination extends HTMLElement {
     private _state: PaginationState = {
         prevDisable: true,
         nextDisable: true,
-        page: 0
+        page: '01'
     }
 
     get state() {
