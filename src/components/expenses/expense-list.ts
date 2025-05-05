@@ -7,7 +7,6 @@ import { expenseContext } from "../../store/context"
 import { categorySignal, totalSignal, userSignal } from "../../store/signal"
 import { CategoryType, ExpenseContext, ExpenseQuery, ExpenseType } from "../../types"
 import { allSettles, deepEqual, html, isEmptyObject, raw, wait } from "../../utils"
-import { AppDate } from "../../utils/date"
 import { InlineLoading } from "../inline-loading"
 import { EMPTY_EXPENSE } from "../svg"
 import { PaginationState } from "./expense-pagination"
@@ -15,7 +14,6 @@ import { PaginationState } from "./expense-pagination"
 type ExpenseItem = {
     id: string
     item: ExpenseType
-    dateString: string
     category: CategoryType
 }
 
@@ -135,7 +133,6 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
                 const list = expenses.data.map(item => ({
                     id: item.id,
                     item: item,
-                    dateString: AppDate.monthDay(item.date),
                     category: categoryMap[item.categoryId]
                 }))
                 this.list = list

@@ -87,7 +87,7 @@
                                         ></category-icon>
                                         <div class="name">
                                             <span data-bind-text="category.name"></span>
-                                            <span class="date" data-bind-text="dateString"></span>
+                                            <date-display class="date" format="MMMM D" data-bind-attr="value:item.date"></date-display>
                                         </div>
                                         <currency-display class="amount" data-bind-attr="value:item.amount"></currency-display>
                                     </button>
