@@ -44,10 +44,29 @@
     --bg-loading: light-dark(var(--white), var(--gray-6));
     --bg-wave: light-dark(var(--gray-6), var(--gray-5));
 
-    --page-x: 100px;
+    --page-x: 150px;
     --modal-scale: .88;
+    --easing-x: var(--ease-2);
 
     @media (prefers-reduced-transparency: reduce) {
         --glass-alpha: 1;
     }
 }
+
+/* :root {
+    --ease-1: cubic-bezier(.25,0,.5,1);
+    --ease-2: cubic-bezier(.25,0,.4,1);
+    --ease-3: cubic-bezier(.25,0,.3,1);
+    --ease-4: cubic-bezier(.25,0,.2,1);
+    --ease-5: cubic-bezier(.25,0,.1,1);
+    --ease-in-1: cubic-bezier(.25,0,1,1);
+    --ease-in-2: cubic-bezier(.50,0,1,1);
+    --ease-in-3: cubic-bezier(.70,0,1,1);
+    --ease-in-4: cubic-bezier(.90,0,1,1);
+    --ease-in-5: cubic-bezier(1,0,1,1);
+    --ease-out-1: cubic-bezier(0,0,.75,1);
+    --ease-out-2: cubic-bezier(0,0,.50,1);
+    --ease-out-3: cubic-bezier(0,0,.3,1);
+    --ease-out-4: cubic-bezier(0,0,.1,1);
+    --ease-out-5: cubic-bezier(0,0,0,1);
+} */

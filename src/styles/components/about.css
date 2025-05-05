@@ -35,6 +35,12 @@
                 color: var(--primary);
                 text-decoration: none;
             }
+
+            & em {
+                font-style: normal;
+                text-decoration: underline;
+                text-decoration-color: var(--secondary);
+            }
         }
 
         .app {

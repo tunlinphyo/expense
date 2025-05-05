@@ -157,6 +157,7 @@ export const calendarStyle = css`
         align-items: center;
         aspect-ratio: 1;
         position: relative;
+        font-family: var(--font-family);
 
         &.cell-title {
             color: var(--fg-accent);
@@ -303,6 +304,7 @@ export const yearMonthStyle = css`
         text-align: left;
         color: #888;
         padding-inline: 20px;
+        font-family: var(--font-family);
         font-variant-numeric: tabular-nums lining-nums;
     }
 `

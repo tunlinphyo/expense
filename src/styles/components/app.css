@@ -99,7 +99,7 @@ body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category
 
         transition-behavior: allow-discrete;
         transition-duration: .2s;
-        transition-timing-function: ease;
+        transition-timing-function: var(--easing-x);
         transition-property: translate, scale;
 
         :where(main-page) > header {

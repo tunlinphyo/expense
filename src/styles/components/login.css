@@ -4,10 +4,11 @@
         padding-inline: var(--size-2);
 
         & h2 {
-            font-size: var(--text-lg);
+            font-size: var(--text-xl);
             text-align: center;
             color: var(--fg-primary);
-            /* margin-block: var(--size-3); */
+            color: var(--primary);
+            margin-block: var(--size-3);
         }
 
         .intro {
@@ -34,29 +35,45 @@
             }
 
             & .message {
-                /* margin-block-start: var(--size-3); */
+                margin-block-start: var(--size-2);
                 font-size: var(--text-sm);
                 color: var(--fg-accent);
 
                 text-align: center;
                 text-wrap: pretty;
 
+                /* border: 1px solid var(--secondary); */
+                /* border-radius: var(--radius-3);
+                padding: var(--size-3) var(--size-2);
+                background-color: color-mix(in srgb, var(--secondary) 10%, transparent); */
+
                 @media (min-width: 30rem) {
                     padding-inline: 20px;
                 }
+
+                & em {
+                    font-style: normal;
+                    text-decoration: underline;
+                    text-decoration-color: var(--secondary);
+                }
             }
 
-            & button[data-button=guest] {
+            & button:where(
+                [data-button=guest],
+                [data-button=modal]
+            ) {
                 color: var(--fg-primary);
                 border: none;
                 background: none;
                 text-decoration: underline;
                 text-decoration-color: var(--fg-accent);
+                text-decoration-thickness: 2px;
             }
         }
 
         .diviter {
             font-size: var(--text-xs);
+            font-weight: 500;
             text-transform: uppercase;
             color: var(--fg-accent);
             display: grid;
@@ -67,7 +84,7 @@
             &::before, &::after {
                 content: '';
                 display: block;
-                border-top: 1px solid var(--bg-accent);
+                border-top: 2px solid var(--bg-accent);
             }
         }
     }

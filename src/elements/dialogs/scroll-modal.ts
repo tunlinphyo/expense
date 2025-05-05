@@ -1,5 +1,5 @@
 
-import { modalIn, modalOut } from "../animation"
+import { modalCustomOut, modalIn, modalOut } from "../animation"
 import { hostStyles, scrollModalStyles } from "./styles"
 
 export class ScrollModal extends HTMLElement {
@@ -9,6 +9,7 @@ export class ScrollModal extends HTMLElement {
     private currentY: number = 0
     private isDragging: boolean = false
     private touchTracker!: HTMLElement
+    private sectionEl: HTMLElement
 
     static get touchDisabledTags(): string[] {
         return []
@@ -19,6 +20,7 @@ export class ScrollModal extends HTMLElement {
         this.renderRoot = this.attachShadow({ mode: 'open' })
         this.dialog = document.createElement('dialog')
         this.touchTracker = document.createElement('div')
+        this.sectionEl = document.createElement('section')
 
         this.onTouchStart = this.onTouchStart.bind(this)
         this.onTouchMove = this.onTouchMove.bind(this)
@@ -29,16 +31,16 @@ export class ScrollModal extends HTMLElement {
     }
 
     connectedCallback() {
-        this.dialog.addEventListener('touchstart', this.onTouchStart)
-        this.dialog.addEventListener('touchmove', this.onTouchMove)
-        this.dialog.addEventListener('touchend', this.onTouchEnd)
+        this.sectionEl.addEventListener('touchstart', this.onTouchStart)
+        this.sectionEl.addEventListener('touchmove', this.onTouchMove)
+        this.sectionEl.addEventListener('touchend', this.onTouchEnd)
         this.dialog.addEventListener('click', this.onClick)
     }
 
     disconnectedCallback() {
-        this.dialog.removeEventListener('touchstart', this.onTouchStart)
-        this.dialog.removeEventListener('touchmove', this.onTouchMove)
-        this.dialog.removeEventListener('touchend', this.onTouchEnd)
+        this.sectionEl.removeEventListener('touchstart', this.onTouchStart)
+        this.sectionEl.removeEventListener('touchmove', this.onTouchMove)
+        this.sectionEl.removeEventListener('touchend', this.onTouchEnd)
         this.dialog.removeEventListener('click', this.onClick)
     }
 
@@ -65,16 +67,15 @@ export class ScrollModal extends HTMLElement {
 
     protected render() {
         this.renderRoot.adoptedStyleSheets = [ hostStyles, scrollModalStyles ]
-        const sectionEl = document.createElement('section')
-        sectionEl.setAttribute('data-no-scrollbar', '')
-        sectionEl.innerHTML = `<slot></slot>`
+        this.sectionEl.setAttribute('data-no-scrollbar', '')
+        this.sectionEl.innerHTML = `<slot></slot>`
         if (this.querySelector('.modal-header'))
             this.dialog.classList.add('has-header')
 
         this.touchTracker.classList.add('touch-tracker')
-        sectionEl.prepend(this.touchTracker)
+        this.sectionEl.prepend(this.touchTracker)
         
-        this.dialog.appendChild(sectionEl)
+        this.dialog.appendChild(this.sectionEl)
         this.renderRoot.appendChild(this.dialog)
     }
 
@@ -98,11 +99,10 @@ export class ScrollModal extends HTMLElement {
 
         this.startY = event.touches[0].clientY
         this.currentY = this.startY
-        const elem = this.dialog.querySelector<HTMLElement>('dialog section')!
-        const top = elem.offsetTop
+        const top = this.sectionEl.offsetTop
         
         if (target !== this.touchTracker) {
-            if ((this.dialog.scrollTop || 0) > 0 && this.startY > top + 80) return
+            if ((this.dialog.scrollTop || 0) > 0) return
             if (this.startY < (top - 10)) return
         }
 
@@ -140,6 +140,11 @@ export class ScrollModal extends HTMLElement {
 
     private closeAnimation(deltaY: number = 0) {
         this.dialog.classList.add('closing')
+
+        const noScroll = this.dialog.scrollTop < 80 
+
+        if (noScroll) 
+            return modalCustomOut(this.dialog)
 
         return modalOut(this.dialog, deltaY)
     }
