@@ -115,7 +115,7 @@ export function isDarkMode(): boolean {
     return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
 }
 
-export function wait(delay: number = 4000) {
+export function wait(delay: number = 400) {
     return new Promise(resolve => {
         setTimeout(resolve, delay)
     })
