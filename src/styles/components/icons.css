@@ -24,7 +24,7 @@
             flex-shrink: 0;
             width: 52px;
             aspect-ratio: 1;
-            background-color: var(--bg-accent);
+            background-color: var(--solid-bg);
             color: var(--primary);
             border-radius: 50%;
             display: grid;

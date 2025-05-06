@@ -95,7 +95,7 @@
             width: 100%;
             padding-block-end: var(--size-3);
 
-            border-bottom: 1px solid var(--bg-accent);
+            border-bottom: 1px solid var(--list-border);
         }
 
         .text-input {

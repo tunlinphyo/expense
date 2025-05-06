@@ -78,7 +78,7 @@ body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category
                 width: var(--size-9);
                 aspect-ratio: 1;
                 background-color: var(--secondary);
-                color: var(--bg-primary);
+                color: var(--solid-bg);
                 border: 2px solid var(--bg-glass);
                 /* box-shadow: 0 0 10px var(--secondary); */
                 border-radius: 50%;

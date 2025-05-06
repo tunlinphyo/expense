@@ -118,7 +118,7 @@ export const modalStyles = css`
             width: 4rem;
             height: 5px;
             border-radius: 5px;
-            background-color: var(--gray);
+            background-color: var(--fg-primary);
 
             position: sticky;
             z-index: 9;
@@ -148,7 +148,7 @@ export const modalStyles = css`
             
             border-radius: 2rem;
             background-color: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(40px);
             /* backdrop-filter: var(--glass-filter); */
             border: 1px solid var(--glass-border);
         }
@@ -202,8 +202,8 @@ export const scrollModalStyles = css`
             margin-block: 40vh 2vh;
             border-radius: 2rem;
             background-color: var(--glass-bg);
-            backdrop-filter: var(--glass-filter);
-            /* backdrop-filter: blur(20px); */
+            /* backdrop-filter: var(--glass-filter); */
+            backdrop-filter: blur(40px);
             border: 1px solid var(--glass-border);
             position: relative;
 
@@ -213,7 +213,7 @@ export const scrollModalStyles = css`
                 width: 4rem;
                 height: 5px;
                 border-radius: 5px;
-                background-color: var(--gray);
+                background-color: var(--fg-primary);
 
                 position: sticky;
                 z-index: 9;

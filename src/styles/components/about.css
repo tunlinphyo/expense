@@ -53,7 +53,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 10px var(--primary);
+            /* box-shadow: 0 0 10px var(--primary); */
 
             & img {
                 display: block;
@@ -73,7 +73,7 @@
             align-items: center;
             text-decoration: none;
             color: var(--fg-primary);
-            box-shadow: 0 0 10px var(--primary);
+            /* box-shadow: 0 0 10px var(--primary); */
 
             .profile-image {
                 aspect-ratio: 1;

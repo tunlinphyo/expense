@@ -28,7 +28,7 @@ export const pickerStyle = css`
             width: 2.5em;
             height: 5px;
             border-radius: 5px;
-            background-color: var(--gray);
+            background-color: var(--fg-primary);
             
             position: absolute;
             top: 10px;
@@ -114,7 +114,7 @@ export const calendarStyle = css`
 
                 width: 44px;
                 aspect-ratio: 1;
-                background-color: var(--bg-accent);
+                background-color: var(--solid-bg);
                 border-radius: 50%;
 
                 display: grid;
@@ -219,7 +219,7 @@ export const calendarStyle = css`
             }
 
             &[data-today=true] {
-                color: var(--bg-card);
+                color: var(--solid-bg);
             }
         }
     }
@@ -254,7 +254,7 @@ export const yearMonthStyle = css`
         justify-content: center;
         --h: 240px;
         --scope-h: 40px;
-        --bg: var(--bg-picker);
+        --bg: var(--glass-bg);
     }
     .picker {
         width: 100%;
@@ -293,7 +293,7 @@ export const yearMonthStyle = css`
         z-index: 1;
         pointer-events: none;
         border-radius: 10px;
-        background-color: light-dark(#000C, #fffC);
+        background-color: light-dark(#000, #fff);
         mix-blend-mode: overlay;
     }
     .picker-scroll {
@@ -317,7 +317,7 @@ export const yearMonthStyle = css`
         font-size: var(--text-lg);
         scroll-snap-align: center;
         text-align: left;
-        color: light-dark(#666, #AAA);
+        color: light-dark(#555, #BBB);
         padding-inline: 20px;
         font-family: var(--font-family);
         font-variant-numeric: tabular-nums lining-nums;

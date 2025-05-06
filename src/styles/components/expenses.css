@@ -36,6 +36,7 @@ expense-group {
         border: 1px solid var(--card-border);
 
         &:has(inline-loading) {
+            background-color: transparent;
             & li {
                 display: none;
             }
@@ -49,6 +50,7 @@ expense-group {
         }
 
         & inline-loading {
+            --bg-wave: light-dark(var(--gray-4), var(--gray-5));
             border-radius: var(--radius-4);
             background: linear-gradient(
                 100deg,
@@ -162,7 +164,7 @@ expense-group {
             border: 2px solid var(--bg-card);
 
             & svg-icon {
-                color: var(--fg-accent);
+                color: var(--fg-primary);
             }
 
             &:disabled {
@@ -171,7 +173,7 @@ expense-group {
                 background-color: var(--bg-primary);
 
                 & svg-icon {
-                    color: var(--gray-4);
+                    color: var(--fg-accent);
                 }
             }
         }

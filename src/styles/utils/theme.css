@@ -52,20 +52,27 @@
         --glass-alpha: 1;
     }
 
-    /* color: #e5e5ea; */
+    /* color: #d1d1d6; */
 
     --glass: light-dark(var(--white), var(--gray-4));
     --solid-bg: light-dark(var(--white), var(--black));
-    --glass-bg: color-mix(in srgb, var(--glass) 50%, transparent);
-    --glass-filter: blur(50px) brightness(.9);
+    --solid-fg: light-dark(var(--black), var(--white));
+    --glass-bg: color-mix(in srgb, var(--glass) 60%, transparent);
+    --glass-filter: blur(40px) brightness(.9);
     --glass-border: light-dark(var(--white), var(--gray-3));
 
-    --bg-primary: light-dark(var(--gray-5), var(--black));
+    --bg-loading: var(--glass);
+    --bg-wave: light-dark(var(--gray-5), var(--gray-5));
+
+    --bg-primary: light-dark(var(--gray-4), var(--black));
     --bg-card: color-mix(in srgb, light-dark(var(--white), var(--gray-4)) 50%, transparent);
     --card-filter: blur(80px) brightness(1);
     --card-border: light-dark(var(--white), var(--gray-5));
 
-    --list-border: light-dark(var(--gray-5), rgb(38,38,40));
+    --fg-primary: light-dark(rgb(28,28,30), rgb(242,242,247));
+    --fg-accent: light-dark(rgb(132,132,137), rgb(154,154,158));
+
+    --list-border: light-dark(var(--gray-4), rgb(38,38,40));
 
     --bg-glass: color-mix(in srgb, var(--bg-primary) 50%, transparent);
     --bg-form: var(--solid-bg);

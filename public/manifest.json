@@ -4,8 +4,8 @@
   "description": "A Progressive Web App with fullscreen mode",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#e5e5ea",
-  "theme_color": "#e5e5ea",
+  "background_color": "#d1d1d6",
+  "theme_color": "#d1d1d6",
   "theme_color_dark": "#000000",
   "icons": [
     {
