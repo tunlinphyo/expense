@@ -133,7 +133,7 @@ export class MonthPicker extends HTMLElement {
 
     private onClick(event: Event) {
         const target = event.target as HTMLElement
-        if (target.hasAttribute('data-button')) {
+        if (target.hasAttribute('data-button') && target.dataset.button === 'month') {
             this.openModal()
         }
     }
@@ -243,7 +243,7 @@ export class MonthPicker extends HTMLElement {
     private closeAnimation(deltaY: number = 0) {
         this.dialog.classList.add('closing')
 
-        return modalOut(this.dialog, deltaY, true)
+        return modalOut(this.dialog, deltaY)
     }
 }
 

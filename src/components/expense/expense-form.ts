@@ -32,18 +32,25 @@ export class ExpenseForm extends ReactiveForm {
     private _initialDate: Date | null = null
     private expenseUnsubscribe?: () => void
 
+    private dateToggle: HTMLButtonElement | null
+
     static get observedAttributes(): string[] {
         return ['id']
     }
 
     constructor() {
         super()
+        this.dateToggle = this.querySelector('button[data-button="quick"]')
         this.onCategoryChange = this.onCategoryChange.bind(this)
+        this.onDateChange = this.onDateChange.bind(this)
+        this.changeDate = this.changeDate.bind(this)
     }
 
     connectedCallback() {
         super.connectedCallback()
         this.addEventListener('change', this.onCategoryChange)
+        this.addEventListener('input', this.onDateChange)
+        this.dateToggle?.addEventListener('click', this.changeDate)
 
         this.unsubscribe = effect(() => {
             this.updateCurrencySign(currencySignal.get())
@@ -69,6 +76,8 @@ export class ExpenseForm extends ReactiveForm {
     disconnectedCallback() {
         super.disconnectedCallback()
         this.removeEventListener('change', this.onCategoryChange)
+        this.removeEventListener('input', this.onDateChange)
+        this.dateToggle?.removeEventListener('click', this.changeDate)
         this.unsubscribe?.()
         this.expenseUnsubscribe?.()
     }
@@ -100,11 +109,38 @@ export class ExpenseForm extends ReactiveForm {
         }
     }
 
+    private changeDate() {
+        const to = this.dateToggle?.dataset.to || ''
+        if (!to) return
+        if (to === 'yesterday') {
+            const date = AppDate.getLocalISODate(AppDate.getYesterday())
+            this.updateFormdata({ date })
+        } else {
+            const date = AppDate.getLocalISODate()
+            this.updateFormdata({ date })
+        }
+    }
+
+    private onDateChange(e: Event) {
+        const target = e.target as HTMLInputElement
+        if (target.name === 'date') {
+            if (!this.dateToggle) return
+            if (AppDate.isToday(target.value)) {
+                this.dateToggle.dataset.to = 'yesterday'
+                this.dateToggle.textContent = 'Yeasterday?'
+            } else {
+                this.dateToggle.dataset.to = 'today'
+                this.dateToggle.textContent = 'Today?'
+            }
+        }
+    }
+
     attributeChangedCallback(name: string, oldValue:string, newValue: string) {
         if (name === 'id') {
             if (newValue === oldValue) return
             this.childrenSettled(() => {
                 if (!newValue) {
+                    this.defaultData.date = AppDate.getLocalISODate()
                     this.setFormData(this.defaultData)
                 } else {
                     this.setExpense(newValue)

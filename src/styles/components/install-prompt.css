@@ -1,0 +1,89 @@
+#installPrompt {
+    padding: 0;
+    border-radius: var(--radius-4);
+    border: none;
+    position: fixed;
+    z-index: 1000;
+    inset: auto;
+    margin: 0;
+    bottom: 4vw;
+    left: 50%;
+    background-color: var(--glass-bg);
+    backdrop-filter: var(--glass-filter);
+    font-family: var(--font-family);
+    border: 1px solid var(--glass-border);
+
+    width: 92vw;
+    max-width: 30rem;
+
+    header {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: var(--size-4) var(--size-4) var(--size-2);
+        gap: var(--size-4);
+        border-bottom: 1px solid var(--gray-4);
+
+        .app {
+            width: 40px;
+            aspect-ratio: 1;
+            background-color: var(--solid-bg);
+            border-radius: .75rem;
+            box-shadow: var(--shadow-1);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            & img {
+                display: block;
+                width: 85%;
+            }
+        }
+    }
+
+    section {
+        padding: var(--size-4);
+
+        & p {
+            line-height: 1.2;
+        }
+
+        & ol {
+            padding-inline-start: 20px;
+            margin-block: var(--size-2);
+
+            & li {
+                margin-bottom: var(--size-1);
+
+                & svg-icon {
+                    translate: 0 4px;
+                    color: var(--primary);
+
+                    &[name="more"] {
+                        color: var(--fg-primary);
+                    }
+                }
+
+                & span {
+                    display: inline-block;
+                    padding: .25rem .5rem;
+                    background-color: var(--solid-bg);
+                    border-radius: .5rem;
+                }
+            }
+        }
+
+        & button[data-button=install] {
+            margin-block-start: var(--size-4);
+            background-color: var(--solid-bg);
+        }
+    }
+
+    button[data-button=prompt-close] {
+        position: absolute;
+        bottom: var(--size-2);
+        right: var(--size-2);
+        background-color: var(--solid-bg)
+    }
+}

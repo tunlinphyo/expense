@@ -12,6 +12,8 @@
 
     & dynamic-item {
         background-color: var(--bg-card);
+        backdrop-filter: var(--card-filter);
+        border: 1px solid var(--card-border);
         border-radius: var(--radius-6);
         display: grid;
         grid-template-columns: 56px 1fr;

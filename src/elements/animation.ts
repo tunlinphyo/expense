@@ -27,8 +27,8 @@ export function modalOut(elem: HTMLElement, deltaY: number = 0, isMini: boolean 
     })
 }
 
-export function modalCustomOut(elem: HTMLElement) {
-    const startY = window.innerHeight * 0.25
+export function modalCustomOut(elem: HTMLElement, deltaY: number = 0) {
+    const startY = Math.max(window.innerHeight * 0.25, deltaY)
     return elem.animate([
         { translate: `0 ${startY}px` },
         { translate: `0 ${startY + (Y * 1.5)}px` },

@@ -96,8 +96,8 @@ export class CalendarView extends HTMLElement {
     }
 
     private render() {
-        const header = this.createHeader()
         const headers = this.createHeaders()
+        const header = this.createHeader(headers)
 
         for (const month of this.monthes) {
             this.fieldsetEl.appendChild(month)
@@ -125,7 +125,7 @@ export class CalendarView extends HTMLElement {
         }))
     }
 
-    private createHeader() {
+    private createHeader(headers: HTMLElement) {
         const header = document.createElement('header')
         const monthToggle = document.createElement('button')
         this.currentMonth = document.createElement('span')
@@ -151,9 +151,13 @@ export class CalendarView extends HTMLElement {
             if (toggle === 'off') {
                 monthToggle.dataset.toggle = 'on'
                 this.calendarBody.setAttribute('month-picker', 'true')
+                headers.setAttribute('aria-hidden', 'true')
+                this.fieldsetEl.setAttribute('aria-hidden', 'true')
             } else {
                 monthToggle.dataset.toggle = 'off'
                 this.calendarBody.setAttribute('month-picker', 'false')
+                headers.setAttribute('aria-hidden', 'false')
+                this.fieldsetEl.setAttribute('aria-hidden', 'false')
             }
         })
 

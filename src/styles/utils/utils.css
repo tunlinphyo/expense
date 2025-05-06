@@ -59,7 +59,8 @@ body {
 
         width: 44px;
         aspect-ratio: 1;
-        background-color: var(--bg-accent);
+        /* background-color: var(--bg-accent); */
+        background-color: var(--solid-bg);
         border-radius: 50%;
 
         display: grid;
@@ -73,7 +74,8 @@ body {
         justify-content: center;
         align-items: center;
         gap: var(--size-2);
-        background-color: light-dark(var(--gray-5), var(--black));
+        /* background-color: light-dark(var(--gray-5), var(--black)); */
+        background-color: var(--solid-bg);
         border: none;
         border-radius: var(--radius-5);
         color: var(--fg-primary);

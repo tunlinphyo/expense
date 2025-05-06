@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // await CurrencyService.seedCurrency(DEFAULT_CURRENCY)
 
     const total = document.querySelector('current-total')
-    total?.addEventListener('click', () => {
+    total?.addEventListener('click', async () => {
         appToast.showMessage('Test success', 'check-circle')
         // appToast.showMessage('Test success')
         // appToast.showMessage('Test error', null, true)

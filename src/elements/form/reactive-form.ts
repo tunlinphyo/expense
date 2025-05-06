@@ -100,6 +100,11 @@ export class ReactiveForm extends HTMLElement {
         this.consumer.unsubscribe()
     }
 
+    protected updateFormdata(formData: FormDataType) {
+        this.formData = { ...this.formData, ...formData }
+        this.provider.setValue(this.formData)
+    }
+
     private _onInput(e: Event): void {
         const el = e.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
         const name = el.name

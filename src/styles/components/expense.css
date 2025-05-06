@@ -6,6 +6,7 @@ filter-form.custom-form {
         border-radius: var(--radius-4);
         margin-block: var(--size-5);
         overflow: hidden;
+        border: 1px solid var(--card-border);
         /* outline: 2px solid var(--bg-card);
         outline-offset: -2px; */
     }
@@ -22,13 +23,13 @@ filter-form.custom-form {
         transition: background-color var(--ease-time-xs) ease;
 
         :where(category-icon) {
-            border: 2px solid var(--bg-card);
+            border: 2px solid var(--solid-bg);
         }
 
         .category-name-lg {
             margin-block: var(--size-1) var(--size-3);
             min-height: var(--size-6);
-            color: var(--bg-card);
+            color: var(--solid-bg);
             font-size: var(--text-lg);
             font-weight: bold;
         }
@@ -47,7 +48,7 @@ filter-form.custom-form {
                 text-align: center;
                 font-size: var(--text-2xl);
                 font-weight: bold;
-                background-color: var(--bg-card);
+                background-color: var(--solid-bg);
                 color: var(--fg-primary);
                 line-height: 1;
                 padding-bottom: 5px;
@@ -122,6 +123,23 @@ filter-form.custom-form {
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
+            }
+        }
+    }
+
+    .date-input {
+        & date-display {
+            flex: 1;
+        }
+
+        & button[data-button="quick"] {
+            background-color: transparent;
+            color: var(--fg-accent);
+            border: 2px dotted var(--bg-accent);
+            border-radius: var(--size-3);
+
+            &[data-hide] {
+                display: none;
             }
         }
     }

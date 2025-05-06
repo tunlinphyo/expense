@@ -65,13 +65,13 @@ export const hostStyles = css`
         bottom: 0;
         z-index: 5;
     }
-    @media (prefers-color-scheme: dark) {
+    /* @media (prefers-color-scheme: dark) {
         dialog {
             &::backdrop {
-                backdrop-filter: blur(10px) brightness(1.2);
+                backdrop-filter: blur(10px) brightness(1);
             }
         }
-    }
+    } */
 `
 
 export const pageStyles = css`
@@ -141,10 +141,16 @@ export const modalStyles = css`
 
     :host([data-half]) {
         dialog {
+            --glass: light-dark(var(--white), var(--black));
             max-width: clamp(0rem, 100vw, 30rem);
             min-height: 200px;
             max-height: 80vh;
-            background-color: var(--bg-picker);
+            
+            border-radius: 2rem;
+            background-color: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            /* backdrop-filter: var(--glass-filter); */
+            border: 1px solid var(--glass-border);
         }
     }
     ::slotted(header) {
@@ -161,13 +167,14 @@ export const modalStyles = css`
 export const actionStyles = css`
     dialog {
         width: 100%;
-        max-width: clamp(0rem, 99vw, 30rem);
+        max-width: clamp(0rem, 99vw, 35rem);
         max-height: 100%;
         inset: auto 0 0;
         border-radius: 0;
         background-color: transparent
     }
     section {
+        grid-column: body;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -192,9 +199,12 @@ export const scrollModalStyles = css`
         background-color: transparent;
 
         section {
-            margin-block-start: 40vh;
+            margin-block: 40vh 2vh;
             border-radius: 2rem;
-            background-color: var(--bg-picker);
+            background-color: var(--glass-bg);
+            backdrop-filter: var(--glass-filter);
+            /* backdrop-filter: blur(20px); */
+            border: 1px solid var(--glass-border);
             position: relative;
 
             .touch-tracker {

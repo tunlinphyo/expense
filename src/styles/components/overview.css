@@ -50,6 +50,8 @@
         width: 100%;
         border-radius: var(--radius-4);
         background-color: var(--bg-card);
+        backdrop-filter: var(--card-filter);
+        border: 1px solid var(--card-border);
         margin-block-start: var(--size-5);
         padding: var(--size-3) var(--size-4) var(--size-6);
         position: relative;
@@ -130,6 +132,8 @@
     border-radius: var(--radius-4);
     overflow: hidden;
     background-color: var(--bg-card);
+    backdrop-filter: var(--card-filter);
+    border: 1px solid var(--card-border);
     padding: var(--size-7) var(--size-3);
     gap: var(--size-4);
 

@@ -11,7 +11,7 @@ const hostStyle = css`
         place-content: center;
         border-radius: 50%;
         border: 2px solid var(--bg-glass);
-        color: var(--bg-card);
+        color: light-dark(var(--white), var(--gray-6));
     }
     ::slotted(svg) {
         width: var(--size);

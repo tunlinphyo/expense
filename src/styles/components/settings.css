@@ -1,11 +1,13 @@
 #settings {
-    padding-block-end: 120px;
+    padding-block-end: 100px;
 
     .user-card {
         margin-block: var(--size-6);
         padding: var(--size-7) var(--size-5);
         border-radius: var(--radius-4);
         background-color: var(--bg-card);
+        backdrop-filter: var(--card-filter);
+        border: 1px solid var(--card-border);
 
         display: flex;
         flex-direction: column;
@@ -39,13 +41,15 @@
         flex-direction: column;
         background-color: var(--bg-card);
         border-radius: var(--radius-4);
+        backdrop-filter: var(--card-filter);
+        border: 1px solid var(--card-border);
 
         > li {
             &:not(:last-child) {
-                border-bottom: 1px solid var(--bg-primary);
+                border-bottom: 1px solid var(--list-border);
             }
 
-            & button:where([data-button=page], [data-button=modal], [data-button=select]) {
+            & button:where([data-button=page], [data-button=modal], [data-button=select], [data-button=install-prompt]) {
                 border: none;
                 background-color: transparent;
 

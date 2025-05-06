@@ -3,6 +3,7 @@
         width: 100%;
         background-color: var(--bg-picker);
         border-radius: 1.5rem;
+        border: 1px solid var(--card-border);
 
         &.sheet--cancel {
             background-color: var(--bg-card);

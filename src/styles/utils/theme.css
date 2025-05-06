@@ -51,6 +51,23 @@
     @media (prefers-reduced-transparency: reduce) {
         --glass-alpha: 1;
     }
+
+    /* color: #e5e5ea; */
+
+    --glass: light-dark(var(--white), var(--gray-4));
+    --solid-bg: light-dark(var(--white), var(--black));
+    --glass-bg: color-mix(in srgb, var(--glass) 50%, transparent);
+    --glass-filter: blur(50px) brightness(.9);
+    --glass-border: light-dark(var(--white), var(--gray-3));
+
+    --bg-primary: light-dark(var(--gray-5), var(--black));
+    --bg-card: color-mix(in srgb, light-dark(var(--white), var(--gray-4)) 50%, transparent);
+    --card-filter: blur(80px) brightness(1);
+    --card-border: light-dark(var(--white), var(--gray-5));
+
+    --list-border: light-dark(var(--gray-5), rgb(38,38,40));
+
+    --bg-glass: color-mix(in srgb, var(--bg-primary) 50%, transparent);
 }
 
 /* :root {

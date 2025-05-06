@@ -1,6 +1,8 @@
 expense-group {
     :where(current-total) {
         background-color: var(--bg-card);
+        backdrop-filter: var(--card-filter);
+        border: 1px solid var(--card-border);
         border-radius: var(--radius-4);
         margin-block: var(--size-5);
         padding: var(--size-2) var(--size-5);
@@ -30,6 +32,8 @@ expense-group {
 
         border-radius: var(--radius-4);
         background-color: var(--bg-card);
+        backdrop-filter: var(--card-filter);
+        border: 1px solid var(--card-border);
 
         &:has(inline-loading) {
             & li {
@@ -57,8 +61,8 @@ expense-group {
         }
 
         & li {
-            &:not(:last-child) {
-                border-bottom: 1px solid var(--bg-primary);
+            &:not(:last-of-type) {
+                border-bottom: 1px solid var(--list-border);
             }
 
             & button[data-button] {
@@ -97,9 +101,11 @@ expense-group {
         top: var(--size-2);
 
         background-color: var(--bg-card);
+        backdrop-filter: var(--card-filter);
         border-radius: var(--radius-5);
+        border: 1px solid var(--card-border);
         padding: var(--size-2);
-        outline: 2px solid var(--bg-primary);
+        /* outline: 2px solid var(--bg-primary); */
         /* box-shadow: 0 0 5px var(--bg-primary); */
 
         display: flex;

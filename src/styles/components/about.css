@@ -73,12 +73,12 @@
             align-items: center;
             text-decoration: none;
             color: var(--fg-primary);
+            box-shadow: 0 0 10px var(--primary);
 
             .profile-image {
                 aspect-ratio: 1;
                 border-radius: var(--radius-blob-4);
                 overflow: hidden;
-                box-shadow: 0 0 10px var(--primary);
                 
                 & img {
                     display: flex;

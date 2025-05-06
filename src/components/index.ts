@@ -23,6 +23,7 @@ import './action-sheet'
 import './app-loading'
 import './app-toast'
 import './login-modal'
+import './install-prompt'
 
 export const actionSheet = document.getElementById('actionSheet') as ActionSheet
 export const appLoading = document.getElementById('appLoading') as AppLoading

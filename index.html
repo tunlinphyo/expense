@@ -8,14 +8,21 @@
     <title>Expense</title>
     <link rel="manifest" href="/manifest.json" />
 
-    <link rel="icon" href="icon-512.png" media="(prefers-color-scheme: light)" />
+    <!-- <link rel="icon" href="icon-512.png" media="(prefers-color-scheme: light)" />
     <link rel="icon" href="icon-512-dark.png" media="(prefers-color-scheme: dark)" />
     <link id="favicon-light" rel="icon" href="/favicon.ico" type="image/x-icon" media="(prefers-color-scheme: light)" />
     <link id="favicon-dark" rel="icon" href="/favicon-dark.ico" type="image/x-icon"
         media="(prefers-color-scheme: dark)" />
-    <link rel="apple-touch-icon" href="/app-icon.png" />
+    <link rel="apple-touch-icon" href="/app-icon.png" /> -->
 
-    <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta name="theme-color" content="#e5e5ea" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -117,7 +124,7 @@
                                     <div class="date-input">
                                         <month-picker name="date" data-bind-attr="value:date">
                                             <date-display format="MMMM YYYY"></date-display>
-                                            <button type="button" data-button data-icon-button>
+                                            <button type="button" data-button="month" data-icon-button>
                                                 <svg-icon name="calendar"></svg-icon>
                                             </button>
                                         </month-picker>
@@ -132,8 +139,7 @@
                                                     data-aria-only
                                                     type="checkbox"
                                                     name="categories"
-                                                    data-sync="icon:color:name"
-                                                    data-bind-attr="value:item.id;data-icon:item.icon;data-color:item.color;data-name:item.name"
+                                                    data-bind-attr="value:item.id"
                                                 />
                                                 <category-icon data-icon-current data-bind-attr="icon:item.icon;data-bg-color:item.color" width="56" size="22"></category-icon>
                                             </label>
@@ -160,7 +166,7 @@
                     <header>
                         <h2>Settings</h2>
                     </header>
-                    <section data-page-body id="settings">
+                    <settings-group data-page-body id="settings">
                         <firebase-auth>
                             <template id="user">
                                 <div class="user-card">
@@ -253,8 +259,16 @@
                                     <svg-icon class="arrow" name="next" size="14"></svg-icon>
                                 </button>
                             </li>
+                            <li id="installHelp">
+                                <button type="button" data-button="install-prompt">
+                                    <svg-icon class="icon" name="help" size="24"></svg-icon>
+                                    <span class="name">Help</span>
+                                    <div class="value"></div>
+                                    <svg-icon class="arrow" name="next" size="14"></svg-icon>
+                                </button>
+                            </li>
                         </ul>
-                    </section>
+                    </settings-group>
                 </main-page>
             </nav-panel>
         </nav-tabs>
@@ -286,7 +300,7 @@
                                 <date-display format="MMMM YYYY"></date-display>
                             </h3>
                             <month-picker name="date" data-doughnut-title>
-                                <button type="button" data-button data-icon-button>
+                                <button type="button" data-button="month" data-icon-button>
                                     <svg-icon name="calendar"></svg-icon>
                                 </button>
                             </month-picker>
@@ -466,9 +480,6 @@
                 <div class="expense-card">
                     <div class="expense-group" data-bind-attr="data-bg-color:color">
                         <category-icon data-icon-current data-bind-attr="icon:icon;data-bg-color:color" width="80" size="38"></category-icon>
-                        <!-- <div class="icon-container">
-                            <svg-icon data-icon-current data-bind-attr="name:icon" size="48"></svg-icon>
-                        </div> -->
                         <div class="category-name-lg" data-bind-text="name"></div>
                         <div class="input-container">
                             <input data-bind-attr="data-color:color" data-form-input type="text" inputmode="numeric"
@@ -503,7 +514,10 @@
                         <div class="date-input">
                             <date-picker name="date" data-bind-attr="value:date">
                                 <date-display format="MMMM D, YYYY"></date-display>
-                                <button type="button" data-button data-icon-button>
+                                <button type="button" 
+                                    data-button="quick"
+                                    data-bind-toggle="data-hide:id"></button>
+                                <button type="button" data-button="date" data-icon-button>
                                     <svg-icon name="calendar"></svg-icon>
                                 </button>
                             </date-picker>
@@ -528,11 +542,11 @@
             </expense-form>
         </expense-modal>
 
-        <scroll-modal data-half id="aboutExpense">
+        <scroll-modal id="aboutExpense">
             <article>
                 <h2>About Expense</h2>
                 <div class="app">
-                    <img src="/app-icon.png" alt="App icon">
+                    <img src="/apple-touch-icon.png" alt="App icon">
                 </div>
                 <p class="initial-letter">
                     The expense was created to make expense tracking easier for myself. It’s built entirely using Web Components for the interface and Firebase for data storage.
@@ -718,6 +732,68 @@
     <app-toast id="appToast"></app-toast>
 
     <app-loading id="appLoading"></app-loading>
+
+    <install-prompt id="installPrompt">
+        <template id="iOSInstall">
+            <div class="install-card">
+                <header>
+                    <div class="app">
+                        <img src="/apple-touch-icon.png" alt="App icon">
+                    </div>
+                    <p>Install Expense</p>
+                </header>
+                <section>
+                    <p>
+                        Install this web app on your device for a smooth, immersive experience similar to native apps.
+                    </p>
+                    <ol>
+                        <li>
+                            Tab on 
+                            <svg-icon name="share" size="24"></svg-icon>
+                        </li>
+                        <li>
+                            Select <span>Add to Home Screen</span>
+                        </li>
+                    </ol>
+                </section>
+                <button type="button" data-button="prompt-close" data-icon-button>
+                    <svg-icon name="close" size="14"></svg-icon>
+                </button>
+            </div>
+        </template>
+
+        <template id="andoridInstall">
+            <div class="install-card">
+                <header>
+                    <div class="app">
+                        <img src="/apple-touch-icon.png" alt="App icon">
+                    </div>
+                    <p>Install Expense</p>
+                </header>
+                <section>
+                    <p>
+                        Install this web app on your device for a smooth, immersive experience similar to native apps.
+                    </p>
+                    <button id="installButton" type="button" data-button="install" data-primary-button>
+                        <svg-icon name="plus" size="16"></svg-icon>
+                        Add to Home Screen
+                    </button>
+                    <ol id="installInstruction">
+                        <li>
+                            Tab on 
+                            <svg-icon name="more" size="16"></svg-icon>
+                        </li>
+                        <li>
+                            Select <span>Add to Home Screen</span>
+                        </li>
+                    </ol>
+                </section>
+                <button type="button" data-button="prompt-close" data-icon-button>
+                    <svg-icon name="close" size="14"></svg-icon>
+                </button>
+            </div>
+        </template>
+    </install-prompt>
 
     <script type="module" src="/src/main.ts"></script>
 </body>

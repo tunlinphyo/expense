@@ -35,7 +35,7 @@ export const appStore = async () => {
             initLoaded = true
             categorySignal.set({})
         } 
-            
+
         userSignal.set(userId)
         getCategories(userId)
 

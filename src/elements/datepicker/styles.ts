@@ -5,6 +5,9 @@ export const pickerStyle = css`
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: var(--size-3);
+
+        --glass: light-dark(var(--white), var(--black));
     }
     dialog {
         width: 100%;
@@ -12,9 +15,14 @@ export const pickerStyle = css`
         min-height: 300px;
         max-height: calc(100% - 20px);
         inset: auto 0 0;
-        border-radius: 2rem 2rem 0 0;
         padding-block: var(--size-6);
         background-color: var(--bg-picker);
+        border-radius: 2rem 2rem 0 0;
+            
+        border-radius: 2rem;
+        background-color: var(--glass-bg);
+        backdrop-filter: var(--glass-filter);
+        border: 1px solid var(--glass-border);
 
         .touch-tracker {
             width: 2.5em;
@@ -151,6 +159,13 @@ export const calendarStyle = css`
         padding-inline: var(--size-3);
         box-sizing: border-box;
     }
+    :where(.header, fieldset) {
+        transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+        &[aria-hidden=true] {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
     .cell {
         display: flex;
         justify-content: center;
@@ -245,7 +260,7 @@ export const yearMonthStyle = css`
         width: 100%;
         height: var(--h);
         position: relative;
-        background-color: var(--bg);
+        /* background-color: var(--bg); */
         display: flex;
         justify-content: center;
         padding-inline: var(--size-3);
@@ -264,11 +279,11 @@ export const yearMonthStyle = css`
     }
     .picker::before {
         top: 0;
-        background-image: linear-gradient(to bottom, var(--bg), #0000);
+        /* background-image: linear-gradient(to bottom, var(--bg), #0000); */
     }
     .picker::after {
         bottom: 0;
-        background-image: linear-gradient(to top, var(--bg), #0000);
+        /* background-image: linear-gradient(to top, var(--bg), #0000); */
     }
     .scope {
         content: '';
@@ -278,7 +293,7 @@ export const yearMonthStyle = css`
         z-index: 1;
         pointer-events: none;
         border-radius: 10px;
-        background-color: light-dark(#000, #fff);
+        background-color: light-dark(#000C, #fffC);
         mix-blend-mode: overlay;
     }
     .picker-scroll {
@@ -302,7 +317,7 @@ export const yearMonthStyle = css`
         font-size: var(--text-lg);
         scroll-snap-align: center;
         text-align: left;
-        color: #888;
+        color: light-dark(#666, #AAA);
         padding-inline: 20px;
         font-family: var(--font-family);
         font-variant-numeric: tabular-nums lining-nums;
@@ -320,7 +335,8 @@ export const calendarBodyStyle = css`
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: var(--bg-picker);
+        background-color: var(--glass-bg);
+        border-radius: 2rem;
         z-index: 1;
         transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
 

@@ -48,6 +48,8 @@
         width: 100%;
         border-radius: var(--radius-4);
         background-color: var(--bg-card);
+        backdrop-filter: var(--card-filter);
+        border: 1px solid var(--card-border);
         margin-block: var(--size-5);
         overflow: hidden;
         /* border: 2px solid var(--bg-accent); */
@@ -186,6 +188,7 @@
         margin-block: var(--size-3);
         background-color: color-mix(in srgb, var(--color-red) 15%, transparent);
         color: var(--color-red);
+        border: 1px solid color-mix(in srgb, var(--color-red) 15%, transparent);
 
         display: none;
 

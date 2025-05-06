@@ -1,3 +1,4 @@
+import './settings-group'
 import './firebase-auth'
 import './currency-select'
 import './currency-list'

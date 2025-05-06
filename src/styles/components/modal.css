@@ -83,3 +83,10 @@
         }
     }
 }
+
+[data-half] {
+    .modal-header {
+        background-color: transparent;
+        backdrop-filter: none;
+    }
+}

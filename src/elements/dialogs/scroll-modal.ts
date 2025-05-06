@@ -144,7 +144,7 @@ export class ScrollModal extends HTMLElement {
         const noScroll = this.dialog.scrollTop < 80 
 
         if (noScroll) 
-            return modalCustomOut(this.dialog)
+            return modalCustomOut(this.dialog, deltaY)
 
         return modalOut(this.dialog, deltaY)
     }

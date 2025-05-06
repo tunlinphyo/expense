@@ -126,7 +126,7 @@ export class DatePicker extends HTMLElement {
 
     private onClick(event: Event) {
         const target = event.target as HTMLElement
-        if (target.hasAttribute('data-button')) {
+        if (target.hasAttribute('data-button') && target.dataset.button === 'date') {
             this.openModal()
         }
     }

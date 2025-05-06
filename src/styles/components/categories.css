@@ -22,6 +22,8 @@
             border: none;
             text-align: left;
             background-color: var(--bg-card);
+            backdrop-filter: var(--card-filter);
+            border: 1px solid var(--card-border);
             border-radius: var(--radius-6);
             display: grid;
             grid-template-columns: 52px 1fr auto;
@@ -94,7 +96,7 @@
             background-color: var(--primary);
             border: 2px solid var(--bg-glass);
             /* box-shadow: 0 0 10px var(--primary); */
-            color: var(--bg-card);
+            color: var(--solid-bg);
 
             display: grid;
             place-content: center;

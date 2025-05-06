@@ -39,4 +39,34 @@ export class AppDate {
         result.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds())
         return result
     }
+
+    public static isToday(date: Date | string): boolean {
+        const target = new Date(date)
+        const today = new Date()
+        
+        return (
+            target.getFullYear() === today.getFullYear() &&
+            target.getMonth() === today.getMonth() &&
+            target.getDate() === today.getDate()
+        )
+    }
+
+    public static getYesterday(): Date {
+        const yesterday = new Date()
+        yesterday.setDate(yesterday.getDate() - 1)
+        return yesterday
+    }
+
+    public static isYesterday(date: Date | string): boolean {
+        const target = new Date(date)
+        const today = new Date()
+      
+        today.setHours(0, 0, 0, 0)
+        target.setHours(0, 0, 0, 0)
+      
+        const diff = today.getTime() - target.getTime()
+      
+        // 1 day = 86400000 milliseconds
+        return diff === 86400000
+    }
 }
