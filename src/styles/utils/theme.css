@@ -68,6 +68,7 @@
     --list-border: light-dark(var(--gray-5), rgb(38,38,40));
 
     --bg-glass: color-mix(in srgb, var(--bg-primary) 50%, transparent);
+    --bg-form: var(--solid-bg);
 }
 
 /* :root {

@@ -101,6 +101,7 @@ class InstallPrompt extends HTMLElement {
     }
 
     private addListeners() {
+        if (!(this.isAndroid() || this.isIos())) return
         this.showPopover()
         this.addEventListener('click', this.onClick)
     }

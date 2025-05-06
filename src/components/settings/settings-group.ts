@@ -25,7 +25,7 @@ export class SettingsGroup extends HTMLElement {
 
         this.observer.observe(this)
 
-        if (this.isInStandaloneMode()) 
+        if (this.isInStandaloneMode() || !this.isMobile()) 
             this.removeButton()
 
         this.addEventListener('click', this.onClick)
@@ -63,9 +63,13 @@ export class SettingsGroup extends HTMLElement {
         return localStorage.getItem(this.SHOWN_PROMPT)
     }
 
-    // private isAndroid() {
-    //     return /android/i.test(navigator.userAgent)
-    // }
+    private isMobile() {
+        const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent)
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+        const isAndroid = /android/i.test(navigator.userAgent)
+
+        return (isIOS && isSafari) || isAndroid
+    }
 
     private isInStandaloneMode(): boolean {
         return (
