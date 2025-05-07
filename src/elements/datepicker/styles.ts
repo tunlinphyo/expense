@@ -18,7 +18,7 @@ export const pickerStyle = css`
         padding-block: var(--size-6);
         background-color: var(--bg-picker);
         border-radius: 2rem 2rem 0 0;
-            
+
         border-radius: 2rem;
         background-color: var(--glass-bg);
         backdrop-filter: var(--glass-filter);
@@ -29,7 +29,7 @@ export const pickerStyle = css`
             height: 5px;
             border-radius: 5px;
             background-color: var(--fg-primary);
-            
+
             position: absolute;
             top: 10px;
             left: 50%;
@@ -331,7 +331,7 @@ export const calendarBodyStyle = css`
     }
     .year-month-container {
         position: absolute;
-        inset: 0;
+        inset: 0 var(--size-1);
         display: flex;
         justify-content: center;
         align-items: center;

@@ -1,4 +1,4 @@
-import { ModalDialog, PageDialog } from "../elements"
+import { BasePrompt, ModalDialog, PageDialog } from "../elements"
 import { appStore } from "../store"
 import { AppDate } from "../utils/date"
 import { ExpenseGroup } from "./expenses/expense-group"
@@ -27,6 +27,9 @@ export class ExpenseApp extends HTMLElement {
 
         if (traget.dataset.button === 'modal')
             this.openModal(traget)
+
+        if (traget.dataset.button === 'prompt')
+            this.openPrompt(traget)
     }
 
     private openPage(button: HTMLButtonElement) {
@@ -47,6 +50,13 @@ export class ExpenseApp extends HTMLElement {
         if (button.hasAttribute('data-id'))
             modalEl.setAttribute('data-id', button.dataset.id || '')
         modalEl.openModal()
+    }
+
+    private openPrompt(button: HTMLButtonElement) {
+        const promptEl = this.querySelector<HTMLElement>(`#${button.dataset.promptId}`)
+        if (!promptEl) return console.error(`No base-prompt with id: ${button.dataset.promptId}`)
+
+        promptEl.setAttribute('show', '')
     }
 
     private onOverviewOpen() {

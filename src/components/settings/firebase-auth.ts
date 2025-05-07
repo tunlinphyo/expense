@@ -1,7 +1,7 @@
 import { User } from "firebase/auth"
-import { logout, observeAuthState } from "../../firebase/authService"
+import { getAuthType, logout, observeAuthState } from "../../firebase/authService"
 import { actionSheet, appToast } from ".."
-import { login } from "../../store/login"
+import { loginGithub, loginGoogle } from "../../store/login"
 
 export class FirebaseAuth extends HTMLElement {
     private userTemplate?: HTMLTemplateElement
@@ -29,8 +29,10 @@ export class FirebaseAuth extends HTMLElement {
 
     private onClick(e: Event) {
         const target = e.target as HTMLElement
-        if (target.dataset.button === "login") {
-            login()
+        if (target.dataset.button === "login-google") {
+            loginGoogle()
+        } else if (target.dataset.button === 'login-github') {
+            loginGithub()
         } else if (target.dataset.button === "logout") {
             actionSheet.openSheet({
                 title: 'Are you sure?',
@@ -55,10 +57,14 @@ export class FirebaseAuth extends HTMLElement {
         const name = clone.querySelector("[data-user-name]")
         const email = clone.querySelector("[data-user-email]")
 
-        if (placeholder && user.photoURL) {
+        const type = getAuthType(user)
+
+        if (placeholder) {
             let tryCount = 0
             const img = new Image()
-            img.src = user.photoURL || ''
+            const src = type === 'anonymous' ? '/avatar.png' : (user.photoURL || '')
+            console.log(src)
+            img.src = src
             img.width = placeholder.width
             img.height = placeholder.height
             img.alt = "User photo"
@@ -73,7 +79,7 @@ export class FirebaseAuth extends HTMLElement {
             placeholder.replaceWith(img)
         }
 
-        if (name) name.textContent = user.displayName || "No Name"
+        if (name) name.textContent = type === 'anonymous' ? 'Anonymous' : (user.displayName || "No Name")
         if (email) email.textContent = user.email || "No Email"
 
         this.replaceChildren(clone)

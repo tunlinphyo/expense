@@ -1,10 +1,9 @@
-import { SplashScreen } from "../components"
+import { loginModal, SplashScreen } from "../components"
 import { AppService } from "../firebase/appService"
 import { observeAuthState } from "../firebase/authService"
 import { CategoryService } from "../firebase/categoryService"
 import { ColorService } from "../firebase/colorService"
 import { IconService } from "../firebase/iconService"
-import { showLoginModal } from "./login"
 import { categorySignal, colorsSignal, currencySignal, iconsSignal, userSignal } from "./signal"
 
 
@@ -25,16 +24,14 @@ export const appStore = async () => {
 
         removeSplash()
         if (!user) {
-            const status = await showLoginModal()
-            console.log('STATUS', status)
-            if (status) return
+            return loginModal.openModal()
         }
 
-        const userId = user?.uid || 'guest'
+        const userId = user.uid
         if (!initLoaded) {
             initLoaded = true
             categorySignal.set({})
-        } 
+        }
 
         userSignal.set(userId)
         getCategories(userId)

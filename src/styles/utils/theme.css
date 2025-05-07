@@ -48,23 +48,19 @@
     --modal-scale: .88;
     --easing-x: var(--ease-2);
 
-    @media (prefers-reduced-transparency: reduce) {
-        --glass-alpha: 1;
-    }
-
-    /* color: #d1d1d6; */
+    /* color: #dbdbe0; */
 
     --glass: light-dark(var(--white), var(--gray-4));
     --solid-bg: light-dark(var(--white), var(--black));
     --solid-fg: light-dark(var(--black), var(--white));
-    --glass-bg: color-mix(in srgb, var(--glass) 60%, transparent);
-    --glass-filter: blur(40px) brightness(.9);
+    --glass-bg: color-mix(in srgb, var(--glass) 65%, transparent);
+    --glass-filter: blur(40px) brightness(.8);
     --glass-border: light-dark(var(--white), var(--gray-3));
 
-    --bg-loading: var(--glass);
-    --bg-wave: light-dark(var(--gray-5), var(--gray-5));
+    --bg-loading: var(--gray-5);
+    --bg-wave: var(--gray-6);
 
-    --bg-primary: light-dark(var(--gray-4), var(--black));
+    --bg-primary: light-dark(rgb(219,219,224), var(--black));
     --bg-card: color-mix(in srgb, light-dark(var(--white), var(--gray-4)) 50%, transparent);
     --card-filter: blur(80px) brightness(1);
     --card-border: light-dark(var(--white), var(--gray-5));
@@ -76,6 +72,11 @@
 
     --bg-glass: color-mix(in srgb, var(--bg-primary) 50%, transparent);
     --bg-form: var(--solid-bg);
+
+    @media (prefers-reduced-transparency: reduce) {
+        --glass-alpha: 1;
+    }
+
 }
 
 /* :root {

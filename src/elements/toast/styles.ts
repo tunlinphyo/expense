@@ -11,7 +11,9 @@ export const popoverStyles = css`
         top: var(--size-1);
         left: 50%;
         box-shadow: var(--shadow-4);
-        background-color: var(--bg-popover);
+        background-color: var(--glass-bg);
+        backdrop-filter: var(--glass-filter);
+        border: 1px solid var(--glass-border);
         font-family: var(--font-family);
 
         translate: -50% -20px;

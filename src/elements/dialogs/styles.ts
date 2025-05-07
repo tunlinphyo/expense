@@ -145,7 +145,7 @@ export const modalStyles = css`
             max-width: clamp(0rem, 100vw, 30rem);
             min-height: 200px;
             max-height: 80vh;
-            
+
             border-radius: 2rem;
             background-color: var(--glass-bg);
             backdrop-filter: blur(40px);
@@ -199,7 +199,7 @@ export const scrollModalStyles = css`
         background-color: transparent;
 
         section {
-            margin-block: 40vh 2vh;
+            margin-block: 40vh 0;
             border-radius: 2rem;
             background-color: var(--glass-bg);
             /* backdrop-filter: var(--glass-filter); */

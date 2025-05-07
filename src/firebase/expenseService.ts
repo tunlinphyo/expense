@@ -186,8 +186,10 @@ export class ExpenseService {
             orderBy("date", "desc")
         ]
 
+        console.log('QUERY::::::::::', q)
+
         if (q.year) {
-            const start = new Date(q.year, q.month ?? 1, 1)
+            const start = new Date(q.year, q.month, 1)
             const end = q.month != null
                 ? new Date(q.year, q.month + 1, 0, 23, 59, 59)
                 : new Date(q.year, 11, 31, 23, 59, 59)
@@ -225,9 +227,9 @@ export class ExpenseService {
         if (lastDoc) constraints.push(startAfter(lastDoc))
 
         if (q.year) {
-            const start = Timestamp.fromDate(new Date(q.year, q.month ?? 1, 1))
+            const start = Timestamp.fromDate(new Date(q.year, q.month, 1))
             const end = Timestamp.fromDate(
-                q.month
+                q.month != null
                     ? new Date(q.year, q.month + 1, 0, 23, 59, 59)
                     : new Date(q.year, 11, 31, 23, 59, 59)
             )

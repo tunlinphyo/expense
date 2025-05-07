@@ -22,7 +22,7 @@
     <meta name="apple-mobile-web-app-title" content="MyWebSite" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <meta name="theme-color" content="#d1d1d6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#dbdbe0" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -124,6 +124,7 @@
                                     <div class="date-input">
                                         <month-picker name="date" data-bind-attr="value:date">
                                             <date-display format="MMMM YYYY"></date-display>
+                                            <button type="button" data-button="quick" data-to="last-month">Last month?</button>
                                             <button type="button" data-button="month" data-icon-button>
                                                 <svg-icon name="calendar"></svg-icon>
                                             </button>
@@ -184,8 +185,12 @@
                                 <div class="user-card">
                                     <img src="/avatar.png" alt="guest user" width="84" height="84" />
                                     <h2>Guest</h2>
-                                    <button type="button" data-button="login" data-primary-button>
+                                    <button type="button" data-button="login-google" data-primary-button>
                                         Sign in with Google
+                                        <svg-icon name="google" size="20"></svg-icon>
+                                    </button>
+                                    <button type="button" data-button="login-github" data-primary-button>
+                                        Sign in with Github
                                         <svg-icon name="google" size="20"></svg-icon>
                                     </button>
                                 </div>
@@ -252,6 +257,14 @@
                                 </button>
                             </li>
                             <li>
+                                <button type="button" data-button="prompt" data-prompt-id="themePrompt">
+                                    <svg-icon class="icon" name="about" size="24"></svg-icon>
+                                    <span class="name">Theme</span>
+                                    <div class="value"></div>
+                                    <svg-icon class="arrow" name="next" size="14"></svg-icon>
+                                </button>
+                            </li>
+                            <li>
                                 <button type="button" data-button="modal" data-modal-id="aboutExpense">
                                     <svg-icon class="icon" name="about" size="24"></svg-icon>
                                     <span class="name">About</span>
@@ -260,7 +273,7 @@
                                 </button>
                             </li>
                             <li id="installHelp">
-                                <button type="button" data-button="install-prompt">
+                                <button type="button" data-button="prompt" data-prompt-id="installPrompt">
                                     <svg-icon class="icon" name="help" size="24"></svg-icon>
                                     <span class="name">Help</span>
                                     <div class="value"></div>
@@ -450,8 +463,8 @@
                 </div>
 
                 <div class="footer">
-                    <button type="button" 
-                        data-button="delete" 
+                    <button type="button"
+                        data-button="delete"
                         data-bind-toggle="data-show:id"
                         data-primary-button>
                         <svg-icon name="trash" size="18"></svg-icon>
@@ -514,7 +527,7 @@
                         <div class="date-input">
                             <date-picker name="date" data-bind-attr="value:date">
                                 <date-display format="MMMM D, YYYY"></date-display>
-                                <button type="button" 
+                                <button type="button"
                                     data-button="quick"
                                     data-bind-toggle="data-hide:id"></button>
                                 <button type="button" data-button="date" data-icon-button>
@@ -531,8 +544,8 @@
                 </div>
 
                 <div class="footer">
-                    <button type="button" 
-                        data-button="delete" 
+                    <button type="button"
+                        data-button="delete"
                         data-bind-toggle="data-show:id"
                         data-primary-button>
                         <svg-icon name="trash" size="18"></svg-icon>
@@ -555,17 +568,14 @@
                     You can record your daily spending, organize it by category, and view monthly summaries at a glance.
                 </p>
                 <p>
-                    The guest user is for <em>demo purposes only</em>. Everyone shares the same guest account, so any edits made by one user will affect all guest users.
-                </p>
-                <p>
-                    If you’re signed in with Google, your data is stored securely and managed in accordance with Firebase’s 
+                    If you’re signed in with Google or GitHub, your data is stored securely and managed in accordance with Firebase’s
                     <a href="https://firebase.google.com/terms" target="_blank">Terms of Service</a> and
-                    <a 
+                    <a
                         href="https://firebase.google.com/support/privacy?_gl=1*imb78*_up*MQ..*_ga*NDE4NDMwOTU1LjE3NDYzMjI2NjY.*_ga_CW55HF8NVT*czE3NDYzMjI2NjYkbzEkZzAkdDE3NDYzMjI2NjYkajAkbDAkaDA."
                         target="_blank">
                         Privacy Policy.
                     </a>
-                </p> 
+                </p>
                 <p>
                     This is part of my educational practice, so it may not be maintained or supported for long-term use.
                 </p>
@@ -574,7 +584,7 @@
                 <a href="https://tunlinphyo.com/" target="_blank" class="card">
                     <div class="profile-image">
                         <img
-                            src="https://media.licdn.com/dms/image/v2/D5603AQEaPa2C28GWIg/profile-displayphoto-shrink_400_400/B56ZWyPFfNHsAg-/0/1742452054403?e=1752105600&v=beta&t=K2s1gB6inkRbEoAZRtHMe6Ow9dPozrAK173DCLb8b-0" 
+                            src="https://media.licdn.com/dms/image/v2/D5603AQEaPa2C28GWIg/profile-displayphoto-shrink_400_400/B56ZWyPFfNHsAg-/0/1742452054403?e=1752105600&v=beta&t=K2s1gB6inkRbEoAZRtHMe6Ow9dPozrAK173DCLb8b-0"
                             alt="Tun Lin Phyo">
                     </div>
                     <div class="detail">
@@ -647,19 +657,24 @@
                     Track your expenses easily. Sign in with Google to securely save and manage your data across devices.
                 </p>
                 <div class="card card--large">
-                    <button type="button" data-button="login" data-primary-button>
+                    <button type="button" data-button="login-google" data-primary-button>
                         Sign in with Google
                         <svg-icon name="google" size="20"></svg-icon>
+                    </button>
+                    <button type="button" data-button="login-github" data-primary-button>
+                        Sign in with Github
+                        <svg-icon name="github" size="22"></svg-icon>
                     </button>
                 </div>
                 <div class="diviter">or</div>
                 <div class="card">
-                    <button type="button" data-button="guest">
+                    <button type="button" data-button="login-anonymous">
                         Continue as Guest
-                        <!-- <svg-icon name="google" size="20"></svg-icon> -->
                     </button>
                     <p class="message">
-                        The guest user is for <em>demo purposes only</em>. Everyone shares the same guest account, so any edits made by one user will affect all guest users.
+                        Your data is stored temporarily and may be deleted at any time without notice.
+                        If you log out, your data cannot be recovered.
+                        To save your data permanently, please sign in using Google or GitHub.
                     </p>
                     <button type="button" data-button="modal" data-modal-id="aboutExpense">
                         Terms and Conditions
@@ -667,6 +682,89 @@
                 </div>
             </section>
         </login-modal>
+
+        <install-prompt id="installPrompt">
+            <template id="iOSInstall">
+                <div class="install-card">
+                    <header>
+                        <div class="app">
+                            <img src="/apple-touch-icon.png" alt="App icon">
+                        </div>
+                        <p>Install Expense</p>
+                    </header>
+                    <section>
+                        <p>
+                            <!-- Install this web app on your device for a smooth, immersive experience similar to native apps. -->
+                            Install this web app on your device for convenient access anytime and a native mobile experience.
+                        </p>
+                        <ol>
+                            <li>
+                                Tab on
+                                <svg-icon name="share" size="24"></svg-icon>
+                            </li>
+                            <li>
+                                Select <span>Add to Home Screen</span>
+                            </li>
+                        </ol>
+                    </section>
+                    <button type="button" data-button="prompt-close" data-icon-button>
+                        <svg-icon name="close" size="14"></svg-icon>
+                    </button>
+                </div>
+            </template>
+
+            <template id="andoridInstall">
+                <div class="install-card">
+                    <header>
+                        <div class="app">
+                            <img src="/apple-touch-icon.png" alt="App icon">
+                        </div>
+                        <p>Install Expense</p>
+                    </header>
+                    <section>
+                        <p>
+                            Install this web app on your device for a smooth, immersive experience similar to native apps.
+                        </p>
+                        <button id="installButton" type="button" data-button="install" data-primary-button>
+                            <svg-icon name="plus" size="16"></svg-icon>
+                            Add to Home Screen
+                        </button>
+                        <ol id="installInstruction">
+                            <li>
+                                Tab on
+                                <svg-icon name="more" size="16"></svg-icon>
+                            </li>
+                            <li>
+                                Select <span>Add to Home Screen</span>
+                            </li>
+                        </ol>
+                    </section>
+                    <button type="button" data-button="prompt-close" data-icon-button>
+                        <svg-icon name="close" size="14"></svg-icon>
+                    </button>
+                </div>
+            </template>
+        </install-prompt>
+
+        <theme-prompt id="themePrompt">
+            <section>
+                <ul>
+                    <li>
+                        <button type="button" data-button="light">Light</button>
+                    </li>
+                    <li>
+                        <button type="button" data-button="dark">Dark</button>
+                    </li>
+                    <li>
+                        <button type="button" data-button="auto">System</button>
+                    </li>
+                </ul>
+                <button type="button" data-button="prompt-close" data-icon-button>
+                    <svg-icon name="close" size="14"></svg-icon>
+                </button>
+            </section>
+        </theme-prompt>
+
     </expense-app>
 
     <action-sheet id="actionSheet">
@@ -732,68 +830,6 @@
     <app-toast id="appToast"></app-toast>
 
     <app-loading id="appLoading"></app-loading>
-
-    <install-prompt id="installPrompt">
-        <template id="iOSInstall">
-            <div class="install-card">
-                <header>
-                    <div class="app">
-                        <img src="/apple-touch-icon.png" alt="App icon">
-                    </div>
-                    <p>Install Expense</p>
-                </header>
-                <section>
-                    <p>
-                        Install this web app on your device for a smooth, immersive experience similar to native apps.
-                    </p>
-                    <ol>
-                        <li>
-                            Tab on 
-                            <svg-icon name="share" size="24"></svg-icon>
-                        </li>
-                        <li>
-                            Select <span>Add to Home Screen</span>
-                        </li>
-                    </ol>
-                </section>
-                <button type="button" data-button="prompt-close" data-icon-button>
-                    <svg-icon name="close" size="14"></svg-icon>
-                </button>
-            </div>
-        </template>
-
-        <template id="andoridInstall">
-            <div class="install-card">
-                <header>
-                    <div class="app">
-                        <img src="/apple-touch-icon.png" alt="App icon">
-                    </div>
-                    <p>Install Expense</p>
-                </header>
-                <section>
-                    <p>
-                        Install this web app on your device for a smooth, immersive experience similar to native apps.
-                    </p>
-                    <button id="installButton" type="button" data-button="install" data-primary-button>
-                        <svg-icon name="plus" size="16"></svg-icon>
-                        Add to Home Screen
-                    </button>
-                    <ol id="installInstruction">
-                        <li>
-                            Tab on 
-                            <svg-icon name="more" size="16"></svg-icon>
-                        </li>
-                        <li>
-                            Select <span>Add to Home Screen</span>
-                        </li>
-                    </ol>
-                </section>
-                <button type="button" data-button="prompt-close" data-icon-button>
-                    <svg-icon name="close" size="14"></svg-icon>
-                </button>
-            </div>
-        </template>
-    </install-prompt>
 
     <script type="module" src="/src/main.ts"></script>
 </body>

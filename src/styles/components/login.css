@@ -59,7 +59,7 @@
             }
 
             & button:where(
-                [data-button=guest],
+                [data-button=login-anonymous],
                 [data-button=modal]
             ) {
                 color: var(--fg-primary);
@@ -68,6 +68,12 @@
                 text-decoration: underline;
                 text-decoration-color: var(--fg-accent);
                 text-decoration-thickness: 2px;
+            }
+
+            & button[data-button=login-github] {
+                & svg-icon {
+                    color: var(--solid-fg);
+                }
             }
         }
 

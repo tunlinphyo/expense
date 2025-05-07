@@ -172,7 +172,7 @@
                     background-color: var(--bg-form);
                     color: var(--fg-primary);
                     /* box-shadow: 0 0 8px var(--gray-5); */
-                    
+
                     & svg {
                         width: 22px;
                         height: 22px;
@@ -186,9 +186,9 @@
     & button[data-button=delete] {
         margin-inline: auto;
         margin-block: var(--size-3);
-        background-color: color-mix(in srgb, var(--color-red) 15%, transparent);
+        background-color: color-mix(in srgb, var(--color-red) 20%, transparent);
         color: var(--color-red);
-        border: 1px solid color-mix(in srgb, var(--color-red) 15%, transparent);
+        border: 1px solid color-mix(in srgb, var(--color-red) 20%, transparent);
 
         display: none;
 

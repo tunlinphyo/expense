@@ -46,18 +46,17 @@ export class OverviewYearly extends HTMLElement {
 
     private async loadData(year: number) {
         this.toggleAttribute('data-loading', true)
-        if (!this.data) {
-            const promises = [
-                ExpenseService.monthlyTotal(userSignal.get(), year),
-                wait()
-            ]
-            const success = await allSettles<Record<string, number>>(promises, (result) => {
-                this.data = result
-            })
+        const promises = [
+            ExpenseService.monthlyTotal(userSignal.get(), year),
+            wait()
+        ]
+        const success = await allSettles<Record<string, number>>(promises, (result) => {
+            this.data = result
+        })
 
-            if (!success) appToast.showMessage('Error', null, true)
-        }
-        if (!this.data) return 
+        if (!success) appToast.showMessage('Error', null, true)
+
+        if (!this.data) return
         const list: TotalExpense[] = Object.entries(this.data).map(([id, total]) => ({
             id,
             date: new Date(`${id}-01`),

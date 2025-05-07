@@ -115,7 +115,7 @@ export function isDarkMode(): boolean {
     return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
 }
 
-export function wait(delay: number = 400) {
+export function wait(delay: number = 600) {
     return new Promise(resolve => {
         setTimeout(resolve, delay)
     })
@@ -124,7 +124,7 @@ export function wait(delay: number = 400) {
 export async function allSettles<T>(promises: Promise<any>[], callback: (data: T) => void): Promise<boolean> {
     try {
         const [result] = await Promise.allSettled(promises)
-    
+
         if (result.status === 'fulfilled') {
             callback(result.value)
             return true

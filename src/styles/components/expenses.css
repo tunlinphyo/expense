@@ -46,11 +46,12 @@ expense-group {
         }
 
         &:has(.emptyData) {
-            background-color: transparent;
+            padding-block: var(--size-4);
+            /* background-color: transparent; */
         }
 
         & inline-loading {
-            --bg-wave: light-dark(var(--gray-4), var(--gray-5));
+            /* --bg-wave: light-dark(var(--gray-4), var(--gray-5)); */
             border-radius: var(--radius-4);
             background: linear-gradient(
                 100deg,

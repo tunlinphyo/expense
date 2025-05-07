@@ -20,10 +20,14 @@
     }
 
     .radio-group {
-        padding-inline: 0.5rem;
+        padding: 0.5rem;
     }
 
     button[data-button] {
         background-color: var(--solid-bg);
+
+        &[data-button=quick] {
+            background-color: transparent;
+        }
     }
 }

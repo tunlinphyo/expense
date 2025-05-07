@@ -49,7 +49,7 @@
                 border-bottom: 1px solid var(--list-border);
             }
 
-            & button:where([data-button=page], [data-button=modal], [data-button=select], [data-button=install-prompt]) {
+            & button:where([data-button=page], [data-button=modal], [data-button=select], [data-button=prompt]) {
                 border: none;
                 background-color: transparent;
 

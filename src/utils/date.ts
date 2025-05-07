@@ -43,11 +43,21 @@ export class AppDate {
     public static isToday(date: Date | string): boolean {
         const target = new Date(date)
         const today = new Date()
-        
+
         return (
             target.getFullYear() === today.getFullYear() &&
             target.getMonth() === today.getMonth() &&
             target.getDate() === today.getDate()
+        )
+    }
+
+    public static isThisMonth(date: Date | string): boolean {
+        const target = new Date(date)
+        const now = new Date()
+
+        return (
+            target.getFullYear() === now.getFullYear() &&
+            target.getMonth() === now.getMonth()
         )
     }
 
@@ -57,15 +67,20 @@ export class AppDate {
         return yesterday
     }
 
+    public static getLastMonth(): Date {
+        const now = new Date()
+        return new Date(now.getFullYear(), now.getMonth() - 1, 1)
+    }
+
     public static isYesterday(date: Date | string): boolean {
         const target = new Date(date)
         const today = new Date()
-      
+
         today.setHours(0, 0, 0, 0)
         target.setHours(0, 0, 0, 0)
-      
+
         const diff = today.getTime() - target.getTime()
-      
+
         // 1 day = 86400000 milliseconds
         return diff === 86400000
     }

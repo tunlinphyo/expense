@@ -2,7 +2,7 @@ import './styles/style.css'
 
 import './components'
 import './elements'
-import { appToast } from './components'
+// import { appToast } from './components'
 
 // import { CurrencyService } from './firebase/currencyService'
 // import { DEFAULT_COLORS, DEFAULT_CURRENCY, DEFAULT_ICONS } from './data'
@@ -16,10 +16,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     // await IconService.seedIcons(DEFAULT_ICONS)
     // await CurrencyService.seedCurrency(DEFAULT_CURRENCY)
 
-    const total = document.querySelector('current-total')
-    total?.addEventListener('click', async () => {
-        appToast.showMessage('Test success', 'check-circle')
-        // appToast.showMessage('Test success')
-        // appToast.showMessage('Test error', null, true)
-    })
+    // const total = document.querySelector('current-total')
+    // total?.addEventListener('click', async () => {
+    //     appToast.showMessage('Test success', 'check-circle')
+    //     // appToast.showMessage('Test success')
+    //     // appToast.showMessage('Test error', null, true)
+    // })
 })
