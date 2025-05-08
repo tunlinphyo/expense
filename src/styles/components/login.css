@@ -1,6 +1,6 @@
 #loginModal {
     .login-page {
-        padding-block-start: var(--size-7);
+        padding-block: var(--size-7) var(--size-6);
         padding-inline: var(--size-2);
 
         & h2 {

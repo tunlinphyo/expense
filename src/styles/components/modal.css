@@ -10,11 +10,12 @@
     z-index: 5;
 
     background-color: var(--bg-glass);
-    backdrop-filter: blur(50px) brightness(1);
+    backdrop-filter: blur(30px) brightness(1);
+    /* mix-blend-mode: luminosity; */
 
-    @media (prefers-color-scheme: dark) {
+    /* @media (prefers-color-scheme: dark) {
         backdrop-filter: blur(50px) brightness(2);
-    }
+    } */
 
     &:empty {
         height: 20px;

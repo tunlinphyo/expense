@@ -9,6 +9,10 @@ expense-app {
     }
 }
 
+body {
+    transition: background-color .2s ease;
+}
+
 body:has(:where(page-dialog, overview-page, categories-page)[page-open]) {
     :is(nav-panel) {
         translate: calc(var(--page-x) * -1) 0 !important;
@@ -16,8 +20,13 @@ body:has(:where(page-dialog, overview-page, categories-page)[page-open]) {
 }
 
 body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category-modal, scroll-modal)[modal-open]) {
+    & {
+        background-color: light-dark(rgb(189,189,194), var(--black));
+    }
     :is(nav-panel) {
         scale: var(--modal-scale);
+        border-radius: var(--radius-4);
+        background-color: light-dark(var(--bg-primary), rgb(18,18,20)) !important;
     }
 }
 
@@ -33,22 +42,23 @@ body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category
         bottom: 0;
         width: 100%;
         background-color: var(--bg-glass);
-        backdrop-filter: blur(50px) brightness(1);
+        backdrop-filter: blur(20px) brightness(1);
 
         display: grid;
         grid-template-columns: var(--layout-column);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
 
-        @media (display-mode: fullscreen), (display-mode: standalone) {
+        /* @media (display-mode: fullscreen), (display-mode: standalone) {
             padding-bottom: 20px;
-        }
+        } */
 
-        @media (prefers-color-scheme: dark) {
+        /* @media (prefers-color-scheme: dark) {
             backdrop-filter: blur(50px) brightness(2);
-        }
+        } */
 
         .container {
             grid-column: body;
-            height: 72px;
+            height: 68px;
 
             display: flex;
             justify-content: space-evenly;
@@ -96,11 +106,13 @@ body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category
         overflow-y: auto;
         overscroll-behavior: contain;
         min-width: 100vw;
+        padding-top: env(safe-area-inset-top);
+        background-color: var(--bg-primary);
 
         transition-behavior: allow-discrete;
         transition-duration: .2s;
         transition-timing-function: var(--easing-x);
-        transition-property: translate, scale;
+        transition-property: display, translate, scale, border-radius, background-color;
 
         :where(main-page) > header {
             & h2 {

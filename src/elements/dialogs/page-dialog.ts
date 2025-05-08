@@ -20,7 +20,7 @@ export class PageDialog extends HTMLElement {
         this.onTouchEnd = this.onTouchEnd.bind(this)
         this.onClick = this.onClick.bind(this)
 
-        this.render()        
+        this.render()
     }
 
     connectedCallback() {
@@ -104,9 +104,9 @@ export class PageDialog extends HTMLElement {
         if (x > 0) {
             event.preventDefault()
 
-            this.dialog.style.translate = `${AppNumber.mapRange(x,0,window.innerWidth,0,80)}px ${AppNumber.mapRange(x,0,window.innerWidth,0,-20)}px`
+            this.dialog.style.translate = `${AppNumber.mapRange(x,0,window.innerWidth,0,80)}px 0px`
             this.dialog.style.scale = `${AppNumber.mapRange(x,0,200,1,0.88)}`
-            this.dialog.style.borderRadius = `${AppNumber.mapRange(Math.min(x,200),0,200,0,24)}px`
+            this.dialog.style.borderRadius = `${AppNumber.mapRange(Math.min(x,200),0,200,0,40)}px`
             this.dialog.style.overflow = 'hidden'
         }
     }
@@ -119,7 +119,7 @@ export class PageDialog extends HTMLElement {
 
         const absX = Math.abs(deltaX)
         const x = AppNumber.mapRange(absX,0,window.innerWidth,0,80)
-        const y = AppNumber.mapRange(absX,0,window.innerWidth,0,-20)
+        const y = 0 // AppNumber.mapRange(absX,0,window.innerWidth,0,-20)
         if (absX > Math.min(200, this.dialog.clientWidth * 0.3)) {
             this.closePage(x, y)
         } else if (absX > 1) {

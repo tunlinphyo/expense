@@ -71,6 +71,12 @@ export class ExpenseForm extends ReactiveForm {
                 }
             }
         })
+
+        // const amountEl = this.querySelector('input[name="amount"]')
+        // amountEl?.addEventListener('focus', (e: Event) => {
+        //     const traget = e.target as HTMLElement
+        //     traget.scrollIntoView({ block: 'start', behavior: 'auto' })
+        // })
     }
 
     disconnectedCallback() {
@@ -83,9 +89,9 @@ export class ExpenseForm extends ReactiveForm {
     }
 
     clear() {
-        if (!this.data.id) 
+        if (!this.data.id)
             this.data = this.defaultData
-        else 
+        else
             this.data = this.getFormData()
     }
 

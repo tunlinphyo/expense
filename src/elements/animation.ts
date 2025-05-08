@@ -1,7 +1,9 @@
-const X = 120
-const Y = 200
-const easingX = 'cubic-bezier(.25,0,.4,1)'
-const easingY = 'cubic-bezier(.50,0,1,1)'
+const X = 150
+const Y = 150
+// const easingX = 'cubic-bezier(.25,0,.4,1)'
+// const easingY = 'cubic-bezier(.50,0,1,1)'
+const easingX = 'ease'
+const easingY = 'ease-in'
 
 export function modalIn(elem: HTMLElement, deltaY: number = 0, isMini: boolean = false) {
     const y = Y * (isMini ? 0.5 : 1)

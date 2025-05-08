@@ -45,17 +45,17 @@
     --bg-wave: light-dark(var(--gray-6), var(--gray-5));
 
     --page-x: 150px;
-    --modal-scale: .88;
-    --easing-x: var(--ease-2);
+    --modal-scale: .9;
+    --easing-x: ease;
 
     /* color: #dbdbe0; */
 
     --glass: light-dark(var(--white), var(--gray-4));
     --solid-bg: light-dark(var(--white), var(--black));
     --solid-fg: light-dark(var(--black), var(--white));
-    --glass-bg: color-mix(in srgb, var(--glass) 65%, transparent);
-    --glass-filter: blur(40px) brightness(.8);
-    --glass-border: light-dark(var(--white), var(--gray-3));
+    --glass-bg: color-mix(in srgb, var(--glass) 50%, transparent);
+    --glass-filter: blur(30px) brightness(1);
+    --glass-border: light-dark(var(--white), var(--gray-2));
 
     --bg-loading: var(--gray-5);
     --bg-wave: var(--gray-6);
@@ -63,12 +63,12 @@
     --bg-primary: light-dark(rgb(219,219,224), var(--black));
     --bg-card: color-mix(in srgb, light-dark(var(--white), var(--gray-4)) 50%, transparent);
     --card-filter: blur(80px) brightness(1);
-    --card-border: light-dark(var(--white), var(--gray-5));
+    --card-border: light-dark(var(--white), var(--gray-4));
 
     --fg-primary: light-dark(rgb(28,28,30), rgb(242,242,247));
     --fg-accent: light-dark(rgb(132,132,137), rgb(154,154,158));
 
-    --list-border: light-dark(var(--gray-4), rgb(38,38,40));
+    --list-border: light-dark(var(--gray-4), var(--gray-5));
 
     --bg-glass: color-mix(in srgb, var(--bg-primary) 50%, transparent);
     --bg-form: var(--solid-bg);
@@ -77,6 +77,9 @@
         --glass-alpha: 1;
     }
 
+    /* @media (prefers-color-scheme: dark) {
+        --card-filter: blur(80px) brightness(1);
+    } */
 }
 
 /* :root {

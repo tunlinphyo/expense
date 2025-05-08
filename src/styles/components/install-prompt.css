@@ -16,6 +16,10 @@
     width: 92vw;
     max-width: 30rem;
 
+    @media (display-mode: fullscreen), (display-mode: standalone) {
+        bottom: max(env(safe-area-inset-bottom, 0px), 4vw);
+    }
+
     header {
         display: flex;
         justify-content: flex-start;

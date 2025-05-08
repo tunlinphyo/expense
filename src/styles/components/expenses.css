@@ -46,8 +46,11 @@ expense-group {
         }
 
         &:has(.emptyData) {
-            padding-block: var(--size-4);
             /* background-color: transparent; */
+        }
+
+        .emptyData {
+            padding-block: var(--size-4);
         }
 
         & inline-loading {

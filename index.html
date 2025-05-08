@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Expense</title>
     <link rel="manifest" href="/manifest.json" />
 
@@ -19,15 +20,15 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="MyWebSite" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <meta name="theme-color" content="#dbdbe0" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <!-- <meta name="theme-color" content="#dbdbe0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" /> -->
+    <meta id="themeColor" name="theme-color" content="#dbdbe0" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="My PWA App" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Expense" />
 
     <style>
         #splashScreen {
@@ -184,15 +185,15 @@
                             <template id="guest">
                                 <div class="user-card">
                                     <img src="/avatar.png" alt="guest user" width="84" height="84" />
-                                    <h2>Guest</h2>
-                                    <button type="button" data-button="login-google" data-primary-button>
+                                    <h2>Sign in required</h2>
+                                    <!-- <button type="button" data-button="login-google" data-primary-button>
                                         Sign in with Google
                                         <svg-icon name="google" size="20"></svg-icon>
                                     </button>
                                     <button type="button" data-button="login-github" data-primary-button>
                                         Sign in with Github
                                         <svg-icon name="google" size="20"></svg-icon>
-                                    </button>
+                                    </button> -->
                                 </div>
                             </template>
                         </firebase-auth>
@@ -258,9 +259,9 @@
                             </li>
                             <li>
                                 <button type="button" data-button="prompt" data-prompt-id="themePrompt">
-                                    <svg-icon class="icon" name="about" size="24"></svg-icon>
+                                    <svg-icon class="icon" name="theme" size="24"></svg-icon>
                                     <span class="name">Theme</span>
-                                    <div class="value"></div>
+                                    <div class="value" id="themeValue"></div>
                                     <svg-icon class="arrow" name="next" size="14"></svg-icon>
                                 </button>
                             </li>
@@ -568,6 +569,9 @@
                     You can record your daily spending, organize it by category, and view monthly summaries at a glance.
                 </p>
                 <p>
+                    This is part of my educational practice, so it may not be maintained or supported for long-term use.
+                </p>
+                <p>
                     If you’re signed in with Google or GitHub, your data is stored securely and managed in accordance with Firebase’s
                     <a href="https://firebase.google.com/terms" target="_blank">Terms of Service</a> and
                     <a
@@ -575,9 +579,6 @@
                         target="_blank">
                         Privacy Policy.
                     </a>
-                </p>
-                <p>
-                    This is part of my educational practice, so it may not be maintained or supported for long-term use.
                 </p>
 
                 <h2 class="margin-top">Who I am</h2>
@@ -654,7 +655,7 @@
             <section class="login-page">
                 <h2>Let's get started</h2>
                 <p class="intro">
-                    Track your expenses easily. Sign in with Google to securely save and manage your data across devices.
+                    Track your expenses easily. Sign in to securely save and manage your data across devices.
                 </p>
                 <div class="card card--large">
                     <button type="button" data-button="login-google" data-primary-button>
@@ -746,23 +747,41 @@
             </template>
         </install-prompt>
 
-        <theme-prompt id="themePrompt">
-            <section>
+        <theme-prompt id="themePrompt" dismiss="auto">
+            <fieldset>
                 <ul>
                     <li>
-                        <button type="button" data-button="light">Light</button>
+                        <label>
+                            <input type="radio" data-aria-only name="theme" value="light">
+                            <div class="icon">
+                                <svg-icon name="sun" size="20"></svg-icon>
+                            </div>
+                            <span>Light Theme</span>
+                        </label>
                     </li>
                     <li>
-                        <button type="button" data-button="dark">Dark</button>
+                        <label>
+                            <input type="radio" data-aria-only name="theme" value="dark">
+                            <div class="icon">
+                                <svg-icon name="moon" size="20"></svg-icon>
+                            </div>
+                            <span>Dark Theme</span>
+                        </label>
                     </li>
                     <li>
-                        <button type="button" data-button="auto">System</button>
+                        <label>
+                            <input type="radio" data-aria-only name="theme" value="auto">
+                            <div class="icon">
+                                <svg-icon name="night-day" size="20"></svg-icon>
+                            </div>
+                            <span>Device Setting</span>
+                        </label>
                     </li>
                 </ul>
                 <button type="button" data-button="prompt-close" data-icon-button>
                     <svg-icon name="close" size="14"></svg-icon>
                 </button>
-            </section>
+            </fieldset>
         </theme-prompt>
 
     </expense-app>

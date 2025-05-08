@@ -1,49 +1,16 @@
-import { appToast } from ".";
-import { css } from "../utils"
+import { appToast } from ".."
+import { BasePrompt } from "../../elements"
 
 interface BeforeInstallPromptEvent extends Event {
     prompt: () => Promise<void>
     userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>
 }
 
-const hostStyle = css`
-    :host {
-        translate: -50% 110%;
-
-        transition-behavior: allow-discrete;
-        transition-duration: .3s;
-        transition-timing-function: ease;
-        transform: translateZ(0);
-
-
-        @starting-style {
-            translate: -50% 50%;
-        }
-    }
-
-    :host(:popover-open) {
-        translate: -50% 0%;
-
-        @starting-style {
-            translate: -50% 50%;
-        }
-    }
-`
-
-class InstallPrompt extends HTMLElement {
-    private renderRoot: ShadowRoot
+class InstallPrompt extends BasePrompt {
     private deferredPrompt: BeforeInstallPromptEvent | null = null
 
     static get observedAttributes() {
         return ['ready', 'show']
-    }
-
-    constructor() {
-        super()
-        this.renderRoot = this.attachShadow({mode: 'open'})
-        this.renderRoot.adoptedStyleSheets = [hostStyle]
-
-        this.onClick = this.onClick.bind(this)
     }
 
     attributeChangedCallback(name: string) {
@@ -57,6 +24,7 @@ class InstallPrompt extends HTMLElement {
         }
         if (name === 'show') {
             if (this.hasAttribute(name)) {
+                this.setAttribute('popover', 'auto')
                 this.updateAndroidUi(false)
                 this.addListeners()
             } else {
@@ -66,7 +34,7 @@ class InstallPrompt extends HTMLElement {
     }
 
     connectedCallback() {
-        this.render()
+        super.connectedCallback()
 
         if (this.isIos()) {
             this.renderTemplate(true)
@@ -78,10 +46,6 @@ class InstallPrompt extends HTMLElement {
             e.preventDefault()
             this.deferredPrompt = e as BeforeInstallPromptEvent
         }, { once: true })
-    }
-
-    disconnectedCallback() {
-        this.removeEventListener('click', this.onClick)
     }
 
     private updateAndroidUi(isPrompt: boolean = true) {
@@ -111,13 +75,13 @@ class InstallPrompt extends HTMLElement {
         this.removeEventListener('click', this.onClick)
     }
 
-    private onClick(e: Event) {
+    protected onClick(e: Event) {
         const target = e.target as HTMLElement
         if (target.hasAttribute('data-button')) {
             const btn = target.dataset.button
             if (btn === 'prompt-close') {
                 this.hide()
-            } 
+            }
             if (btn === 'install') {
                 this.triggerInstall()
             }
@@ -138,7 +102,7 @@ class InstallPrompt extends HTMLElement {
         try {
             this.deferredPrompt.prompt()
             const result = await this.deferredPrompt.userChoice
-    
+
             if (result.outcome === 'accepted') {
                 this.hide()
                 this.deferredPrompt = null
@@ -146,12 +110,6 @@ class InstallPrompt extends HTMLElement {
         } catch(_) {
             appToast.showMessage('Error', null, true)
         }
-    }
-
-    private render() {
-        const slot = document.createElement('slot')
-        this.setAttribute('popover', 'manual')
-        this.renderRoot.appendChild(slot)
     }
 
     private isIos() {

@@ -45,7 +45,8 @@ export class BasePrompt extends HTMLElement {
 
     private render() {
         const slot = document.createElement('slot')
-        this.setAttribute('popover', 'manual')
+        const dismiss = this.getAttribute('dismiss') || 'manual'
+        this.setAttribute('popover', dismiss)
         this.renderRoot.appendChild(slot)
     }
 }

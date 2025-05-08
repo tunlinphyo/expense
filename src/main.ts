@@ -2,7 +2,7 @@ import './styles/style.css'
 
 import './components'
 import './elements'
-// import { appToast } from './components'
+import { appToast } from './components'
 
 // import { CurrencyService } from './firebase/currencyService'
 // import { DEFAULT_COLORS, DEFAULT_CURRENCY, DEFAULT_ICONS } from './data'
@@ -16,10 +16,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     // await IconService.seedIcons(DEFAULT_ICONS)
     // await CurrencyService.seedCurrency(DEFAULT_CURRENCY)
 
-    // const total = document.querySelector('current-total')
-    // total?.addEventListener('click', async () => {
-    //     appToast.showMessage('Test success', 'check-circle')
-    //     // appToast.showMessage('Test success')
-    //     // appToast.showMessage('Test error', null, true)
-    // })
+    const total = document.querySelector('current-total')
+    total?.addEventListener('click', async () => {
+        appToast.showMessage('Test success', 'check-circle')
+        // appToast.showMessage('Test success')
+        // appToast.showMessage('Test error', null, true)
+    })
+
+    // if ('visualViewport' in window) {
+    //     window.visualViewport!.addEventListener("resize", () => {
+    //         document.documentElement.style.height = `${window.visualViewport!.height}px`
+    //         console.log("Viewport height:", window.visualViewport!.height)
+    //     })
+    // }
+
+    function updateVhUnit() {
+        const vh = window.visualViewport?.height || window.innerHeight
+        document.documentElement.style.setProperty('--vh', `${vh * 0.01}px`)
+    }
+
+    if ('visualViewport' in window) {
+        window.visualViewport?.addEventListener('resize', updateVhUnit)
+        window.visualViewport?.addEventListener('scroll', updateVhUnit)
+    }
+    window.addEventListener('resize', updateVhUnit) // fallback
+    updateVhUnit()
 })

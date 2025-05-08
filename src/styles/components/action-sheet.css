@@ -2,6 +2,7 @@
     .sheet-body {
         width: 100%;
         background-color: var(--bg-picker);
+        backdrop-filter: var(--card-filter);
         border-radius: 1.5rem;
         border: 1px solid var(--card-border);
 
@@ -10,7 +11,7 @@
         }
 
         > header {
-            padding: var(--size-2);
+            padding: var(--size-2) var(--size-4);
             border-bottom: 1px solid var(--bg-accent);
             text-align: center;
             font-size: var(--text-sm);

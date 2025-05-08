@@ -3,6 +3,11 @@
 :root {
     color-scheme: light dark;
 
+    inline-size: 100vw;
+    block-size: 100vh;
+    /* block-size: 100dvh; */
+    /* height: calc(var(--vh, 1vh) * 100); */
+
     &[theme=light] {
         &, & * {
             color-scheme: light;
@@ -24,9 +29,17 @@ body {
     inline-size: 100%;
     block-size: 100%;
 
+    transition: block-size 1s ease;
+
     background-color: var(--bg-primary);
     color: var(--fg-primary);
+    /* --primary-bg: color-mix(in srgb, var(--primary) 25%, transparent);
+    background-image: linear-gradient(to top, var(--primary-bg), var(--bg-primary), var(--bg-primary)); */
 }
+/*
+html {
+    padding-top: env(safe-area-inset-top);
+} */
 
 body {
     --layout-column: [edge-start] 1fr [body-start] clamp(0rem, 92vw, 30rem) [body-end] 1fr [edge-end];

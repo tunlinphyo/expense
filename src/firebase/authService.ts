@@ -10,54 +10,48 @@ import {
     linkWithCredential,
 } from "firebase/auth"
 import { auth, googleProvider, githubProvider } from "./firebase"
-import { actionSheet } from "../components"
 
 export type UserType = 'anonymous' | 'google' | 'github' | 'unknown'
 
-// ✅ Save the pending credential to link across providers
-let pendingCredential: OAuthCredential | null = null
+export type LoginReturn = { success: true, user: User}
+ | { success: false, email: string, credential: OAuthCredential}
+
 
 export const observeAuthState = (callback: (user: User | null) => void) => {
     return onAuthStateChanged(auth, callback)
 }
 
-export const loginWithGoogle = async (): Promise<boolean> => {
+export const loginWithGoogle = async (credential?: OAuthCredential): Promise<LoginReturn> => {
     try {
         const result = await signInWithPopup(auth, googleProvider)
 
         if (
-            pendingCredential &&
-            pendingCredential.providerId === 'github.com' &&
-            result.user.providerData.every(p => p.providerId !== 'github.com')
+            credential &&
+            credential.providerId === 'github.com'
         ) {
-            await linkWithCredential(result.user, pendingCredential)
-            pendingCredential = null
+            await linkWithCredential(result.user, credential)
         }
 
-        return true
+        return {
+            success: true,
+            user: result.user
+        }
     } catch (error: any) {
         const authError = error as AuthError
 
         console.log('ERROR_CODE::::::::::', error.code)
 
         if (authError.code === 'auth/account-exists-with-different-credential') {
-            const email = authError.customData?.email
-            pendingCredential = OAuthProvider.credentialFromError(error)
+            const email = authError.customData?.email || ''
+            const pendingCredential = OAuthProvider.credentialFromError(error)
 
             if (!pendingCredential) throw new Error('Google sign-in error')
 
-            actionSheet.openSheet({
-                title: `Account already exists with: ${email}`,
-                actions: [
-                    {
-                        buttonText: 'Sign in with GitHub',
-                        action: async () => {
-                            await loginWithGithub()
-                        }
-                    },
-                ]
-            })
-            throw new Error('User exist')
+            return {
+                success: false,
+                email,
+                credential: pendingCredential
+            }
         } else if (authError.code === 'auth/popup-closed-by-user') {
             throw new Error('Cancled by user');
         } else if (authError.code === 'auth/network-request-failed') {
@@ -65,47 +59,40 @@ export const loginWithGoogle = async (): Promise<boolean> => {
         } else {
             throw new Error('Google sign-in error')
         }
-
     }
 }
 
-export const loginWithGithub = async (): Promise<boolean> => {
+export const loginWithGithub = async (credential?: OAuthCredential): Promise<LoginReturn> => {
     try {
         const result = await signInWithPopup(auth, githubProvider)
 
         if (
-            pendingCredential &&
-            pendingCredential.providerId === 'google.com' &&
-            result.user.providerData.every(p => p.providerId !== 'google.com')
+            credential &&
+            credential.providerId === 'google.com'
         ) {
-            await linkWithCredential(result.user, pendingCredential)
-            pendingCredential = null
+            await linkWithCredential(result.user, credential)
         }
 
-        return true
+        return {
+            success: true,
+            user: result.user
+        }
     } catch (error: any) {
         const authError = error as AuthError
 
         console.log('ERROR_CODE::::::::::', error.code)
 
         if (authError.code === 'auth/account-exists-with-different-credential') {
-            const email = authError.customData?.email
-            pendingCredential = OAuthProvider.credentialFromError(error)
+            const email = authError.customData?.email || ''
+            const pendingCredential = OAuthProvider.credentialFromError(error)
 
             if (!pendingCredential) throw new Error('GitHub sign-in error')
 
-            actionSheet.openSheet({
-                title: `Account already exists with: ${email}`,
-                actions: [
-                    {
-                        buttonText: 'Sign in with Google',
-                        action: async () => {
-                            await loginWithGoogle()
-                        }
-                    },
-                ]
-            })
-            throw new Error('User exist')
+            return {
+                success: false,
+                email,
+                credential: pendingCredential
+            }
         } else if (authError.code === 'auth/popup-closed-by-user') {
             throw new Error('Cancled by user');
         } else if (authError.code === 'auth/network-request-failed') {
@@ -117,10 +104,14 @@ export const loginWithGithub = async (): Promise<boolean> => {
     }
 }
 
-export const loginAnonymously = async (): Promise<User | null> => {
+export const loginAnonymously = async (): Promise<LoginReturn> => {
     try {
         const result = await signInAnonymously(auth)
-        return result.user
+
+        return {
+            success: true,
+            user: result.user
+        }
     } catch (error: any) {
         const authError = error as AuthError
         if (authError.code === 'auth/network-request-failed') {

@@ -10,8 +10,10 @@
   },
   "devDependencies": {
     "@types/sortablejs": "^1.15.8",
+    "@vitejs/plugin-basic-ssl": "^2.0.0",
     "typescript": "~5.7.2",
-    "vite": "^6.3.1"
+    "vite": "^6.3.1",
+    "vite-plugin-mkcert": "^1.17.8"
   },
   "dependencies": {
     "chart.js": "^4.4.9",

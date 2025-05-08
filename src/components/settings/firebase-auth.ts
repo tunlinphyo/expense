@@ -1,7 +1,6 @@
 import { User } from "firebase/auth"
 import { getAuthType, logout, observeAuthState } from "../../firebase/authService"
 import { actionSheet, appToast } from ".."
-import { loginGithub, loginGoogle } from "../../store/login"
 
 export class FirebaseAuth extends HTMLElement {
     private userTemplate?: HTMLTemplateElement
@@ -29,11 +28,7 @@ export class FirebaseAuth extends HTMLElement {
 
     private onClick(e: Event) {
         const target = e.target as HTMLElement
-        if (target.dataset.button === "login-google") {
-            loginGoogle()
-        } else if (target.dataset.button === 'login-github') {
-            loginGithub()
-        } else if (target.dataset.button === "logout") {
+        if (target.dataset.button === "logout") {
             actionSheet.openSheet({
                 title: 'Are you sure?',
                 actions: [
@@ -80,7 +75,7 @@ export class FirebaseAuth extends HTMLElement {
         }
 
         if (name) name.textContent = type === 'anonymous' ? 'Anonymous' : (user.displayName || "No Name")
-        if (email) email.textContent = user.email || "No Email"
+        if (email) email.textContent = user.email || ""
 
         this.replaceChildren(clone)
     }

@@ -112,7 +112,10 @@ export function isEmptyObject(obj: unknown): obj is Record<string, never> {
 }
 
 export function isDarkMode(): boolean {
-    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+    const theme = document.documentElement.getAttribute('theme')
+    return (theme && theme !== 'auto')
+        ? theme === 'dark'
+        : window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
 }
 
 export function wait(delay: number = 600) {

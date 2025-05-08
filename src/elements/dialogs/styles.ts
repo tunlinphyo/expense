@@ -16,6 +16,7 @@ export const hostStyles = css`
 
         scrollbar-width: none;
         overflow: auto;
+        will-change: transform, translate;
 
         &::-webkit-scrollbar {
             display: none;
@@ -23,7 +24,7 @@ export const hostStyles = css`
 
         &::backdrop {
             background-color: var(--bg-backdrop);
-            backdrop-filter: blur(10px) brightness(0.9);
+            backdrop-filter: blur(10px) brightness(0.8);
             opacity: 0;
             transition: opacity .2s ease;
 
@@ -49,7 +50,8 @@ export const hostStyles = css`
         section {
             display: grid;
             grid-template-columns: var(--layout-column);
-            padding-block-end: var(--size-7);
+            /* padding-block-end: max(env(safe-area-inset-bottom, 0px), 4vw); */
+            padding-block-end: 4vw;
         }
         ::slotted(*) {
             grid-column: body;
@@ -78,8 +80,8 @@ export const pageStyles = css`
     dialog {
         width: 100%;
         max-width: 100%;
-        height: 100%;
-        max-height: 100%;
+        height: 100vh;
+        max-height: 100vh;
         inset: 0;
 
         /* box-shadow: 0 -15px 0 var(--bg-primary); */
@@ -87,30 +89,23 @@ export const pageStyles = css`
     section {
         min-height: calc(100svh - 180px);
     }
-    section {
-        padding-block-end: var(--size-5);
-    }
     ::slotted(footer) {
-        padding-block-end: var(--size-5);
-    }
-    @media (display-mode: fullscreen), (display-mode: standalone) {
-        section {
-            padding-block-end: 40px;
-        }
-        ::slotted(footer) {
-            padding-block-end: 40px;
-        }
+        padding-block-end: env(safe-area-inset-bottom, 20px);
     }
 `
 
 export const modalStyles = css`
+    :host {
+        --apple-top: max(env(safe-area-inset-top, 0px), 15px);
+    }
     dialog {
         width: 100%;
         max-width: clamp(0rem, 100vw, 35rem);
         height: auto;
-        max-height: calc(100% - 20px);
+        max-height: calc(100vh - var(--apple-top));
         inset: auto 0 0;
         border-radius: 2rem 2rem 0 0;
+        /* border: 1px solid light-dark(var(--white), var(--black)); */
 
         &::before {
             content: '';
@@ -157,22 +152,23 @@ export const modalStyles = css`
         grid-area: header / edge;
         border-radius: 1.5rem 1.5rem 0 0;
     }
-    @media (display-mode: fullscreen), (display-mode: standalone) {
+    /* @media (display-mode: fullscreen), (display-mode: standalone) {
         section {
             padding-block-end: 60px;
         }
-    }
+    } */
 `
 
 export const actionStyles = css`
     dialog {
         width: 100%;
         max-width: clamp(0rem, 99vw, 35rem);
-        max-height: 100%;
+        max-height: 100vh;
         inset: auto 0 0;
         border-radius: 0;
-        background-color: transparent
+        background-color: transparent;
     }
+
     section {
         grid-column: body;
         display: flex;
@@ -181,19 +177,17 @@ export const actionStyles = css`
         align-items: stretch;
         gap: var(--size-2);
     }
-    @media (display-mode: fullscreen), (display-mode: standalone) {
-        section {
-            padding-block-end: 40px;
-        }
-    }
 `
 
 export const scrollModalStyles = css`
+    :host {
+        --apple-top: max(env(safe-area-inset-top, 0px), 15px);
+    }
     dialog {
         width: 100%;
         max-width: clamp(0rem, 100vw, 35rem);
         height: auto;
-        max-height: calc(100% - 20px);
+        max-height: calc(100vh - var(--apple-top) - 5px);
         inset: auto 0 0;
         border-radius: 2rem 2rem 0 0;
         background-color: transparent;
@@ -235,9 +229,9 @@ export const scrollModalStyles = css`
         grid-area: header / edge;
         border-radius: 1.5rem 1.5rem 0 0;
     }
-    @media (display-mode: fullscreen), (display-mode: standalone) {
+    /* @media (display-mode: fullscreen), (display-mode: standalone) {
         section {
             padding-block-end: 60px;
         }
-    }
+    } */
 `
