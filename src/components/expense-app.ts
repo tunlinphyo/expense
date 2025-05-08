@@ -1,4 +1,4 @@
-import { BasePrompt, ModalDialog, PageDialog } from "../elements"
+import { ModalDialog, PageDialog } from "../elements"
 import { appStore } from "../store"
 import { AppDate } from "../utils/date"
 import { ExpenseGroup } from "./expenses/expense-group"

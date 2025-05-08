@@ -9,6 +9,6 @@ export default defineConfig({
     },
     plugins: [
         // basicSsl()
-        mkcert()
+        // mkcert()
     ],
 });

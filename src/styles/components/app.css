@@ -110,7 +110,7 @@ body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category
         background-color: var(--bg-primary);
 
         transition-behavior: allow-discrete;
-        transition-duration: .2s;
+        transition-duration: var(--duration);
         transition-timing-function: var(--easing-x);
         transition-property: display, translate, scale, border-radius, background-color;
 
