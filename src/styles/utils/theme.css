@@ -44,7 +44,7 @@
     --bg-loading: light-dark(var(--white), var(--gray-6));
     --bg-wave: light-dark(var(--gray-6), var(--gray-5));
 
-    --page-x: 100px;
+    --page-x: 50%;
     --modal-scale: .88;
     --easing-x: ease-out;
     --duration: 300ms;

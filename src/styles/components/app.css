@@ -126,16 +126,19 @@ body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category
         &[data-page-expenses] {
             &[hidden] {
                 translate: calc(var(--page-x) * -1) 0;
-                opacity: 0;
+                opacity: 1;
+                z-index: 0;
             }
 
             &:not([hidden]) {
                 translate: 0 0;
                 opacity: 1;
+                z-index: 1;
 
                 @starting-style {
                     translate: calc(var(--page-x) * -1) 0;
-                    opacity: 0;
+                    opacity: 1;
+                    z-index: 1;
                 }
             }
         }
@@ -143,17 +146,20 @@ body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category
         &[data-page-settings] {
             &[hidden] {
                 translate: var(--page-x) 0;
-                opacity: 0;
+                opacity: 1;
+                z-index: 0;
             }
 
             &:not([hidden]) {
                 display: grid;
                 translate: 0 0;
                 opacity: 1;
+                z-index: 1;
 
                 @starting-style {
                     translate: var(--page-x) 0;
-                    opacity: 0;
+                    opacity: 1;
+                    z-index: 1;
                 }
             }
         }
