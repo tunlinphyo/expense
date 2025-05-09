@@ -30,15 +30,15 @@ export class CategoriesPage extends PageDialog {
             if (this.hasAttribute('page-open'))
                 this.scaleAnimate(isOpen)
         }
-    
+
         const observer = new MutationObserver(updateState)
-    
+
         observer.observe(document.body, {
             attributes: true,
             subtree: true,
             attributeFilter: ["modal-open"]
         })
-    
+
         updateState()
     }
 

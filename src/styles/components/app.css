@@ -15,7 +15,7 @@ body {
 
 body:has(:where(page-dialog, overview-page, categories-page)[page-open]) {
     :is(nav-panel) {
-        translate: calc(var(--page-x) * -1) 0 !important;
+        translate: calc(var(--page-x) * -0.5) 0 !important;
     }
 }
 
@@ -23,10 +23,12 @@ body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category
     & {
         background-color: light-dark(rgb(189,189,194), var(--black));
     }
-    :is(nav-panel) {
+    :is(#appTabs) {
         scale: var(--modal-scale);
         border-radius: var(--radius-4);
-        background-color: light-dark(var(--bg-primary), rgb(18,18,20)) !important;
+    }
+    :is(nav-panel) {
+        background-color: light-dark(var(--bg-primary), rgb(18,18,20));
     }
 }
 
@@ -34,6 +36,11 @@ body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category
     display: block;
     width: 100%;
     height: 100%;
+    overflow: hidden;
+
+    transition-duration: var(--duration);
+    transition-timing-function: ease-out;
+    transition-property: scale, border-radius, background-color;
 
     & tab-list {
         position: fixed;
@@ -108,11 +115,12 @@ body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category
         min-width: 100vw;
         padding-top: env(safe-area-inset-top);
         background-color: var(--bg-primary);
+        will-change: transform, translate, scale;
 
         transition-behavior: allow-discrete;
         transition-duration: var(--duration);
         transition-timing-function: var(--easing-x);
-        transition-property: display, translate, scale, border-radius, background-color;
+        transition-property: display, translate, background-color;
 
         :where(main-page) > header {
             & h2 {
@@ -127,18 +135,15 @@ body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category
             &[hidden] {
                 translate: calc(var(--page-x) * -1) 0;
                 opacity: 1;
-                z-index: 0;
             }
 
             &:not([hidden]) {
                 translate: 0 0;
                 opacity: 1;
-                z-index: 1;
 
                 @starting-style {
                     translate: calc(var(--page-x) * -1) 0;
                     opacity: 1;
-                    z-index: 1;
                 }
             }
         }
@@ -147,19 +152,16 @@ body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category
             &[hidden] {
                 translate: var(--page-x) 0;
                 opacity: 1;
-                z-index: 0;
             }
 
             &:not([hidden]) {
                 display: grid;
                 translate: 0 0;
                 opacity: 1;
-                z-index: 1;
 
                 @starting-style {
                     translate: var(--page-x) 0;
                     opacity: 1;
-                    z-index: 1;
                 }
             }
         }

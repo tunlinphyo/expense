@@ -24,7 +24,7 @@ export const hostStyles = css`
 
         &::backdrop {
             background-color: var(--bg-backdrop);
-            backdrop-filter: blur(10px) brightness(0.8);
+            backdrop-filter: var(--dialog-filter);
             opacity: 0;
             transition: opacity .2s ease;
 
@@ -50,8 +50,7 @@ export const hostStyles = css`
         section {
             display: grid;
             grid-template-columns: var(--layout-column);
-            /* padding-block-end: max(env(safe-area-inset-bottom, 0px), 4vw); */
-            padding-block-end: 4vw;
+            padding-block-end: max(env(safe-area-inset-bottom, 0px), 4vw);
         }
         ::slotted(*) {
             grid-column: body;
@@ -102,7 +101,7 @@ export const modalStyles = css`
         width: 100%;
         max-width: clamp(0rem, 100vw, 35rem);
         height: auto;
-        max-height: calc(100vh - var(--apple-top));
+        max-height: calc(100vh - calc(var(--apple-top) + 5px));
         inset: auto 0 0;
         border-radius: 2rem 2rem 0 0;
         /* border: 1px solid light-dark(var(--white), var(--black)); */

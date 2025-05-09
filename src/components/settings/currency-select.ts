@@ -1,44 +1,74 @@
-import { ModalDialog } from "../../elements"
+import { appToast } from ".."
+import { CustomSelect } from "../../elements"
+import { AppService } from "../../firebase/appService"
+import { CurrencyService } from "../../firebase/currencyService"
+import { effect } from "../../signal"
+import { currencySignal, userSignal } from "../../store/signal"
+import type { Currency } from "../../types"
+import { updateBindings } from "../../utils/data-bind"
 
-export class CurrencySelect extends HTMLElement {
-    private renderRoot: ShadowRoot
-    private modalEl: ModalDialog | null
+
+export class CurrencySelect extends CustomSelect {
+    private template: HTMLTemplateElement | null
+    private unsubscribe?: () => void
+    private loaded: boolean = false
 
     constructor() {
         super()
-        this.renderRoot = this.attachShadow({ mode: 'open' })
-        this.modalEl = this.querySelector('modal-dialog') as ModalDialog
+        this.template = this.querySelector('template')
 
-        this.onClick = this.onClick.bind(this)
         this.onSelect = this.onSelect.bind(this)
     }
 
-    connectedCallback() {
-        this.render()
-        this.addEventListener('click', this.onClick)
-        this.addEventListener('currencyselected', this.onSelect)
-    }
-
-    disconnectedCallback() {
-        this.removeEventListener('click', this.onClick)
-        this.removeEventListener('currencyselected', this.onSelect)
-    }
-
-    private onClick(e: Event) {
-        const target = e.target as HTMLElement
-        if (target.dataset.button === 'select') {
-            this.modalEl?.openModal()
+    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+        super.attributeChangedCallback(name, oldValue, newValue)
+        if (name === 'value' && newValue !== oldValue) {
+            AppService.setField(userSignal.get(), 'currency', newValue)
         }
     }
 
-    private onSelect() {
-        this.modalEl?.closeModal()
+    connectedCallback() {
+        super.connectedCallback()
+        this.getCurrency()
+        this.unsubscribe = effect(() => {
+            if (!this.loaded) return
+            this.value = currencySignal.get()
+        }, [currencySignal])
+
+        this.addEventListener('select', this.onSelect)
     }
 
-    private render() {
-        const slot = document.createElement('slot')
+    disconnectedCallback(): void {
+        super.disconnectedCallback()
+        this.unsubscribe?.()
+        this.removeEventListener('select', this.onSelect)
+    }
 
-        this.renderRoot.appendChild(slot)
+    private onSelect(e: Event) {
+        const target = e.target as HTMLElement
+        const name = target.dataset.name || ''
+        appToast.showMessage(`${name}`, 'usd')
+    }
+
+    private async getCurrency() {
+        if (this.template) {
+            const currencies = await CurrencyService.getAllCurrencies()
+            for (const currency of currencies) {
+                this.renderCurrency(currency)
+            }
+            this.loaded = true
+            this.setOptions()
+            this.value = currencySignal.get()
+        }
+    }
+
+    private renderCurrency(currency: Currency) {
+        if (!this.template) return
+        const clone = this.template.content.firstElementChild?.cloneNode(true) as HTMLElement
+        if (clone) {
+            this.appendChild(clone)
+            updateBindings(clone, currency, {})
+        }
     }
 }
 

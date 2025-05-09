@@ -1,38 +1,45 @@
-const X = 100
-const Y = 150
 const duration = 300
+const easeOut = 'cubic-bezier(0, 0.5, 0.5, 1)'
 
-export function modalIn(elem: HTMLElement, deltaY: number = 0, isMini: boolean = false) {
-    const y = Y * (isMini ? 0.5 : 1)
+export function modalIn(elem: HTMLElement, deltaY: number = 0) {
     return elem.animate([
-        { translate: `0 ${deltaY || y}px` },
+        { translate: `0 ${deltaY || elem.clientHeight}px` },
         { translate: '0 0' },
     ], {
         duration,
-        easing: 'ease'
+        easing: easeOut
     })
 }
 
-export function modalOut(elem: HTMLElement, deltaY: number = 0, isMini: boolean = false) {
-    const y = Y * (isMini ? 0.5 : 1)
-    const startY = Math.max(deltaY, elem.clientHeight - y)
+export function modalCustomIn(elem: HTMLElement, deltaY: number = 0) {
+    const startY = Math.max((elem.clientHeight * 0.5), deltaY)
     return elem.animate([
         { translate: `0 ${startY}px` },
-        { translate: `0 ${window.innerHeight}px` },
+        { translate: '0 0' },
     ], {
         duration,
-        easing: 'ease-in'
+        easing: easeOut
+    })
+}
+
+export function modalOut(elem: HTMLElement, deltaY: number = 0) {
+    return elem.animate([
+        { translate: `0 ${deltaY}px` },
+        { translate: `0 ${elem.clientHeight + 50}px` },
+    ], {
+        duration,
+        easing: easeOut
     })
 }
 
 export function modalCustomOut(elem: HTMLElement, deltaY: number = 0) {
-    const startY = Math.max(window.innerHeight * 0.25, deltaY)
+    const halfY = window.innerHeight * 0.5
     return elem.animate([
-        { translate: `0 ${startY}px` },
-        { translate: `0 ${startY + (Y * 1.5)}px` },
+        { translate: `0 ${deltaY}px` },
+        { translate: `0 ${halfY + 50}px` },
     ], {
         duration,
-        easing: 'ease-in'
+        easing: easeOut
     })
 }
 
@@ -44,11 +51,11 @@ export function pageIn(elem: HTMLElement, deltaX: number = 0, deltaY: number = 0
     elem.removeAttribute('style')
 
     return elem.animate([
-        { translate: `${deltaX || X}px ${deltaY}px`, scale, borderRadius },
+        { translate: `${deltaX || elem.clientWidth}px ${deltaY}px`, scale, borderRadius },
         { translate: '0 0', scale: 1, borderRadius: 0 },
     ], {
         duration,
-        easing: 'ease-out'
+        easing: easeOut
     })
 }
 
@@ -59,11 +66,13 @@ export function pageOut(elem: HTMLElement, deltaX: number = 0, deltaY: number = 
 
     elem.removeAttribute('style')
 
+    // const startX = Math.max(window.innerWidth - X, deltaX)
+
     return elem.animate([
         { translate: `${deltaX}px ${deltaY}px`, opacity: 1, scale, borderRadius },
-        { translate: `${deltaX}px 0`, opacity: 0, scale, borderRadius },
+        { translate: `${elem.clientWidth}px 0`, opacity: 1, scale, borderRadius },
     ], {
         duration,
-        easing: 'ease'
+        easing: easeOut
     })
 }

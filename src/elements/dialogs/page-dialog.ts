@@ -104,7 +104,7 @@ export class PageDialog extends HTMLElement {
         if (x > 0) {
             event.preventDefault()
 
-            this.dialog.style.translate = `${AppNumber.mapRange(x,0,window.innerWidth,0,80)}px 0px`
+            this.dialog.style.translate = `${AppNumber.mapRange(x,0,window.innerWidth,0,100)}px 0px`
             this.dialog.style.scale = `${AppNumber.mapRange(x,0,200,1,0.88)}`
             this.dialog.style.borderRadius = `${AppNumber.mapRange(Math.min(x,200),0,200,0,40)}px`
             this.dialog.style.overflow = 'hidden'
@@ -118,12 +118,11 @@ export class PageDialog extends HTMLElement {
         this.isDragging = false
 
         const absX = Math.abs(deltaX)
-        const x = AppNumber.mapRange(absX,0,window.innerWidth,0,80)
-        const y = 0 // AppNumber.mapRange(absX,0,window.innerWidth,0,-20)
+        const x = AppNumber.mapRange(absX,0,window.innerWidth,0,100)
         if (absX > Math.min(200, this.dialog.clientWidth * 0.3)) {
-            this.closePage(x, y)
+            this.closePage(x)
         } else if (absX > 1) {
-            this.openAnimation(x, y)
+            this.openAnimation(x)
         }
     }
 

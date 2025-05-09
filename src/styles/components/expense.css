@@ -134,8 +134,8 @@ filter-form.custom-form {
 
         & button[data-button="quick"] {
             background-color: transparent;
-            color: var(--fg-accent);
-            border: 2px dotted light-dark(var(--gray-4), var(--gray-2));
+            color: var(--fg-primary);
+            border: 2px dotted var(--fg-accent);
             border-radius: var(--size-3);
 
             &[data-hide] {

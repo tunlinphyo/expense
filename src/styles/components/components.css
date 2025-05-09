@@ -15,4 +15,5 @@
 @import url('./about.css');
 @import url('./login.css');
 @import url('./install-prompt.css');
-@import url('./theme-prompt.css');
+@import url('./theme-select.css');
+@import url('./currency-select.css');

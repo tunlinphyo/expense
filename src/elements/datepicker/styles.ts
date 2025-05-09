@@ -10,37 +10,23 @@ export const pickerStyle = css`
         --glass: light-dark(var(--white), var(--black));
     }
     dialog {
-        width: 100%;
-        max-width: clamp(0rem, 99vw, 30rem);
-        min-height: 300px;
-        max-height: calc(100% - 20px);
-        inset: auto 0 0;
-        padding-block: var(--size-6);
-        background-color: var(--bg-picker);
-        border-radius: 2rem 2rem 0 0;
+        width: 92vw;
+        max-width: 30rem;
+        inset: auto 0 4vw;
 
         border-radius: 2rem;
         background-color: var(--glass-bg);
         backdrop-filter: var(--glass-filter);
+        font-family: var(--font-family);
         border: 1px solid var(--glass-border);
 
-        .touch-tracker {
-            width: 2.5em;
-            height: 5px;
-            border-radius: 5px;
-            background-color: var(--fg-primary);
+        &::backdrop {
+            background-color: transparent;
+            backdrop-filter: var(--dialog-filter);
+        }
 
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            translate: -50% 0;
-
-            &::before {
-                content: '';
-                display: block;
-                position: absolute;
-                inset: -30px -60px;
-            }
+        @media (display-mode: fullscreen), (display-mode: standalone) {
+            inset-block-end: max(env(safe-area-inset-bottom, 0px), 4vw);
         }
     }
     header {
@@ -48,45 +34,73 @@ export const pickerStyle = css`
     }
     footer {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
-        padding-inline: var(--size-4);
+        gap: var(--size-3);
+        padding: var(--size-2);
 
         :where(button) {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: var(--size-2);
-            height: 46px;
+            height: 44px;
             border: none;
-            color: var(--primary);
+            color: var(--fg-primary);
             font-family: var(--font-family);
             font-size: var(--text-md);
-            font-weight: 500;
             text-transform: capitalize;
-            padding-inline: var(--size-2);
-            background-color: transparent;
-            border-radius: var(--radius-5);
+            padding-inline: var(--size-3);
+            background-color: var(--solid-bg);
+            border-radius: var(--radius-6);
+            * {
+                pointer-events: none;
+            }
+            & svg-icon {
+                color: var(--primary);
+            }
         }
     }
-    @media (display-mode: fullscreen), (display-mode: standalone) {
-        dialog {
-            padding-block-end: 34px;
+    [data-icon-button] {
+        padding: 0;
+        border: none;
+        background-color: transparent;
+        color: var(--fg-primary);
+
+        width: 44px;
+        aspect-ratio: 1;
+        /* background-color: var(--bg-accent); */
+        background-color: var(--solid-bg);
+        border-radius: 50%;
+
+        display: grid;
+        place-content: center;
+        * {
+            pointer-events: none;
         }
+        & svg-icon {
+            color: var(--primary);
+        }
+    }
+    button[data-icon-button][data-button=done] {
+        position: absolute;
+        bottom: var(--size-2);
+        right: var(--size-2);
+        background-color: var(--solid-bg);
     }
 `
 
 export const monthPickerStyle = css`
     dialog {
         & year-month {
-            margin-block: var(--size-4);
+            margin-block: var(--size-5) var(--size-4);
         }
     }
 `
 
 export const datePickerStyle = css`
     dialog {
-        padding-block-start: var(--size-8);
+        padding-block-start: var(--size-6);
     }
 `
 

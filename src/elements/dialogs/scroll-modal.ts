@@ -1,5 +1,5 @@
 
-import { modalCustomOut, modalIn, modalOut } from "../animation"
+import { modalCustomOut, modalCustomIn, modalOut, modalIn } from "../animation"
 import { hostStyles, scrollModalStyles } from "./styles"
 
 export class ScrollModal extends HTMLElement {
@@ -74,7 +74,7 @@ export class ScrollModal extends HTMLElement {
 
         this.touchTracker.classList.add('touch-tracker')
         this.sectionEl.prepend(this.touchTracker)
-        
+
         this.dialog.appendChild(this.sectionEl)
         this.renderRoot.appendChild(this.dialog)
     }
@@ -100,7 +100,7 @@ export class ScrollModal extends HTMLElement {
         this.startY = event.touches[0].clientY
         this.currentY = this.startY
         const top = this.sectionEl.offsetTop
-        
+
         if (target !== this.touchTracker) {
             if ((this.dialog.scrollTop || 0) > 0) return
             if (this.startY < (top - 10)) return
@@ -130,20 +130,21 @@ export class ScrollModal extends HTMLElement {
         if (deltaY > this.dialog.clientHeight * 0.25) {
             this.closeModal(deltaY)
         } else if (deltaY > 1) {
-            this.openAnimation(deltaY)
+            this.openAnimation(deltaY, true)
         }
     }
 
-    private openAnimation(deltaY: number = 0) {
-        return modalIn(this.dialog, deltaY)
+    private openAnimation(deltaY: number = 0, formTouch: boolean = false) {
+        if (formTouch) return modalIn(this.dialog, deltaY)
+        return modalCustomIn(this.dialog, deltaY)
     }
 
     private closeAnimation(deltaY: number = 0) {
         this.dialog.classList.add('closing')
 
-        const noScroll = this.dialog.scrollTop < 80 
+        const noScroll = this.dialog.scrollTop < 80
 
-        if (noScroll) 
+        if (noScroll)
             return modalCustomOut(this.dialog, deltaY)
 
         return modalOut(this.dialog, deltaY)

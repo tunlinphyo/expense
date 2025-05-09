@@ -90,7 +90,6 @@ export class CalendarView extends HTMLElement {
         const now = new Date(d.getFullYear(), d.getMonth(), 1)
         const month = new Date(this.currMonth.getFullYear(), this.currMonth.getMonth(), 1)
         const diff = this.monthDiff(now, month)
-        console.log(diff)
 
         if (diff) this.movetoToday(diff * -1, d.getDate())
     }

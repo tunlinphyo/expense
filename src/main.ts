@@ -22,23 +22,4 @@ document.addEventListener('DOMContentLoaded', async () => {
         // appToast.showMessage('Test success')
         // appToast.showMessage('Test error', null, true)
     })
-
-    // if ('visualViewport' in window) {
-    //     window.visualViewport!.addEventListener("resize", () => {
-    //         document.documentElement.style.height = `${window.visualViewport!.height}px`
-    //         console.log("Viewport height:", window.visualViewport!.height)
-    //     })
-    // }
-
-    function updateVhUnit() {
-        const vh = window.visualViewport?.height || window.innerHeight
-        document.documentElement.style.setProperty('--vh', `${vh * 0.01}px`)
-    }
-
-    if ('visualViewport' in window) {
-        window.visualViewport?.addEventListener('resize', updateVhUnit)
-        window.visualViewport?.addEventListener('scroll', updateVhUnit)
-    }
-    window.addEventListener('resize', updateVhUnit) // fallback
-    updateVhUnit()
 })

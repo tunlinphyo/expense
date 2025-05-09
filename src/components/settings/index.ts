@@ -1,7 +1,5 @@
 import './settings-group'
 import './firebase-auth'
 import './currency-select'
-import './currency-list'
-import './currency-value'
-import './theme-prompt'
 import './install-prompt'
+import './theme-select'

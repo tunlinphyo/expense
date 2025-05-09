@@ -200,40 +200,6 @@
 
                         <ul class="actions-list">
                             <li>
-                                <currency-select>
-                                    <button type="button" data-button="select">
-                                        <svg-icon class="icon" name="dollar" size="24"></svg-icon>
-                                        <span class="name">Currency</span>
-                                        <currency-value></currency-value>
-                                        <svg-icon class="arrow" name="next" size="14"></svg-icon>
-                                    </button>
-
-                                    <modal-dialog data-half>
-                                        <header slot="header" class="modal-header">
-                                            <span></span>
-                                            <h2>Currency</h2>
-                                            <span></span>
-                                        </header>
-                                        <currency-list class="currency-list">
-                                            <template>
-                                                <dynamic-item>
-                                                    <label>
-                                                        <div class="flag">
-                                                            <img data-bind-attr="src:item.flag;alt:item.name">
-                                                        </div>
-                                                        <div class="name" data-bind-text="item.name"></div>
-                                                        <input type="radio" name="currency" data-aria-only data-bind-attr="value:id;data-name:item.name">
-                                                        <div class="custom-radio" aria-hidden="true" role="presentation">
-                                                            <svg-icon name="checked" size="28"></svg-icon>
-                                                        </div>
-                                                    </label>
-                                                </dynamic-item>
-                                            </template>
-                                        </currency-list>
-                                    </modal-dialog>
-                                </currency-select>
-                            </li>
-                            <li>
                                 <button type="button" data-button="page" data-page-id="categoriesPage">
                                     <svg-icon class="icon" name="categories" size="24"></svg-icon>
                                     <span class="name">Categories</span>
@@ -258,12 +224,62 @@
                                 </button>
                             </li>
                             <li>
-                                <button type="button" data-button="prompt" data-prompt-id="themePrompt">
-                                    <svg-icon class="icon" name="theme" size="24"></svg-icon>
-                                    <span class="name">Theme</span>
-                                    <div class="value" id="themeValue"></div>
-                                    <svg-icon class="arrow" name="next" size="14"></svg-icon>
-                                </button>
+                                <currency-select>
+                                    <button type="button" data-button="select" slot="button">
+                                        <svg-icon class="icon" name="dollar" size="24"></svg-icon>
+                                        <span class="name">Currency</span>
+                                        <custom-selected></custom-selected>
+                                        <svg-icon class="arrow" name="next" size="14"></svg-icon>
+                                    </button>
+
+                                    <template>
+                                        <custom-option data-bind-attr="value:id;data-name:name">
+                                            <div class="flag">
+                                                <img data-bind-attr="src:flag;alt:name">
+                                            </div>
+                                            <div class="name" data-bind-text="name"></div>
+                                            <div class="custom-radio" aria-hidden="true" role="presentation">
+                                                <svg-icon name="checked" size="28"></svg-icon>
+                                            </div>
+                                            <div class="value" data-bind-text="id"></div>
+                                        </custom-option>
+                                    </template>
+                                </currency-select>
+                            </li>
+                            <li>
+                                <theme-select>
+                                    <button type="button" data-button="select" slot="button">
+                                        <svg-icon class="icon" name="theme" size="24"></svg-icon>
+                                        <span class="name">Theme</span>
+                                        <custom-selected></custom-selected>
+                                        <svg-icon class="arrow" name="next" size="14"></svg-icon>
+                                    </button>
+
+                                    <custom-option value="light">
+                                        <div class="theme-icon">
+                                            <svg-icon name="sun" size="20"></svg-icon>
+                                        </div>
+                                        <div>
+                                            <span>Light</span> <span>Theme</span>
+                                        </div>
+                                    </custom-option>
+                                    <custom-option value="dark">
+                                        <div class="theme-icon">
+                                            <svg-icon name="moon" size="20"></svg-icon>
+                                        </div>
+                                        <div>
+                                            <span>Dark</span> <span>Theme</span>
+                                        </div>
+                                    </custom-option>
+                                    <custom-option value="auto">
+                                        <div class="theme-icon">
+                                            <svg-icon name="night-day" size="20"></svg-icon>
+                                        </div>
+                                        <div>
+                                            <span>Device</span> <span>Setting</span>
+                                        </div>
+                                    </custom-option>
+                                </theme-select>
                             </li>
                             <li>
                                 <button type="button" data-button="modal" data-modal-id="aboutExpense">
@@ -746,44 +762,6 @@
                 </div>
             </template>
         </install-prompt>
-
-        <theme-prompt id="themePrompt" dismiss="auto">
-            <fieldset>
-                <ul>
-                    <li>
-                        <label>
-                            <input type="radio" data-aria-only name="theme" value="light">
-                            <div class="icon">
-                                <svg-icon name="sun" size="20"></svg-icon>
-                            </div>
-                            <span>Light Theme</span>
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <input type="radio" data-aria-only name="theme" value="dark">
-                            <div class="icon">
-                                <svg-icon name="moon" size="20"></svg-icon>
-                            </div>
-                            <span>Dark Theme</span>
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <input type="radio" data-aria-only name="theme" value="auto">
-                            <div class="icon">
-                                <svg-icon name="night-day" size="20"></svg-icon>
-                            </div>
-                            <span>Device Setting</span>
-                        </label>
-                    </li>
-                </ul>
-                <button type="button" data-button="prompt-close" data-icon-button>
-                    <svg-icon name="close" size="14"></svg-icon>
-                </button>
-            </fieldset>
-        </theme-prompt>
-
     </expense-app>
 
     <action-sheet id="actionSheet">

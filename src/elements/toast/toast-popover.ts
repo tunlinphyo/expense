@@ -81,7 +81,7 @@ export class ToastPopover extends HTMLElement {
         this.currentY = event.touches[0].clientY
         const deltaY = this.currentY - this.startY
         if (deltaY < 0) {
-            this.style.transform = `translateY(${deltaY}px)`
+            this.style.transform = `translate(-50%, ${deltaY}px)`
         }
     }
 

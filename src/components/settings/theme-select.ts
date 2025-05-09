@@ -1,19 +1,22 @@
-import { BasePrompt } from "../../elements"
+import { CustomSelect } from "../../elements"
 import { LocalStorageHandler } from "../../store/storage"
 
 type Theme = 'light' | 'dark' | 'auto'
 
-export class ThemePrompt extends BasePrompt {
-    private fieldsetEl: HTMLFieldSetElement | null
+export class ThemeSelect extends CustomSelect {
     private mediaQuery: MediaQueryList
 
     constructor() {
         super()
-        this.fieldsetEl = this.querySelector('fieldset')
         this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    }
 
-        this.onRadioChange = this.onRadioChange.bind(this)
-        this.onMediaChange = this.onMediaChange.bind(this)
+    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+        super.attributeChangedCallback(name, oldValue, newValue)
+        if (name === 'value' && oldValue !== newValue) {
+            LocalStorageHandler.setStorage(LocalStorageHandler.LS_THEME, newValue)
+            this.setTheme(newValue as Theme)
+        }
     }
 
     connectedCallback() {
@@ -23,19 +26,11 @@ export class ThemePrompt extends BasePrompt {
         this.setTheme(theme || 'auto')
 
         this.mediaQuery.addEventListener('change', this.onMediaChange)
-        this.fieldsetEl?.addEventListener('change', this.onRadioChange)
     }
 
     disconnectedCallback() {
+        super.disconnectedCallback()
         this.mediaQuery.removeEventListener('change', this.onMediaChange)
-        this.fieldsetEl?.removeEventListener('change', this.onRadioChange)
-    }
-
-    private onRadioChange(e: Event) {
-        const target = e.target as HTMLInputElement
-        const theme = target.value as Theme
-        LocalStorageHandler.setStorage(LocalStorageHandler.LS_THEME, theme)
-        this.setTheme(theme)
     }
 
     private onMediaChange(e: MediaQueryListEvent) {
@@ -48,8 +43,7 @@ export class ThemePrompt extends BasePrompt {
         this.setValue(theme)
         document.documentElement.setAttribute('theme', theme)
 
-        const radio = this.fieldsetEl?.querySelector<HTMLInputElement>(`input[value=${theme}]`)
-        if (radio) radio.checked = true
+        this.value = theme
     }
 
     private setMeta(theme: Theme) {
@@ -71,4 +65,4 @@ export class ThemePrompt extends BasePrompt {
     }
 }
 
-customElements.define('theme-prompt', ThemePrompt)
+customElements.define('theme-select', ThemeSelect)
