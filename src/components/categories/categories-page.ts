@@ -47,7 +47,7 @@ export class CategoriesPage extends PageDialog {
         const base = { scale: 1, opacity: 1, borderRadius: '0' }
 
         const animation = this.dialog.animate(isOpen ? [base, open] : [open, base], {
-            duration: 200,
+            duration: 300,
             easing: 'ease-out',
         })
 

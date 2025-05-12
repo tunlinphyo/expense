@@ -54,16 +54,16 @@
     --glass: light-dark(var(--white), var(--gray-4));
     --solid-bg: light-dark(var(--white), var(--black));
     --solid-fg: light-dark(var(--black), var(--white));
-    --glass-bg: color-mix(in srgb, var(--glass) 60%, transparent);
-    --glass-filter: blur(30px) brightness(1);
+    --glass-bg: color-mix(in srgb, var(--glass) 70%, transparent);
+    --glass-filter: blur(20px) brightness(1);
     --glass-border: light-dark(var(--white), var(--gray-2));
 
     --bg-loading: var(--gray-5);
     --bg-wave: var(--gray-6);
 
     --bg-primary: light-dark(rgb(219,219,224), var(--black));
-    --bg-card: color-mix(in srgb, light-dark(var(--white), var(--gray-4)) 60%, transparent);
-    --card-filter: blur(80px) brightness(1);
+    --bg-card: color-mix(in srgb, light-dark(var(--white), var(--gray-4)) 70%, transparent);
+    --card-filter: blur(20px) brightness(1);
     --card-border: light-dark(var(--white), var(--gray-4));
 
     --fg-primary: light-dark(rgb(28,28,30), rgb(242,242,247));
@@ -71,10 +71,10 @@
 
     --list-border: light-dark(var(--gray-4), var(--gray-5));
 
-    --bg-glass: color-mix(in srgb, var(--bg-primary) 60%, transparent);
+    --bg-glass: color-mix(in srgb, var(--bg-primary) 70%, transparent);
     --bg-form: var(--solid-bg);
 
-    --dialog-filter: blur(1px) brightness(.9);
+    --dialog-filter: blur(1px) brightness(.8);
 
     @media (prefers-reduced-transparency: reduce) {
         --glass-alpha: 1;

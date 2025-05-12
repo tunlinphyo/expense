@@ -1,0 +1,48 @@
+#virtualKeyboard {
+    --bottom: max(env(safe-area-inset-bottom, 0px), var(--size-2));
+    position: fixed;
+    z-index: 999;
+    padding: var(--size-2) 0;
+    width: 100%;
+    max-width: 100vw;
+    margin: auto 0 0;
+    left: 0;
+    bottom: 0;
+
+    border: none;
+    outline: none;
+    background-color: color-mix(in srgb, var(--gray-5) 70%, transparent);
+    backdrop-filter: blur(20px) brightness(.9);
+    border: 1px solid var(--glass-border);
+    border-radius: 2rem 2rem;
+
+    transition-behavior: allow-discrete;
+    transition-duration: .3s;
+    transition-timing-function: ease;
+    transition-property: display, translate;
+    transform: translateZ(9);
+    will-change: translate;
+    translate: 0 100%;
+
+    &::backdrop {
+        background-color: transparent;
+    }
+
+    &:popover-open {
+        display: block;
+        translate: 0 0;
+
+        @starting-style {
+            translate: 0 100%;
+        }
+    }
+
+    footer {
+        position: relative;
+        padding: var(--size-2) var(--size-3);
+
+        & button {
+            pointer-events: auto;
+        }
+    }
+}

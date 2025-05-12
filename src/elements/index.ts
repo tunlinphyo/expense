@@ -1,3 +1,4 @@
+export * from './keyboard'
 export * from './tabs'
 export * from './icon'
 export * from './dialogs'
@@ -9,6 +10,7 @@ export * from './animation'
 export * from './prompt'
 export * from './select'
 
+import './keyboard'
 import './tabs'
 import './icon'
 import './dialogs'

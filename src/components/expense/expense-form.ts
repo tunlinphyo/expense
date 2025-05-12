@@ -7,6 +7,7 @@ import { currencySignal, userSignal } from "../../store/signal"
 import { ExpenseType } from "../../types"
 import { allSettles, wait } from "../../utils"
 import { AppDate } from "../../utils/date"
+import { NumberInput } from "../form/number-input"
 import { ExpenseModal } from "./expense-modal"
 
 type FormExpense = Omit<ExpenseType, 'amount' | 'date' | 'category'> & {
@@ -110,8 +111,11 @@ export class ExpenseForm extends ReactiveForm {
     private onCategoryChange(e: Event) {
         const target = e.target as HTMLInputElement
         if (target.name === 'categoryId') {
-            const amountEl = this.querySelector('input[name="amount"]') as HTMLInputElement
-            amountEl?.focus()
+            // const amountEl = this.querySelector('input[name="amount"]') as HTMLInputElement
+            const amountEl = this.querySelector('number-input') as NumberInput
+            console.log('AMOUNT_EL', amountEl)
+            if (!amountEl.value)
+                amountEl?.focus()
         }
     }
 

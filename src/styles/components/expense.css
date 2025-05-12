@@ -143,4 +143,14 @@ filter-form.custom-form {
             }
         }
     }
+
+
+    :where(number-input) {
+        grid-column: input;
+        grid-row: input;
+        display: block;
+        width: 100%;
+        background-color: var(--solid-bg);
+        border-radius: var(--radius-3);
+    }
 }

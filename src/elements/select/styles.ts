@@ -22,7 +22,7 @@ export const selectStyle = css`
         }
     }
     .section {
-        padding: var(--size-4);
+        padding: var(--size-5) var(--size-4);
     }
     [data-icon-button] {
         padding: 0;

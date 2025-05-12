@@ -123,7 +123,7 @@ export class CustomSelect extends HTMLElement {
     }
 
     private openAnimation(deltaY: number = 0) {
-        return modalIn(this.dialog, deltaY, true)
+        return modalIn(this.dialog, deltaY)
     }
 
     private closeAnimation(deltaY: number = 0) {
