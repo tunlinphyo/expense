@@ -13,6 +13,10 @@ export const numberPadStyles = css`
         grid-template-columns: repeat(3, 1fr);
         gap: var(--size-1);
         padding: var(--size-2) var(--size-1);
+        -webkit-user-select: none; /* Safari */
+        -moz-user-select: none;    /* Firefox */
+        -ms-user-select: none;     /* IE/Edge */
+        user-select: none;
 
         .numberpad__key {
             --glass: light-dark(var(--white), var(--gray-6));
@@ -25,6 +29,7 @@ export const numberPadStyles = css`
             font-size: var(--text-lg);
             font-weight: 500;
             color: var(--fg-primary);
+            user-select: none;
 
             * {
                 pointer-events: none;
@@ -50,6 +55,15 @@ export const textPadStyles = css`
         align-items: center;
         padding: var(--size-2) var(--size-1);
         gap: var(--size-2);
+        -webkit-user-select: none; /* Safari */
+        -moz-user-select: none;    /* Firefox */
+        -ms-user-select: none;     /* IE/Edge */
+        user-select: none;
+
+        .textDisplay {
+            min-height: 1.2rem;
+            text-align: center;
+        }
 
         .row {
             width: 100%;
@@ -83,10 +97,18 @@ export const textPadStyles = css`
             font-weight: 500;
             color: var(--fg-primary);
             padding: 0;
+            user-select: none;
 
             display: flex;
             justify-content: center;
             align-items: center;
+
+            transition: scale .15s ease;
+            transform-origin: bottom center;
+
+            &[data-popup]:active {
+                scale: 2;
+            }
 
             * {
                 pointer-events: none;
@@ -103,7 +125,8 @@ export const textPadStyles = css`
             }
         }
     }
-    :host([current-type=text]) {
+    :host([current-type=text]),
+    :host([current-type=textarea]) {
         display: flex;
     }
     :host([caplock=true]) .textpad__key {
@@ -171,10 +194,13 @@ export const inputStyles = css`
             display: none;
         }
 
-        & span.space {
+        & span[data-active] {
             display: inline-block;
-            min-width: .5ch;
-            height: 1em;
+            min-height: 1em;
+        }
+
+        & span.space {
+            color: transparent;
         }
 
         & span[data-placeholder] {

@@ -123,8 +123,12 @@ export class CustomInput extends HTMLElement {
             span.dataset.character = char === ' ' ? 'SPACE' : char
             span.dataset.index = String(i);
             span.dataset.active = String(i === activeIndex)
-            if (char === ' ') span.classList.add('space')
-            span.textContent = char
+            if (char === ' ') {
+                span.classList.add('space')
+                span.textContent = ';'
+            } else {
+                span.textContent = char
+            }
             this.fadeInput.appendChild(span)
         });
 

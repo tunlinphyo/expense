@@ -4,14 +4,11 @@ import { css } from "../../utils"
 
 export class TextArea extends CustomTextarea {
     private readonly MAX_LENGTH = 120
-    protected type: KeyboardType = 'text'
+    protected type: KeyboardType = 'textarea'
 
     static styleSheet = css`
-        :host {
-            --caret-width: 1px;
-            --caret-height: 1.5em;
-        }
         .fade-input {
+            --caret-height: 1.5em;
             min-height: 120px;
             display: block;
             font-size: var(--text-base);

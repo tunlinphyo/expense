@@ -14,11 +14,11 @@ export class NumberPad extends HTMLElement {
     }
 
     connectedCallback() {
-        this.renderRoot.addEventListener('click', this.onClick)
+        this.renderRoot.addEventListener('pointerdown', this.onClick)
     }
 
     disconnectedCallback() {
-        this.renderRoot.removeEventListener('click', this.onClick)
+        this.renderRoot.removeEventListener('pointerdown', this.onClick)
     }
 
     private render() {

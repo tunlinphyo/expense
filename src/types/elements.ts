@@ -1,6 +1,6 @@
 export type WithId = { id: string } & Record<string, any>
 
-export type KeyboardType = 'number' | 'text'
+export type KeyboardType = 'number' | 'text' | 'textarea'
 
 export type KeyboardContext = {
     focusElem: HTMLElement | null

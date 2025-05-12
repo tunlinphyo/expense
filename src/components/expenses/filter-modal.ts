@@ -31,7 +31,7 @@ export class FilterModal extends ModalDialog {
         this.actionButton?.removeEventListener('click', this.onSubmit)
     }
 
-    onSubmit(e: Event) {
+    onSubmit(_: Event) {
         if (!this.formEl || !this.formEl.dirty) {
             this.closeModal()
             return

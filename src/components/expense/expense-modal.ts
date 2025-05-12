@@ -29,13 +29,16 @@ export class ExpenseModal extends ModalDialog {
 
     connectedCallback() {
         super.connectedCallback()
-        const textArea = this.querySelector('text-area')
+        const textArea = this.querySelector('text-area') as HTMLElement
         this.consumer.subscribe((data) => {
             if (data.focusElem === textArea && data.status === 'open') {
                 this.dialog.classList.add('withKeyboard')
-                this.dialog.scrollTo({
-                    top: 2000,
-                    behavior: 'smooth'
+                requestAnimationFrame(() => {
+                    console.log(this.dialog.scrollHeight, window.innerHeight, textArea?.offsetTop)
+                    this.dialog.scrollTo({
+                        top: 2000,
+                        behavior: 'smooth'
+                    })
                 })
             } else {
                 this.dialog.classList.remove('withKeyboard')

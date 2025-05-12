@@ -19,6 +19,8 @@ export const hostStyles = css`
         overflow: auto;
         isolation: isolate;
 
+        transition: padding-block-end .3s ease;
+
         &::-webkit-scrollbar {
             display: none;
         }
@@ -49,7 +51,7 @@ export const hostStyles = css`
             }
         }
         &.withKeyboard {
-            padding-block-end: 300px;
+            padding-block-end: 260px;
         }
         section {
             display: grid;
