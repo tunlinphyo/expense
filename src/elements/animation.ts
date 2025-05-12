@@ -76,3 +76,23 @@ export function pageOut(elem: HTMLElement, deltaX: number = 0, deltaY: number = 
         easing: easeOut
     })
 }
+
+export function keyboardEnter(elem: HTMLElement) {
+    return elem.animate([
+        { transform: `translateY(${elem.clientHeight}px)` },
+        { translate: `translateY(0px)` },
+    ], {
+        duration,
+        easing: easeOut
+    })
+}
+
+export function keyboardLeave(elem: HTMLElement) {
+    return elem.animate([
+        { translate: `translateY(0px)` },
+        { transform: `translateY(${elem.clientHeight}px)` },
+    ], {
+        duration,
+        easing: easeOut
+    })
+}

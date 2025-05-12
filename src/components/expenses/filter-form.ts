@@ -50,7 +50,6 @@ export class FilterForm extends ReactiveForm {
 
     private changeDate() {
         const to = this.dateToggle?.dataset.to || ''
-        console.log('TOOOO', to)
         if (!to) return
         if (to === 'last-month') {
             const date = AppDate.getLocalISODate(AppDate.getLastMonth())
@@ -64,7 +63,6 @@ export class FilterForm extends ReactiveForm {
     private onMonthChange(e: Event) {
         const target = e.target as HTMLInputElement
         if (target.name === 'date') {
-            console.log(target.name, this.dateToggle, target.value)
             if (!this.dateToggle) return
             if (AppDate.isThisMonth(target.value)) {
                 this.dateToggle.dataset.to = 'last-month'

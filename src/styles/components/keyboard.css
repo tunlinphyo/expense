@@ -1,13 +1,14 @@
 #virtualKeyboard {
     --bottom: max(env(safe-area-inset-bottom, 0px), var(--size-2));
     position: fixed;
-    z-index: 999;
+    /* z-index: 999; */
     padding: var(--size-2) 0;
     width: 100%;
-    max-width: 100vw;
-    margin: auto 0 0;
+    max-width: 40rem;
+    margin: auto auto 0;
     left: 0;
     bottom: 0;
+    isolation: isolate;
 
     border: none;
     outline: none;
@@ -16,13 +17,13 @@
     border: 1px solid var(--glass-border);
     border-radius: 2rem 2rem;
 
-    transition-behavior: allow-discrete;
+    /* transition-behavior: allow-discrete;
     transition-duration: .3s;
     transition-timing-function: ease;
-    transition-property: display, translate;
+    transition-property: display, transform; */
     transform: translateZ(9);
-    will-change: translate;
-    translate: 0 100%;
+    will-change: transform;
+    transform: translateY(100%);
 
     &::backdrop {
         background-color: transparent;
@@ -30,16 +31,12 @@
 
     &:popover-open {
         display: block;
-        translate: 0 0;
-
-        @starting-style {
-            translate: 0 100%;
-        }
+        transform: translateY(0);
     }
 
     footer {
         position: relative;
-        padding: var(--size-2) var(--size-3);
+        padding: 0 var(--size-2) var(--size-2);
 
         & button {
             pointer-events: auto;

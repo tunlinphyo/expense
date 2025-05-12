@@ -1,43 +1,23 @@
-import { ContextConsumer } from "../../context"
-import { keyboardContext } from "../../store/context"
-import { KeyboardContext } from "../../types"
-import { deepEqual } from "../../utils"
-import { numberPadStyles } from "./styles"
-
+import { resetStyles, numberPadStyles } from "./styles"
 
 export class NumberPad extends HTMLElement {
-    private consumer: ContextConsumer<KeyboardContext>
     private renderRoot: ShadowRoot
 
     constructor() {
         super()
         this.renderRoot = this.attachShadow({mode: 'closed'})
-        this.renderRoot.adoptedStyleSheets = [numberPadStyles]
-        this.consumer = new ContextConsumer<KeyboardContext>(this, keyboardContext)
+        this.renderRoot.adoptedStyleSheets = [resetStyles, numberPadStyles]
 
         this.onClick = this.onClick.bind(this)
 
         this.render()
     }
 
-    async connectedCallback() {
+    connectedCallback() {
         this.renderRoot.addEventListener('click', this.onClick)
-        this.consumer.unsubscribe()
-        this.consumer.subscribe((context, oldContext) => {
-            if (deepEqual(context, oldContext)) return
-            // console.log('NUMBER_CONTEXT', context, oldContext)
-            if (context.type === 'number') {
-                this.setAttribute('nubmerpad', 'true')
-            }
-            else {
-                this.setAttribute('nubmerpad', 'false')
-            }
-        })
     }
 
-    disconnextedCallback() {
-        console.log('NUMBERPAD_DISCONNECTED')
-        this.consumer.unsubscribe()
+    disconnectedCallback() {
         this.renderRoot.removeEventListener('click', this.onClick)
     }
 
@@ -61,7 +41,7 @@ export class NumberPad extends HTMLElement {
         `
         this.renderRoot.appendChild(template.content.cloneNode(true))
     }
-    
+
     private onClick(e: Event) {
         const target = e.target as HTMLButtonElement
         if (target.hasAttribute('data-key')) {

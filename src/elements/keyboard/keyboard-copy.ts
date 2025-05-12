@@ -7,8 +7,6 @@ import { TextPad } from "./text-pad"
 
 import './number-pad'
 import './text-pad'
-import { ModalDialog } from "../dialogs"
-import { keyboardEnter, keyboardLeave } from '../animation';
 
 export class Keyboard extends HTMLElement {
     protected renderRoot: ShadowRoot
@@ -16,6 +14,7 @@ export class Keyboard extends HTMLElement {
     private popoverEl: HTMLDialogElement
     private numberPad: NumberPad
     private textPad: TextPad
+    private observer?: IntersectionObserver
     private isIntersecting: boolean = false
 
     constructor() {
@@ -53,40 +52,44 @@ export class Keyboard extends HTMLElement {
         this.textPad.setAttribute('current-type', type)
         this.numberPad.setAttribute('current-type', type)
 
-        const elem = focusElem.parentElement?.closest('[modal-open]') as ModalDialog
-
-        if (elem) {
-            elem.appendChild(this.popoverEl)
-        } else {
-            document.body.appendChild(this.popoverEl)
-        }
-        this.popoverEl.showPopover()
-        const animation = keyboardEnter(this.popoverEl)
-        animation.finished.then(() => {
-            this.isIntersecting = true
+        // const elem = focusElem.parentElement?.closest('[modal-open]') as ModalDialog
+        // if (elem) {
+        //     elem.host.appendChild(this.popoverEl)
+        // } else {
+        //     document.body.appendChild(this.popoverEl)
+        // }
+        requestAnimationFrame(() => {
+            // this.popoverEl.showPopover()
+            this.popoverEl.showModal()
         })
     }
 
     close() {
-        const animation = keyboardLeave(this.popoverEl)
-        this.toggleAttribute('open', false)
-        this.popoverEl.removeEventListener('key-press', this.onKeyPress)
-        this.provider.setValue({
-            ...this.provider.value,
-            focusElem: null,
-            status: 'closed',
-            key: "",
-        })
-        animation.finished.then(() => {
-            this.popoverEl.hidePopover()
-            this.popoverEl.remove()
-            this.isIntersecting = false
-        })
+        // this.popoverEl.hidePopover()
+        this.popoverEl.close()
+        this.onDialogHided()
     }
 
     connectedCallback() {
         this.render()
         this.addEventListener('input-focus', this.onFocus)
+        this.observer = new IntersectionObserver(
+            (entries) => {
+                for (const entry of entries) {
+
+                    if (!entry.isIntersecting) {
+                        this.onDialogHided()
+                    }
+                    this.isIntersecting = entry.isIntersecting
+                }
+            },
+            {
+                root: null,
+                threshold: 0.01
+            }
+          )
+
+        this.observer.observe(this.popoverEl)
         document.addEventListener('click', this.onDocumentClick)
     }
 
@@ -94,6 +97,7 @@ export class Keyboard extends HTMLElement {
         this.popoverEl.removeEventListener('key-press', this.onKeyPress)
         this.removeEventListener('input-focus', this.onFocus)
         document.removeEventListener('click', this.onDocumentClick)
+        this.observer?.disconnect()
     }
 
     private render() {
@@ -103,11 +107,12 @@ export class Keyboard extends HTMLElement {
 
         footer.appendChild(buttonEl)
 
-        this.popoverEl.setAttribute('popover', 'manual')
+        // this.popoverEl.setAttribute('popover', 'manual')
         this.popoverEl.appendChild(this.textPad)
         this.popoverEl.appendChild(this.numberPad)
         this.popoverEl.appendChild(footer)
         this.popoverEl.id = 'virtualKeyboard'
+        this.renderRoot.appendChild(this.popoverEl)
         this.renderRoot.appendChild(slot)
     }
 
@@ -125,6 +130,18 @@ export class Keyboard extends HTMLElement {
         return elem
     }
 
+    private onDialogHided() {
+        this.toggleAttribute('open', false)
+        this.popoverEl.removeEventListener('key-press', this.onKeyPress)
+        this.provider.setValue({
+            ...this.provider.value,
+            focusElem: null,
+            status: 'closed',
+            key: "",
+        })
+        // this.popoverEl.remove()
+    }
+
     private onKeyPress(e: Event) {
         const customE = e as CustomEvent
         const key = customE.detail
@@ -134,14 +151,12 @@ export class Keyboard extends HTMLElement {
     private onFocus(e: Event) {
         const customE = e as CustomEvent
         const detail = customE.detail
-        if (
-            this.provider.value.status === 'open'
-            && this.provider.value.focusElem === detail.target
-        ) return
+        if (this.provider.value.status === 'open') return
         this.open(detail.type, detail.target)
     }
 
     private onDocumentClick(e: Event) {
+        return
         const path = e.composedPath()
         const blockDismissSelector = '[data-no-dismiss]'
 

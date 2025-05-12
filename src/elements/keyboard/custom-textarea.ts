@@ -3,7 +3,7 @@ import { ContextConsumer } from "../../context"
 import { keyboardContext } from "../../store/context"
 import type { KeyboardContext, KeyboardType } from "../../types"
 
-export class CustomInput extends HTMLElement {
+export class CustomTextarea extends HTMLElement {
     static styleSheet?: CSSStyleSheet
     private consumer: ContextConsumer<KeyboardContext>
     protected renderRoot: ShadowRoot
@@ -51,7 +51,7 @@ export class CustomInput extends HTMLElement {
     }
 
     connectedCallback() {
-        const ctor = this.constructor as typeof CustomInput
+        const ctor = this.constructor as typeof CustomTextarea
         if (ctor.styleSheet) {
             this.renderRoot.adoptedStyleSheets = [inputStyles, ctor.styleSheet]
         } else {
@@ -83,13 +83,13 @@ export class CustomInput extends HTMLElement {
 
     private onKey(key: string) {
         if (key === 'DELETE') {
-            this.index = this.value.length - 1 - this.endIndex
+            this.index = this.value.length - this.endIndex
             if (this.index < 0) return
             this.value = this.removeAt(this.value, this.index)
         } else if (key) {
             const result = (this as any).verifyValue?.(this.value, key) || false
             if (result) return
-            this.index = this.value.length - this.endIndex
+            this.index = this.value.length - this.endIndex + 1
             this.value = this.insertAt(this.value, this.index, key)
         }
     }
@@ -109,14 +109,9 @@ export class CustomInput extends HTMLElement {
     private renderFadeInput(value: string) {
         this.fadeInput.innerHTML = ''
 
-        const activeIndex = Math.max(value.length - 1 - this.endIndex, -1)
+        if (!value.length) this.fadeInput.innerHTML = '<span data-active="true" data-index="0"><span>'
 
-        const prefix = document.createElement('span')
-        prefix.dataset.placeholder = ''
-        prefix.dataset.character = ''
-        prefix.dataset.active = String(activeIndex < 0)
-        prefix.textContent = '_'
-        this.fadeInput.appendChild(prefix)
+        const activeIndex = Math.max(value.length - this.endIndex, 0)
 
         value.split('').forEach((char, i) => {
             const span = document.createElement('span')
@@ -126,12 +121,7 @@ export class CustomInput extends HTMLElement {
             if (char === ' ') span.classList.add('space')
             span.textContent = char
             this.fadeInput.appendChild(span)
-        });
-
-        const suffix = document.createElement('span')
-        suffix.dataset.placeholder = ''
-        suffix.textContent = '_'
-        this.fadeInput.appendChild(suffix)
+        })
     }
 
     private createInput() {
@@ -155,7 +145,8 @@ export class CustomInput extends HTMLElement {
 
     onClick(e: Event) {
         const target = e.target as HTMLElement
-        this.endIndex = this.getIndex(target, (e as PointerEvent).x)
+        this.endIndex = this.getIndex(target)
+        console.log(this.endIndex)
         this.renderFadeInput(this.value)
     }
 
@@ -169,15 +160,10 @@ export class CustomInput extends HTMLElement {
         return str.slice(0, index) + str.slice(index + count)
     }
 
-    private getIndex(elem: HTMLElement, pointerX: number): number {
+    private getIndex(elem: HTMLElement): number {
         const indexAttr = elem.getAttribute('data-index')
-        if (indexAttr) {
-            return this.value.length - Number(indexAttr) - 1
-        } else {
-            return pointerX > (this.fadeInput.clientWidth * 0.5)
-                ? 0 : this.value.length
-        }
+        return indexAttr ? this.value.length - Number(indexAttr) : 1
     }
 }
 
-customElements.define('custom-input', CustomInput)
+customElements.define('custom-textarea', CustomTextarea)

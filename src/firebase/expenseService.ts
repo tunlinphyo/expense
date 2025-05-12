@@ -38,7 +38,6 @@ export class ExpenseService {
             await setDoc(ref, expense)
             return id
         } catch (err) {
-            console.log(err)
             return 'error'
         }
     }
@@ -185,8 +184,6 @@ export class ExpenseService {
         const constraints: any[] = [
             orderBy("date", "desc")
         ]
-
-        console.log('QUERY::::::::::', q)
 
         if (q.year) {
             const start = new Date(q.year, q.month, 1)

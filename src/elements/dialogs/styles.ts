@@ -11,12 +11,13 @@ export const hostStyles = css`
         border: none;
         outline: none;
         background-color: var(--bg-primary);
+        will-change: transform, translate;
         overflow-y: auto;
         overscroll-behavior: contain;
 
         scrollbar-width: none;
         overflow: auto;
-        will-change: transform, translate;
+        isolation: isolate;
 
         &::-webkit-scrollbar {
             display: none;
@@ -47,6 +48,9 @@ export const hostStyles = css`
                 opacity: 0;
             }
         }
+        &.withKeyboard {
+            padding-block-end: 300px;
+        }
         section {
             display: grid;
             grid-template-columns: var(--layout-column);
@@ -65,6 +69,16 @@ export const hostStyles = css`
         position: sticky;
         bottom: 0;
         z-index: 5;
+    }
+
+    .keyboardHost {
+        position: sticky;
+        bottom: 0;
+        width: 100%;
+        height: 10px;
+        background: #f005;
+        pointer-events: none;
+        isolation: isolate;
     }
     /* @media (prefers-color-scheme: dark) {
         dialog {

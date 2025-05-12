@@ -39,8 +39,6 @@ export const loginWithGoogle = async (credential?: OAuthCredential): Promise<Log
     } catch (error: any) {
         const authError = error as AuthError
 
-        console.log('ERROR_CODE::::::::::', error.code)
-
         if (authError.code === 'auth/account-exists-with-different-credential') {
             const email = authError.customData?.email || ''
             const pendingCredential = OAuthProvider.credentialFromError(error)
@@ -79,8 +77,6 @@ export const loginWithGithub = async (credential?: OAuthCredential): Promise<Log
         }
     } catch (error: any) {
         const authError = error as AuthError
-
-        console.log('ERROR_CODE::::::::::', error.code)
 
         if (authError.code === 'auth/account-exists-with-different-credential') {
             const email = authError.customData?.email || ''

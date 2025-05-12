@@ -22,8 +22,6 @@ export const appStore = async () => {
         appUnsubscribe?.()
         cateogryUnsubscribe?.()
 
-        console.log('USER', user)
-
         removeSplash()
         if (!user) {
             return loginModal.openModal()

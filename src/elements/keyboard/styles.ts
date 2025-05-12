@@ -1,6 +1,6 @@
 import { css } from "../../utils"
 
-export const keyboardStyles = css`
+export const resetStyles = css`
     * {
         box-sizing: border-box;
     }
@@ -9,10 +9,10 @@ export const keyboardStyles = css`
 export const numberPadStyles = css`
     :host {
         width: 100%;
-        display: grid;
+        display: none;
         grid-template-columns: repeat(3, 1fr);
-        gap: var(--size-2);
-        padding: var(--size-2);
+        gap: var(--size-1);
+        padding: var(--size-2) var(--size-1);
 
         .numberpad__key {
             --glass: light-dark(var(--white), var(--gray-6));
@@ -37,6 +37,82 @@ export const numberPadStyles = css`
             }
         }
     }
+    :host([current-type=number]) {
+        display: grid;
+    }
+`
+
+export const textPadStyles = css`
+    :host {
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        padding: var(--size-2) var(--size-1);
+        gap: var(--size-2);
+
+        .row {
+            width: 100%;
+            display: grid;
+            gap: 2px;
+
+            &.row--one {
+                grid-template-columns: repeat(10, 1fr);
+            }
+            &.row--two {
+                width: 90%;
+                grid-template-columns: repeat(9, 1fr);
+            }
+            &.row--three {
+                grid-template-columns: 1.5fr repeat(7, 1fr) 1.5fr;
+            }
+            &.row--four {
+                grid-template-columns: .2fr 46px 1fr 46px .2fr;
+            }
+        }
+
+        .textpad__key {
+            --glass: light-dark(var(--white), var(--gray-6));
+            height: 46px;
+            background-color: var(--solid-bg);
+            backdrop-filter: var(--glass-filter);
+            border: 1px solid var(--glass-border);
+            border: none;
+            border-radius: var(--radius-5);
+            font-size: var(--text-lg);
+            font-weight: 500;
+            color: var(--fg-primary);
+            padding: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            * {
+                pointer-events: none;
+            }
+
+            &.textpad__key--clear {
+                background-color: transparent;
+                backdrop-filter: none;
+                border: none;
+            }
+
+            &.textpad__key--delete {
+                padding-inline-end: 2px;
+            }
+        }
+    }
+    :host([current-type=text]) {
+        display: flex;
+    }
+    :host([caplock=true]) .textpad__key {
+        text-transform: uppercase;
+    }
+    :host([caplock=true]) .textpad__key--cap {
+        background-color: var(--solid-fg);
+        color: var(--solid-bg);
+    }
 `
 
 export const inputStyles = css`
@@ -53,7 +129,8 @@ export const inputStyles = css`
         outline-color: var(--secondary);
         outline-offset: 2px;
 
-        span:last-child {
+        /* span:last-child, */
+        span[data-active=true] {
             position: relative;
 
             &::after {
@@ -63,32 +140,54 @@ export const inputStyles = css`
                 top: 50%;
                 right: 0;
                 translate: 1px -50%;
-                height: 38px;
-                border-right: 2px solid var(--secondary);
+                height: var(--caret-height);
+                border-right: var(--caret-width) solid var(--secondary);
+                animation: blink 1s steps(1) infinite;
             }
         }
     }
     .fade-input {
+        --caret-width: 2px;
+        --caret-height: 42px;
         width: 100%;
         height: 60px;
         font-family: var(--font-family);
-        font-size: var(--text-2xl);
+        font-size: var(--text-xl);
         font-weight: bold;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding-top: 2px;
-        
+
         &::before {
             content: attr(data-placeholder);
             position: absolute;
             display: block;
             pointer-events: none;
-            opacity: .5;
+            color: var(--solid-fg);
+            opacity: .3;
         }
 
         &[data-has-value=true]::before {
             display: none;
         }
+
+        & span.space {
+            display: inline-block;
+            min-width: .5ch;
+            height: 1em;
+        }
+
+        & span[data-placeholder] {
+            color: transparent;
+        }
+
+        &.number {
+            padding-top: 2px;
+            font-size: var(--text-2xl);
+        }
+    }
+    @keyframes blink {
+        0%, 50% { opacity: 1; }
+        50.01%, 100% { opacity: 0; }
     }
 `

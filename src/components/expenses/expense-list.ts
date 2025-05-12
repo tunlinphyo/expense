@@ -57,7 +57,7 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
             this.query = query
 
             this.fetchTotal()
-            this.resetDBQuery() 
+            this.resetDBQuery()
             this.loadExpenses('current')
         })
 
@@ -100,7 +100,6 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
     }
 
     private async loadExpenses(direction: 'next' | 'prev' | 'current' = 'next', isSilent: boolean = false) {
-        console.log('::::::::::EXPENSE::::::::::')
         const categoryMap = categorySignal.get()
         if (isEmptyObject(categoryMap)) {
             this.loadingEl?.remove()
@@ -153,7 +152,6 @@ export class ExpenseList extends DynamicList<ExpenseItem> {
     }
 
     private async fetchTotal() {
-        console.log(":::::::::TOTAL::::::::::::")
         const total = await ExpenseService.getTotalAmount(userSignal.get(), this.query)
         totalSignal.set(total)
     }

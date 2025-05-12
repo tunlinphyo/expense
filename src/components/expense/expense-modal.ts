@@ -1,14 +1,17 @@
 import { actionSheet, appLoading, appToast } from ".."
+import { ContextConsumer } from "../../context"
 import { ModalDialog } from "../../elements"
 import { ExpenseService } from "../../firebase/expenseService"
+import { keyboardContext } from "../../store/context"
 import { userSignal } from "../../store/signal"
-import type { ExpenseType } from "../../types"
+import type { ExpenseType, KeyboardContext } from "../../types"
 import { AppDate } from "../../utils/date"
 import { ExpenseForm } from "./expense-form"
 
 
 export class ExpenseModal extends ModalDialog {
     private formEl: ExpenseForm
+    private consumer: ContextConsumer<KeyboardContext>
 
     static get observedAttributes() {
         return ['data-id']
@@ -17,10 +20,27 @@ export class ExpenseModal extends ModalDialog {
     constructor() {
         super()
         this.formEl = this.querySelector('expense-form')!
+        this.consumer = new ContextConsumer(this, keyboardContext)
     }
 
     static get touchDisabledTags(): string[] {
         return ['date-picker']
+    }
+
+    connectedCallback() {
+        super.connectedCallback()
+        const textArea = this.querySelector('text-area')
+        this.consumer.subscribe((data) => {
+            if (data.focusElem === textArea && data.status === 'open') {
+                this.dialog.classList.add('withKeyboard')
+                this.dialog.scrollTo({
+                    top: 2000,
+                    behavior: 'smooth'
+                })
+            } else {
+                this.dialog.classList.remove('withKeyboard')
+            }
+        })
     }
 
     attributeChangedCallback(_: string, oldValue:string, newValue: string) {

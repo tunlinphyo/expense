@@ -58,7 +58,6 @@ export class FirebaseAuth extends HTMLElement {
             let tryCount = 0
             const img = new Image()
             const src = type === 'anonymous' ? '/avatar.png' : (user.photoURL || '')
-            console.log(src)
             img.src = src
             img.width = placeholder.width
             img.height = placeholder.height
@@ -67,7 +66,6 @@ export class FirebaseAuth extends HTMLElement {
                 if (tryCount > 5) return
                 setTimeout(() => {
                     img.src = user.photoURL || ''
-                    console.log(user.photoURL)
                     tryCount += 1
                 }, 300)
             }

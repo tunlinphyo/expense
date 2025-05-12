@@ -45,7 +45,11 @@ export class ModalDialog extends HTMLElement {
     openModal() {
         this.dialog.showModal()
         this.toggleAttribute('modal-open', true)
-        this.openAnimation()
+
+        const animation = this.openAnimation()
+        animation.finished.then(() => {
+            this.dispatchEvent(new CustomEvent("opened"))
+        })
     }
 
     closeModal(currentX: number = 0) {
@@ -55,6 +59,7 @@ export class ModalDialog extends HTMLElement {
         animation.finished.then(() => {
             this.dialog.classList.remove("closing")
             this.dialog.close()
+            this.dispatchEvent(new CustomEvent("closed"))
         })
     }
 
@@ -72,7 +77,7 @@ export class ModalDialog extends HTMLElement {
         `
         if (this.querySelector('.modal-header'))
             this.dialog.classList.add('has-header')
-        
+
         this.dialog.appendChild(elem)
         this.renderRoot.appendChild(this.dialog)
     }

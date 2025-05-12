@@ -16,7 +16,6 @@ export class FormConsumer extends HTMLElement {
     connectedCallback() {
         this.consumer = new ContextConsumer(this, formContext)
         this.consumer.subscribe((form, oldForm) => {
-            console.log('BINDING', form, oldForm)
             updateBindings(this, form, oldForm)
         })
     }

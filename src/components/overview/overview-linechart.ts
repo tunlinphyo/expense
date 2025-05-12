@@ -47,7 +47,6 @@ export class OverviewLinechart extends HTMLElement {
     }
 
     private renderLineChart(data: TotalExpense[]) {
-        console.log('RENDER_LINECHART')
         if (this.lineChart) {
             this.lineChart.destroy();
             this.lineChart = null;

@@ -85,6 +85,10 @@
                                 </div>
                             </expense-filter>
 
+                            <!-- <input type="text" name="" id="">
+
+                            <text-input name="title" value="Music & Festival"></text-input> -->
+
                             <expense-list>
                                 <template>
                                     <dynamic-item>
@@ -320,8 +324,9 @@
                         <div class="custom-group">
                             <category-icon data-icon-current data-bind-attr="icon:icon;data-bg-color:color" width="80" size="38"></category-icon>
                             <div class="input-loading">
-                                <input data-bind-attr="data-color:color" data-form-input type="text" id="name" name="name"
-                                    placeholder="Category Name" />
+                                <text-input name="name" data-bind-attr="value:name;data-color:color" placeholder="Category Name"></text-input>
+                                <!-- <input data-bind-attr="data-color:color" data-form-input type="text" id="name" name="name"
+                                    placeholder="Category Name" /> -->
                             </div>
                         </div>
                     </div>
@@ -429,7 +434,8 @@
 
                             <div class="text-input">
                                 <!-- <div class="name">Note</div> -->
-                                <textarea data-form-input name="note" placeholder="Note"></textarea>
+                                 <text-area name="note" data-bind-attr="value:note" placeholder="Note"></text-area>
+                                <!-- <textarea data-form-input name="note" placeholder="Note"></textarea> -->
                             </div>
                         </div>
                     </div>

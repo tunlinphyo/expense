@@ -32,7 +32,6 @@ export class FilterModal extends ModalDialog {
     }
 
     onSubmit(e: Event) {
-        console.log('ON_CLICK', e.target)
         if (!this.formEl || !this.formEl.dirty) {
             this.closeModal()
             return

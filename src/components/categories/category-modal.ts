@@ -4,6 +4,7 @@ import { CategoryService } from '../../firebase/categoryService'
 import { CategoryType } from "../../types"
 import { userSignal } from "../../store/signal"
 import { actionSheet, appLoading, appToast } from ".."
+import { TextInput } from "../form/text-input"
 
 export class CategoryModal extends ModalDialog {
     private formEl: CategoryForm
@@ -17,9 +18,10 @@ export class CategoryModal extends ModalDialog {
         this.formEl = this.querySelector('category-form')!
 
         this.onFormInput = this.onFormInput.bind(this)
+        this.onOpened = this.onOpened.bind(this)
     }
 
-    attributeChangedCallback(_1: string, oldValue:string, newValue: string) {
+    attributeChangedCallback(_: string, oldValue:string, newValue: string) {
         this.formEl.removeEventListener('input', this.onFormInput)
 
         requestAnimationFrame(() => {
@@ -31,9 +33,15 @@ export class CategoryModal extends ModalDialog {
         })
     }
 
+    connectedCallback(): void {
+        super.connectedCallback()
+        this.addEventListener('opened', this.onOpened)
+    }
+
     disconnectedCallback() {
         super.disconnectedCallback()
         this.formEl.removeEventListener('input', this.onFormInput)
+        this.removeEventListener('opened', this.onOpened)
     }
 
     async buttonClick(e: Event) {
@@ -70,6 +78,13 @@ export class CategoryModal extends ModalDialog {
                     },
                 ]
             })
+        }
+    }
+
+    private onOpened() {
+        if (!this.getAttribute('data-id')) {
+            const textInput = this.querySelector('text-input') as TextInput
+            textInput?.focus()
         }
     }
 

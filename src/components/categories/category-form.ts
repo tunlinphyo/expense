@@ -26,15 +26,16 @@ export class CategoryForm extends ReactiveForm {
     }
 
     clear() {
-        if (!this.data.id) 
+        if (!this.data.id)
             this.data = this.defaultData
-        else 
+        else
             this.data = this.getFormData()
     }
 
     attributeChangedCallback(name: string, oldValue:string, newValue: string) {
         if (name === 'id') {
             if (newValue === oldValue) return
+
             this.childrenSettled(() => {
                 if (!newValue) {
                         this.setFormData(this.defaultData)

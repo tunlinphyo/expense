@@ -51,8 +51,6 @@
         backdrop-filter: var(--card-filter);
         border: 1px solid var(--card-border);
         margin-block: var(--size-5);
-        overflow: hidden;
-        /* border: 2px solid var(--bg-accent); */
     }
 
     .custom-group {
@@ -101,7 +99,7 @@
         .text-input {
             padding-block-start: var(--size-4);
 
-            & textarea {
+            & textarea, text-area {
                 width: 100%;
                 min-height: 128px;
                 padding: var(--size-1);
@@ -199,5 +197,21 @@
         &[data-show] {
             display: flex;
         }
+    }
+
+
+    :where(number-input) {
+        grid-column: input;
+        grid-row: input;
+        display: block;
+        width: 100%;
+        background-color: var(--solid-bg);
+        border-radius: var(--radius-3);
+    }
+
+    :where(text-input) {
+        width: 100%;
+        background-color: var(--solid-bg);
+        border-radius: var(--radius-3);
     }
 }
