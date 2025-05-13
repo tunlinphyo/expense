@@ -51,7 +51,8 @@ export const hostStyles = css`
             }
         }
         &.withKeyboard {
-            padding-block-end: 260px;
+            padding-block-end: 270px;
+            transition: none;
         }
         section {
             display: grid;

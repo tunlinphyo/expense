@@ -12,11 +12,18 @@ export const numberPadStyles = css`
         display: none;
         grid-template-columns: repeat(3, 1fr);
         gap: var(--size-1);
-        padding: var(--size-2) var(--size-1);
+        padding: var(--size-1);
+        padding-block-end: var(--size-3);
         -webkit-user-select: none; /* Safari */
         -moz-user-select: none;    /* Firefox */
         -ms-user-select: none;     /* IE/Edge */
         user-select: none;
+
+        .textDisplay {
+            min-height: 1.5rem;
+            text-align: center;
+            grid-column: span 3;
+        }
 
         .numberpad__key {
             --glass: light-dark(var(--white), var(--gray-6));
@@ -53,15 +60,17 @@ export const textPadStyles = css`
         display: none;
         flex-direction: column;
         align-items: center;
-        padding: var(--size-2) var(--size-1);
+        padding: var(--size-1);
+        padding-block-end: var(--size-3);
         gap: var(--size-2);
         -webkit-user-select: none; /* Safari */
         -moz-user-select: none;    /* Firefox */
         -ms-user-select: none;     /* IE/Edge */
         user-select: none;
+        overflow: hidden;
 
         .textDisplay {
-            min-height: 1.2rem;
+            min-height: 1.5rem;
             text-align: center;
         }
 
@@ -82,6 +91,10 @@ export const textPadStyles = css`
             }
             &.row--four {
                 grid-template-columns: .2fr 46px 1fr 46px .2fr;
+            }
+            &.row--five {
+                grid-template-columns: .5fr 1fr .5fr;
+                gap: var(--size-2);
             }
         }
 
@@ -122,6 +135,24 @@ export const textPadStyles = css`
 
             &.textpad__key--delete {
                 padding-inline-end: 2px;
+                background-color: var(--secondary);
+                color: var(--solid-bg);
+            }
+
+            &:where([data-key="NUMBER"], [data-key="ENTER"]) {
+                text-transform: uppercase !important;
+                font-size: var(--text-base);
+                background-color: var(--glass-bg);
+                backdrop-filter: brightness(.6);
+            }
+
+            &:where([data-key="ENTER"]) {
+                text-transform: lowercase !important;
+            }
+
+            &:where([data-key="$"]) {
+                background-color: var(--primary);
+                color: var(--solid-bg);
             }
         }
     }
@@ -215,5 +246,37 @@ export const inputStyles = css`
     @keyframes blink {
         0%, 50% { opacity: 1; }
         50.01%, 100% { opacity: 0; }
+    }
+`
+
+export const textareaStyles = css`
+    :host([data-index]) {
+        span[data-initial] {
+            position: relative;
+
+            &::before {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 50%;
+                left: 0;
+                translate: 0 -50%;
+                height: var(--caret-height);
+                border-right: var(--caret-width) solid var(--secondary);
+                animation: blink 1s steps(1) infinite;
+            }
+        }
+    }
+    .fade-input {
+        --caret-height: 1.5em;
+        min-height: 120px;
+        display: block;
+        font-size: var(--text-base);
+        font-weight: normal;
+        overflow-y: auto;
+
+        & span[data-initial] {
+            color: transparent;
+        }
     }
 `

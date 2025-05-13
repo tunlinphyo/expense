@@ -1,12 +1,22 @@
+import { html } from "../../utils"
 import { resetStyles, numberPadStyles } from "./styles"
+import { ContextConsumer } from "../../context"
+import { keyboardContext } from "../../store/context"
+import type { KeyboardContext } from "../../types"
+import { CustomInput } from "./input"
 
 export class NumberPad extends HTMLElement {
+    private consumer: ContextConsumer<KeyboardContext>
     private renderRoot: ShadowRoot
+    private textDisplay: HTMLElement
 
     constructor() {
         super()
         this.renderRoot = this.attachShadow({mode: 'closed'})
         this.renderRoot.adoptedStyleSheets = [resetStyles, numberPadStyles]
+        this.consumer = new ContextConsumer<KeyboardContext>(this, keyboardContext)
+        this.textDisplay = document.createElement('div')
+        this.textDisplay.className = 'textDisplay'
 
         this.onClick = this.onClick.bind(this)
 
@@ -15,15 +25,22 @@ export class NumberPad extends HTMLElement {
 
     connectedCallback() {
         this.renderRoot.addEventListener('pointerdown', this.onClick)
+        this.consumer.subscribe((context) => {
+            if (context.type !== 'number') return
+            if (context.status === 'open') {
+                const focusEl = context.focusElem as CustomInput
+                this.textDisplay.textContent = focusEl?.value || ''
+            }
+        })
     }
 
     disconnectedCallback() {
         this.renderRoot.removeEventListener('pointerdown', this.onClick)
+        this.consumer.unsubscribe()
     }
 
     private render() {
-        const template = document.createElement('template')
-        template.innerHTML = `
+        const node = html`
             <button type="button" class="numberpad__key" data-key="1">1</button>
             <button type="button" class="numberpad__key" data-key="2">2</button>
             <button type="button" class="numberpad__key" data-key="3">3</button>
@@ -39,7 +56,8 @@ export class NumberPad extends HTMLElement {
                 <svg-icon name="delete-key" size="24"></svg-icon>
             </button>
         `
-        this.renderRoot.appendChild(template.content.cloneNode(true))
+        this.renderRoot.appendChild(this.textDisplay)
+        this.renderRoot.appendChild(node)
     }
 
     private onClick(e: Event) {

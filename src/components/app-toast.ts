@@ -1,4 +1,5 @@
 import { ToastPopover } from "../elements"
+import { ExpenseType } from "../types"
 import { html } from "../utils"
 
 export class AppToast extends ToastPopover {
@@ -8,6 +9,20 @@ export class AppToast extends ToastPopover {
                 <div class="icon">
                     <svg-icon name="${isError ? 'exclamation' : (icon ?? 'info')}" size="20"></svg-icon>
                 </div>
+                <span>${message}</span>
+            </div>
+        `
+        this.appendUI(node)
+
+        requestAnimationFrame(() => {
+            this.showToast()
+        })
+    }
+
+    expenseMessage(data: ExpenseType, message: string) {
+        const node = html`
+            <div class="expense-toast">
+                <category-icon data-icon-current icon="${data.category.icon}" data-bg-color="${data.category.color}" width="40" size="14"></category-icon>
                 <span>${message}</span>
             </div>
         `

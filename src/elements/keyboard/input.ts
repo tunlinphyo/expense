@@ -32,6 +32,11 @@ export class CustomInput extends HTMLElement {
         }))
     }
 
+    get lastValue() {
+        const values = (this.input.value || '').split(' ')
+        return values.at?.(-1) || ''
+    }
+
     constructor() {
         super()
         this.renderRoot = this.attachShadow({ mode: 'closed' })

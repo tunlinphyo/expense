@@ -1,4 +1,4 @@
-import { inputStyles } from "./styles"
+import { inputStyles, textareaStyles } from "./styles"
 import { ContextConsumer } from "../../context"
 import { keyboardContext } from "../../store/context"
 import type { KeyboardContext, KeyboardType } from "../../types"
@@ -13,6 +13,7 @@ export class CustomTextarea extends HTMLElement {
     private endIndex: number = 0
 
     protected type: KeyboardType = 'text'
+    protected maxLine: number = 4
 
     static get observedAttributes() {
         return ['value']
@@ -30,6 +31,11 @@ export class CustomTextarea extends HTMLElement {
             bubbles: true,
             cancelable: true,
         }))
+    }
+
+    get lastValue() {
+        const values = (this.input.value || '').split(/[ \n]+/)
+        return values.at?.(-1) || ''
     }
 
     constructor() {
@@ -53,9 +59,9 @@ export class CustomTextarea extends HTMLElement {
     connectedCallback() {
         const ctor = this.constructor as typeof CustomTextarea
         if (ctor.styleSheet) {
-            this.renderRoot.adoptedStyleSheets = [inputStyles, ctor.styleSheet]
+            this.renderRoot.adoptedStyleSheets = [inputStyles, textareaStyles, ctor.styleSheet]
         } else {
-            this.renderRoot.adoptedStyleSheets = [inputStyles]
+            this.renderRoot.adoptedStyleSheets = [inputStyles, textareaStyles]
         }
         this.render()
         this.addEventListener('focus', this.onFocus)
@@ -89,6 +95,9 @@ export class CustomTextarea extends HTMLElement {
         } else if (key) {
             const result = (this as any).verifyValue?.(this.value, key) || false
             if (result) return
+            if (this.value.endsWith('\n') && key === 'ENTER') return
+            const count = (this.value.match(/\n/g) || []).length
+            if (count >= (this.maxLine - 1) && key === 'ENTER') return
             this.index = this.value.length - this.endIndex + 1
             this.value = this.insertAt(this.value, this.index, key)
         }
@@ -109,23 +118,32 @@ export class CustomTextarea extends HTMLElement {
     private renderFadeInput(value: string) {
         this.fadeInput.innerHTML = ''
 
-        if (!value.length) this.fadeInput.innerHTML = '<span data-active="true" data-index="0"><span>'
+        if (!value.length) this.fadeInput.innerHTML = '<span data-initial data-index="0">_<span>'
 
         const activeIndex = Math.max(value.length - this.endIndex, 0)
 
         value.split('').forEach((char, i) => {
-            const span = document.createElement('span')
+            let span = document.createElement('span')
             span.dataset.character = char === ' ' ? 'SPACE' : char
             span.dataset.index = String(i);
             span.dataset.active = String(i === activeIndex)
             if (char === ' ') {
                 span.classList.add('space')
                 span.textContent = ';'
+            } else if (char === '\n') {
+                span = document.createElement('br')
             } else {
                 span.textContent = char
             }
             this.fadeInput.appendChild(span)
         })
+
+        if (value.endsWith('\n')) {
+            let span = document.createElement('span')
+            span.setAttribute('data-initial', '')
+            span.textContent = '_'
+            this.fadeInput.appendChild(span)
+        }
     }
 
     private createInput() {
@@ -150,12 +168,22 @@ export class CustomTextarea extends HTMLElement {
     onClick(e: Event) {
         const target = e.target as HTMLElement
         this.endIndex = this.getIndex(target)
-        console.log(this.endIndex)
         this.renderFadeInput(this.value)
     }
 
     private insertAt(str: string, index: number, insertStr: string) {
-        const insert = insertStr === 'SPACE' ? ' ' : insertStr
+        // const insert = insertStr === 'SPACE' ? ' ' : insertStr
+        let insert = insertStr
+        switch (insertStr) {
+            case 'SPACE':
+                insert = ' '
+                break
+            case 'ENTER':
+                insert = '\n'
+                break
+            default:
+                break
+        }
         return str.slice(0, index) + insert + str.slice(index)
     }
 
