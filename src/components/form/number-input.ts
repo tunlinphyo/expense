@@ -8,8 +8,9 @@ export class NumberInput extends CustomInput {
     verifyValue(value: string, key: string) {
         return (
             (value.includes('.') && key === '.')
-            || (!value.includes('.') && value.length === this.MAX_LENGTH && key !== '.')
-            || (this.hasCharsAfterDot(value))
+            || (!value.includes('.') && value.length >= this.MAX_LENGTH && key !== '.')
+            || (value.includes('.') && value.split('.')[0].length >= this.MAX_LENGTH)
+            || (this.hasCharsAfterDot(value) && this.endIndex < 3)
         )
     }
 

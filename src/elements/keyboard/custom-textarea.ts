@@ -34,7 +34,8 @@ export class CustomTextarea extends HTMLElement {
     }
 
     get lastValue() {
-        const values = (this.input.value || '').split(/[ \n]+/)
+        const textStr = this.value.slice(0, (this.value.length - this.endIndex + 1)) || ''
+        const values = textStr.split(/[ \n]+/)
         return values.at?.(-1) || ''
     }
 

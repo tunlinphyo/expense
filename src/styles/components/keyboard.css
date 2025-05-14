@@ -9,6 +9,7 @@
     left: 0;
     bottom: 0;
     isolation: isolate;
+    overflow: hidden;
 
     border: none;
     outline: none;
@@ -36,10 +37,11 @@
 
     footer {
         position: relative;
-        padding: 0 var(--size-2) var(--size-2);
+        padding: 0 var(--size-3) var(--size-2);
 
         & button {
             pointer-events: auto;
+            color: var(--primary);
         }
     }
 }

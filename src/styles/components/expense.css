@@ -23,7 +23,7 @@ filter-form.custom-form {
         transition: background-color var(--ease-time-xs) ease;
 
         :where(category-icon) {
-            border: 2px solid var(--solid-bg);
+            border: 3px solid var(--solid-bg);
         }
 
         .category-name-lg {

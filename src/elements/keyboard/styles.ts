@@ -23,6 +23,7 @@ export const numberPadStyles = css`
             min-height: 1.5rem;
             text-align: center;
             grid-column: span 3;
+            font-weight: 500;
         }
 
         .numberpad__key {
@@ -37,6 +38,7 @@ export const numberPadStyles = css`
             font-weight: 500;
             color: var(--fg-primary);
             user-select: none;
+            transition: border-radius .1s ease;
 
             * {
                 pointer-events: none;
@@ -47,6 +49,24 @@ export const numberPadStyles = css`
                 backdrop-filter: none;
                 border: none;
             }
+
+            &[data-key="DELETE"] {
+                color: var(--secondary);
+            }
+
+            &:active {
+                border-radius: var(--radius-1);
+                /* background-color: var(--gray-6); */
+            }
+            &[data-key="."]:active {
+                background-color: var(--primary);
+                color: var(--solid-bg);
+            }
+            &[data-key="DELETE"]:active {
+                background-color: var(--secondary);
+                color: var(--solid-bg);
+            }
+
         }
     }
     :host([current-type=number]) {
@@ -60,18 +80,18 @@ export const textPadStyles = css`
         display: none;
         flex-direction: column;
         align-items: center;
-        padding: var(--size-1);
+        padding: var(--size-1) 2px;
         padding-block-end: var(--size-3);
         gap: var(--size-2);
         -webkit-user-select: none; /* Safari */
         -moz-user-select: none;    /* Firefox */
         -ms-user-select: none;     /* IE/Edge */
         user-select: none;
-        overflow: hidden;
 
         .textDisplay {
             min-height: 1.5rem;
             text-align: center;
+            font-weight: 500;
         }
 
         .row {
@@ -106,8 +126,8 @@ export const textPadStyles = css`
             border: 1px solid var(--glass-border);
             border: none;
             border-radius: var(--radius-5);
-            font-size: var(--text-lg);
-            font-weight: 500;
+            font-size: var(--text-xl);
+            font-weight: 400;
             color: var(--fg-primary);
             padding: 0;
             user-select: none;
@@ -121,6 +141,9 @@ export const textPadStyles = css`
 
             &[data-popup]:active {
                 scale: 2;
+                position: relative;
+                z-index: 2;
+                /* background-color: var(--gray-6); */
             }
 
             * {
@@ -142,8 +165,9 @@ export const textPadStyles = css`
             &:where([data-key="NUMBER"], [data-key="ENTER"]) {
                 text-transform: uppercase !important;
                 font-size: var(--text-base);
-                background-color: var(--glass-bg);
-                backdrop-filter: brightness(.6);
+                background-color: transparent;
+                backdrop-filter: none;
+                border: 2px solid var(--solid-bg);
             }
 
             &:where([data-key="ENTER"]) {

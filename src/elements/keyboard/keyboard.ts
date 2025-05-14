@@ -121,7 +121,7 @@ export class Keyboard extends HTMLElement {
             this.close()
         })
 
-        elem.innerHTML = '<svg-icon name="close" size="14"></svg-icon>'
+        elem.innerHTML = '<svg-icon name="done" size="16"></svg-icon>'
         return elem
     }
 

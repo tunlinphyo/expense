@@ -10,7 +10,7 @@ export class CustomInput extends HTMLElement {
     private input: HTMLInputElement
     private fadeInput: HTMLElement
     private index: number = -1
-    private endIndex: number = 0
+    protected endIndex: number = 0
 
     protected type: KeyboardType = 'text'
 
@@ -33,7 +33,8 @@ export class CustomInput extends HTMLElement {
     }
 
     get lastValue() {
-        const values = (this.input.value || '').split(' ')
+        const textStr = this.value.slice(0, (this.value.length - this.endIndex + 1)) || ''
+        const values = textStr.split(' ')
         return values.at?.(-1) || ''
     }
 
