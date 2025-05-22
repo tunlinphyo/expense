@@ -7,7 +7,7 @@ const hostStyles = css`
 
         display: grid;
         grid-template-columns: var(--layout-column);
-        grid-template-rows: var(--layout-row);
+        grid-template-rows: [header-start page-start] calc(env(safe-area-inset-top) + 60px) [header-end body-start] auto [body-end page-end];
         padding-block-end: var(--nav-padding);
     }
     ::slotted(*) {

@@ -3,6 +3,8 @@ import './styles/style.css'
 import './components'
 import './elements'
 import { appToast } from './components'
+import { LocalBiometricAuth } from './utils/biometric'
+import { showBiometric } from './store'
 
 // import { CurrencyService } from './firebase/currencyService'
 // import { DEFAULT_COLORS, DEFAULT_CURRENCY, DEFAULT_ICONS } from './data'
@@ -22,4 +24,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         // appToast.showMessage('Test success')
         // appToast.showMessage('Test error', null, true)
     })
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            if (LocalBiometricAuth.isNeedToAuth()) {
+                showBiometric()
+            }
+        } else {
+            LocalBiometricAuth.lastAuth = new Date()
+        }
+    });
+
+    // if (await LocalBiometricAuth.isAvailable()) {
+    //     if (LocalBiometricAuth.isRegistered()) {
+    //         await LocalBiometricAuth.authenticate();
+    //     } else {
+    //         await LocalBiometricAuth.register();
+    //     }
+    // } else {
+    //     alert('NOT_SUPPORT')
+    // }
+
 })

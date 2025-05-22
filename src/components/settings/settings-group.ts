@@ -1,3 +1,6 @@
+import { appToast } from ".."
+import { LocalBiometricAuth } from "../../utils/biometric"
+import { CustomToggle } from "./custom-toggle"
 
 
 export class SettingsGroup extends HTMLElement {
@@ -12,6 +15,15 @@ export class SettingsGroup extends HTMLElement {
     }
 
     connectedCallback() {
+        if (!LocalBiometricAuth.isAvailable()) {
+            const elem = this.querySelector('#biometricToggle')
+            elem?.remove()
+        } else {
+            const elem = this.querySelector('#biometricToggle custom-toggle')
+            const value = LocalBiometricAuth.isEnabled()
+            elem?.setAttribute('value', value ? 'on' : 'off')
+        }
+
         this.observer = new IntersectionObserver((entries) => {
             for (const entry of entries) {
                 if (entry.isIntersecting) {
@@ -25,7 +37,7 @@ export class SettingsGroup extends HTMLElement {
 
         this.observer.observe(this)
 
-        if (this.isInStandaloneMode() || !this.isMobile()) 
+        if (this.isInStandaloneMode() || !this.isMobile())
             this.removeButton()
 
         this.addEventListener('click', this.onClick)
@@ -53,6 +65,14 @@ export class SettingsGroup extends HTMLElement {
         const target = e.target as HTMLElement
         if (target.dataset.button === 'install-prompt')
             this.installPrompt?.setAttribute('show', '')
+        if (target.dataset.button === 'toggle') {
+            const toogelEl = target.querySelector<CustomToggle>('custom-toggle')
+            if (toogelEl) {
+                const value = toogelEl.getAttribute('value') || 'off'
+                const status = value === 'on' ? 'off' : 'on'
+                this.toggleBiometric(toogelEl, status)
+            }
+        }
     }
 
     protected setLocalStatus(status: string) {
@@ -76,6 +96,26 @@ export class SettingsGroup extends HTMLElement {
             (window.navigator as any).standalone === true || // ✅ iOS Safari
             window.matchMedia?.('(display-mode: standalone)').matches // ✅ Other platforms
         )
+    }
+
+    private async toggleBiometric(toogelEl: HTMLElement, status: 'on' | 'off') {
+        if (status === 'on') {
+            if (LocalBiometricAuth.isRegistered()) {
+                toogelEl.setAttribute('value', status)
+            } else {
+                try {
+                    await LocalBiometricAuth.register()
+                    LocalBiometricAuth.setBiometric(true)
+                    toogelEl.setAttribute('value', status)
+                } catch(e) {
+                    appToast.showMessage('Register error', null, true)
+                }
+            }
+        } else {
+            LocalBiometricAuth.unregister()
+            LocalBiometricAuth.setBiometric(false)
+            toogelEl.setAttribute('value', status)
+        }
     }
 }
 

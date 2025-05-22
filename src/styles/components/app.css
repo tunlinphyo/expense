@@ -117,7 +117,6 @@ body:has(category-modal[modal-open]) {
         overflow-y: auto;
         overscroll-behavior: contain;
         min-width: 100vw;
-        padding-top: env(safe-area-inset-top);
         background-color: var(--bg-primary);
         will-change: transform, translate;
 
@@ -127,6 +126,13 @@ body:has(category-modal[modal-open]) {
         transition-property: display, translate, background-color;
 
         :where(main-page) > header {
+            padding-top: env(safe-area-inset-top);
+            /* position: sticky;
+            z-index: 5;
+            top: -60px;
+            background-color: var(--bg-glass);
+            backdrop-filter: blur(20px) brightness(1); */
+
             & h2 {
                 font-size: var(--text-lg);
             }

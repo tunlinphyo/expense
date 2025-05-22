@@ -1,4 +1,5 @@
 import { loginModal, SplashScreen } from "../components"
+import { BiometricsAuth } from "../components/biometric-auth"
 import { AppService } from "../firebase/appService"
 import { observeAuthState } from "../firebase/authService"
 import { CategoryService } from "../firebase/categoryService"
@@ -18,11 +19,14 @@ export const appStore = async () => {
     const colors = await ColorService.getAllColors()
     colorsSignal.set(colors)
 
+    removeSplash()
+    const reuslt = await showBiometric()
+    console.log(reuslt)
+
     observeAuthState(async (user) => {
         appUnsubscribe?.()
         cateogryUnsubscribe?.()
 
-        removeSplash()
         if (!user) {
             return loginModal.openModal()
         }
@@ -72,4 +76,9 @@ async function getCategories(userId: string) {
 function removeSplash() {
     const elem = document.getElementById('splashScreen') as SplashScreen
     if (elem) elem.removeSplash()
+}
+
+export function showBiometric() {
+    const elem = document.querySelector<BiometricsAuth>('#biometricsAuth')!
+    return elem.openAuth()
 }

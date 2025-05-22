@@ -49,7 +49,7 @@
                 border-bottom: 1px solid var(--list-border);
             }
 
-            & button:where([data-button=page], [data-button=modal], [data-button=select], [data-button=prompt]) {
+            & button:where([data-button=page], [data-button=modal], [data-button=select], [data-button=prompt], [data-button=toggle]) {
                 border: none;
                 background-color: transparent;
 
@@ -96,7 +96,11 @@
                     color: var(--fg-accent);
                 }
             }
-        }
+
+            & button:where([data-button=toggle]) {
+                grid-template-columns: 24px 1fr auto;
+            }
+         }
     }
 
 }

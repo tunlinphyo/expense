@@ -251,6 +251,13 @@
                                         </template>
                                     </currency-select>
                                 </li>
+                                <li id="biometricToggle">
+                                    <button type="button" data-button="toggle">
+                                        <svg-icon class="icon" name="face-id" size="24"></svg-icon>
+                                        <span class="name">Biometric Auth</span>
+                                        <custom-toggle value="off"></custom-toggle>
+                                    </button>
+                                </li>
                                 <li>
                                     <theme-select>
                                         <button type="button" data-button="select" slot="button">
@@ -837,6 +844,18 @@
     <app-toast id="appToast"></app-toast>
 
     <app-loading id="appLoading"></app-loading>
+
+    <biometrics-auth id="biometricsAuth">
+        <template id="authInit">
+            <div class="message">
+                Biometrics Auth Required
+            </div>
+        </template>
+        <template id="authError">
+            <div class="message">Biometrics Auth Error</div>
+            <button data-button="reauth">Try<br>again</button>
+        </template>
+    </biometrics-auth>
 
     <script type="module" src="/src/main.ts"></script>
 </body>

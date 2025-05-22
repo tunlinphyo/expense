@@ -104,7 +104,7 @@ expense-group {
     :where(expense-filter) {
         position: sticky;
         z-index: 5;
-        top: var(--size-2);
+        top: max(env(safe-area-inset-top), var(--size-1));
 
         background-color: var(--bg-card);
         backdrop-filter: var(--card-filter);

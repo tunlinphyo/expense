@@ -1,0 +1,28 @@
+custom-toggle {
+    width: 50px;
+    height: 32px;
+    background-color: var(--bg-primary);
+    border-radius: 32px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 3px;
+    transition: background-color .3s ease;
+
+    &[value=on] {
+        background-color: var(--primary);
+    }
+
+    &::part(toggle) {
+        width: 26px;
+        height: 26px;
+        background-color: light-dark(var(--white), var(--gray-3));
+        border-radius: 50%;
+        transition: translate .3s ease;
+    }
+
+    &::part(on) {
+        translate: 18px 0;
+        background-color: light-dark(var(--white), var(--black));
+    }
+}

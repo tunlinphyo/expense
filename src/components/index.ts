@@ -7,6 +7,7 @@ import { AppToast } from './app-toast'
 import { LoginModal } from './login-modal'
 
 import './splash-screen'
+import './biometric-auth'
 import './expense-app'
 import './expense-keyboard'
 import './main-page'
