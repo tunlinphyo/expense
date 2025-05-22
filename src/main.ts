@@ -33,16 +33,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             LocalBiometricAuth.lastAuth = new Date()
         }
-    });
-
-    // if (await LocalBiometricAuth.isAvailable()) {
-    //     if (LocalBiometricAuth.isRegistered()) {
-    //         await LocalBiometricAuth.authenticate();
-    //     } else {
-    //         await LocalBiometricAuth.register();
-    //     }
-    // } else {
-    //     alert('NOT_SUPPORT')
-    // }
-
+    })
 })
