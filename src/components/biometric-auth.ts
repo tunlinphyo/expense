@@ -1,4 +1,3 @@
-import { html } from "../utils"
 import { LocalBiometricAuth } from "../utils/biometric"
 
 
