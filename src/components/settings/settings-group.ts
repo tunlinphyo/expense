@@ -107,6 +107,7 @@ export class SettingsGroup extends HTMLElement {
                     await LocalBiometricAuth.register()
                     LocalBiometricAuth.setBiometric(true)
                     toogelEl.setAttribute('value', status)
+                    appToast.showMessage('Biometric lock enabled', 'bio-lock')
                 } catch(e) {
                     appToast.showMessage('Register error', null, true)
                 }
@@ -115,6 +116,7 @@ export class SettingsGroup extends HTMLElement {
             LocalBiometricAuth.unregister()
             LocalBiometricAuth.setBiometric(false)
             toogelEl.setAttribute('value', status)
+            appToast.showMessage('Biometric lock disabled', 'bio-lock')
         }
     }
 }

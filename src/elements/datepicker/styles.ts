@@ -13,6 +13,7 @@ export const pickerStyle = css`
         width: 92vw;
         max-width: 30rem;
         inset: auto 0 4vw;
+        contain: content;
 
         border-radius: 2rem;
         background-color: var(--glass-bg);
@@ -26,7 +27,7 @@ export const pickerStyle = css`
         }
 
         @media (display-mode: fullscreen), (display-mode: standalone) {
-            inset-block-end: max(env(safe-area-inset-bottom, 0px), 4vw);
+            inset-block-end: max(env(safe-area-inset-bottom, 0px), 20px);
         }
     }
     header {

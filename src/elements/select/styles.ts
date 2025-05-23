@@ -5,6 +5,7 @@ export const selectStyle = css`
         width: 92vw;
         max-width: 30rem;
         inset: auto 0 4vw;
+        contain: content;
 
         border-radius: 2rem;
         background-color: var(--glass-bg);

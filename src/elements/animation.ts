@@ -1,5 +1,5 @@
 const duration = 300
-const easeOut = 'cubic-bezier(0, 0.5, 0.5, 1)'
+const easeOut = 'cubic-bezier(0.2, 1, 0.8, 1)'
 
 export function modalIn(elem: HTMLElement, deltaY: number = 0) {
     return elem.animate([

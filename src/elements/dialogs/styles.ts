@@ -7,6 +7,7 @@ export const hostStyles = css`
     dialog {
         position: fixed;
         padding: 0;
+        contain: content;
 
         border: none;
         outline: none;
@@ -106,13 +107,13 @@ export const pageStyles = css`
         min-height: calc(100svh - 180px);
     }
     ::slotted(footer) {
-        padding-block-end: env(safe-area-inset-bottom, 20px);
+        padding-block-end: max(env(safe-area-inset-bottom), var(--size-3));
     }
 `
 
 export const modalStyles = css`
     :host {
-        --apple-top: max(env(safe-area-inset-top, 0px), 15px);
+        --apple-top: max(env(safe-area-inset-top, 0px), 40px);
     }
     dialog {
         width: 100%;

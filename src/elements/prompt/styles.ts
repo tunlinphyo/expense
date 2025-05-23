@@ -2,6 +2,7 @@ import { css } from "../../utils"
 
 export const hostStyle = css`
     :host {
+        contain: content;
         translate: -50% 115%;
 
         transition-behavior: allow-discrete;

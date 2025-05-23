@@ -111,8 +111,8 @@ export class ExpenseForm extends ReactiveForm {
     private onCategoryChange(e: Event) {
         const target = e.target as HTMLInputElement
         if (target.name === 'categoryId') {
-            // const amountEl = this.querySelector('input[name="amount"]') as HTMLInputElement
-            const amountEl = this.querySelector('number-input') as NumberInput
+            const amountEl = this.querySelector('input[name="amount"]') as HTMLInputElement
+            // const amountEl = this.querySelector('number-input') as NumberInput
             if (!amountEl.value)
                 amountEl?.focus()
         }

@@ -23,6 +23,7 @@ export const popoverStyles = css`
         transition-behavior: allow-discrete;
         transition-duration: .3s;
         transition-timing-function: ease;
+        contain: content;
     }
 
     :host(:popover-open) {
