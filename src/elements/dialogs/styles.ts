@@ -169,6 +169,11 @@ export const modalStyles = css`
         grid-area: header / edge;
         border-radius: 1.5rem 1.5rem 0 0;
     }
+    @media (max-height: 650px) {
+        dialog {
+            max-height: 99.5vh;
+        }
+    }
     /* @media (display-mode: fullscreen), (display-mode: standalone) {
         section {
             padding-block-end: 60px;
@@ -245,6 +250,11 @@ export const scrollModalStyles = css`
     ::slotted(header) {
         grid-area: header / edge;
         border-radius: 1.5rem 1.5rem 0 0;
+    }
+    @media (max-height: 650px) {
+        dialog {
+            max-height: calc(100vh - var(--apple-top) + 10px);
+        }
     }
     /* @media (display-mode: fullscreen), (display-mode: standalone) {
         section {

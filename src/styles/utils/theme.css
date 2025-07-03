@@ -45,8 +45,8 @@
     --bg-wave: light-dark(var(--gray-6), var(--gray-5));
 
     --page-x: 100%;
-    --modal-scale: .9;
-    --easing-x: cubic-bezier(0.2, 1, 0.8, 1);
+    --modal-scale: 1;
+    --easing-x: ease;
     --duration: 300ms;
 
     /* color: #dbdbe0; */

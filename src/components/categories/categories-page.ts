@@ -43,17 +43,17 @@ export class CategoriesPage extends PageDialog {
     }
 
     private scaleAnimate(isOpen: boolean) {
-        const open = { scale: "var(--modal-scale)", opacity: 1, borderRadius: '1.5rem' }
-        const base = { scale: 1, opacity: 1, borderRadius: '0' }
+        // const open = { scale: "var(--modal-scale)", opacity: 1, borderRadius: '1.5rem' }
+        // const base = { scale: 1, opacity: 1, borderRadius: '0' }
 
-        const animation = this.dialog.animate(isOpen ? [base, open] : [open, base], {
-            duration: 300,
-            easing: 'ease-out',
-        })
+        // const animation = this.dialog.animate(isOpen ? [base, open] : [open, base], {
+        //     duration: 300,
+        //     easing: 'ease-out',
+        // })
 
-        animation.finished.then(() => {
-            Object.assign(this.dialog.style, isOpen ? open : base)
-        })
+        // animation.finished.then(() => {
+        //     Object.assign(this.dialog.style, isOpen ? open : base)
+        // })
     }
 }
 

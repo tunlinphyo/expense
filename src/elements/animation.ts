@@ -1,9 +1,11 @@
 const duration = 300
-const easeOut = 'cubic-bezier(0.2, 1, 0.8, 1)'
+const easeOut = 'ease'
+const distanceX = 60
+const distanceY = 120
 
 export function modalIn(elem: HTMLElement, deltaY: number = 0) {
     return elem.animate([
-        { translate: `0 ${deltaY || elem.clientHeight}px` },
+        { translate: `0 ${deltaY || distanceY}px` },
         { translate: '0 0' },
     ], {
         duration,
@@ -12,7 +14,8 @@ export function modalIn(elem: HTMLElement, deltaY: number = 0) {
 }
 
 export function modalCustomIn(elem: HTMLElement, deltaY: number = 0) {
-    const startY = Math.max((elem.clientHeight * 0.5), deltaY)
+    const distY = elem.clientHeight - distanceY
+    const startY = Math.max(distY, deltaY)
     return elem.animate([
         { translate: `0 ${startY}px` },
         { translate: '0 0' },
@@ -23,8 +26,10 @@ export function modalCustomIn(elem: HTMLElement, deltaY: number = 0) {
 }
 
 export function modalOut(elem: HTMLElement, deltaY: number = 0) {
+    const distY = elem.clientHeight - distanceY
+    const startY = Math.max(distY, deltaY)
     return elem.animate([
-        { translate: `0 ${deltaY}px` },
+        { translate: `0 ${startY}px` },
         { translate: `0 ${elem.clientHeight + 50}px` },
     ], {
         duration,
@@ -51,7 +56,7 @@ export function pageIn(elem: HTMLElement, deltaX: number = 0, deltaY: number = 0
     elem.removeAttribute('style')
 
     return elem.animate([
-        { translate: `${deltaX || elem.clientWidth}px ${deltaY}px`, scale, borderRadius },
+        { translate: `${deltaX || distanceX}px ${deltaY}px`, scale, borderRadius },
         { translate: '0 0', scale: 1, borderRadius: 0 },
     ], {
         duration,
@@ -66,10 +71,10 @@ export function pageOut(elem: HTMLElement, deltaX: number = 0, deltaY: number = 
 
     elem.removeAttribute('style')
 
-    // const startX = Math.max(window.innerWidth - X, deltaX)
+    const startX = Math.max(window.innerWidth - distanceX, deltaX)
 
     return elem.animate([
-        { translate: `${deltaX}px ${deltaY}px`, opacity: 1, scale, borderRadius },
+        { translate: `${startX}px ${deltaY}px`, opacity: 1, scale, borderRadius },
         { translate: `${elem.clientWidth}px 0`, opacity: 1, scale, borderRadius },
     ], {
         duration,

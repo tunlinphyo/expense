@@ -13,13 +13,13 @@ body {
     transition: background-color .3s ease;
 }
 
-body:has(:where(page-dialog, overview-page, categories-page)[page-open]) {
+/* body:has(:where(page-dialog, overview-page, categories-page)[page-open]) {
     :is(nav-panel) {
         translate: calc(var(--page-x) * -0.5) 0 !important;
     }
-}
+} */
 
-body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category-modal, scroll-modal)[modal-open]) {
+/* body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category-modal, scroll-modal)[modal-open]) {
     & {
         background-color: light-dark(rgb(189,189,194), rgb(14,14,16));
     }
@@ -27,7 +27,7 @@ body:has(:where(login-modal, modal-dialog, filter-modal, expense-modal, category
         scale: var(--modal-scale);
         border-radius: var(--radius-4);
     }
-}
+} */
 
 body:has(category-modal[modal-open]) {
     :is(#appTabs) {
