@@ -28,11 +28,12 @@
 
     --bg-picker: var(--gray-6);
 
-    --highlight: color-mix(in srgb, var(--primary) 30%, transparent);
+    --highlight: color-mix(in srgb, var(--primary) var(--mix-transparent, 30%), transparent);
 
     --glass-alpha: 0.5;
+    /* --mix-transparent: 70%; */
     --bg-glass: light-dark(rgba(242, 242, 247, var(--glass-alpha)), rgba(0, 0, 0, var(--glass-alpha)));
-    --card-highlight: color-mix(in srgb, var(--bg-card) 50%, transparent);
+    --card-highlight: color-mix(in srgb, var(--bg-card) var(--mix-transparent, 50%), transparent);
 
     --bg-backdrop: light-dark(
         color-mix(in srgb, var(--gray-4) 10%, transparent),
@@ -54,7 +55,7 @@
     --glass: light-dark(var(--white), var(--gray-4));
     --solid-bg: light-dark(var(--white), var(--black));
     --solid-fg: light-dark(var(--black), var(--white));
-    --glass-bg: color-mix(in srgb, var(--glass) 70%, transparent);
+    --glass-bg: color-mix(in srgb, var(--glass) var(--mix-transparent, 70%), transparent);
     --glass-filter: blur(20px) brightness(1);
     --glass-border: light-dark(var(--white), var(--gray-2));
 
@@ -62,7 +63,7 @@
     --bg-wave: var(--gray-6);
 
     --bg-primary: light-dark(rgb(219,219,224), var(--black));
-    --bg-card: color-mix(in srgb, light-dark(var(--white), var(--gray-4)) 70%, transparent);
+    --bg-card: color-mix(in srgb, light-dark(var(--white), var(--gray-4)) var(--mix-transparent, 70%), transparent);
     --card-filter: blur(20px) brightness(1);
     --card-border: light-dark(var(--white), var(--gray-4));
 
@@ -71,13 +72,32 @@
 
     --list-border: light-dark(var(--gray-4), var(--gray-5));
 
-    --bg-glass: color-mix(in srgb, var(--bg-primary) 70%, transparent);
+    --bg-glass: color-mix(in srgb, var(--bg-primary) var(--mix-transparent, 70%), transparent);
     --bg-form: var(--solid-bg);
 
     --dialog-filter: blur(1px) brightness(.8);
 
     @media (prefers-reduced-transparency: reduce) {
         --glass-alpha: 1;
+        --mix-transparent: 100%;
+    }
+
+    &[data-android] {
+        --glass-alpha: 1;
+        --mix-transparent: 100%;
+        --glass-filter: none;
+        --card-filter: none;
+        --dialog-filter: none;
+
+        --bg-backdrop: light-dark(
+            color-mix(in srgb, var(--gray-2) 90%, transparent),
+            color-mix(in srgb, var(--gray-5) 90%, transparent)
+        );
+
+        --glass: light-dark(var(--gray-5), var(--gray-4));
+        /* --bg-primary: light-dark(rgb(245,250,255), var(--black)); */
+        --solid-bg: light-dark(rgb(245,250,255), rgb(15,20,25));
+        --card-border: light-dark(var(--gray-4), var(--gray-2));
     }
 
     /* @media (prefers-color-scheme: dark) {

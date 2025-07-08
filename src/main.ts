@@ -3,6 +3,7 @@ import './styles/style.css'
 import './components'
 import './elements'
 import { appToast } from './components'
+import { isAndroid } from './utils/index';
 import { LocalBiometricAuth } from './utils/biometric'
 import { showBiometric } from './store'
 
@@ -17,6 +18,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // await ColorService.seedColors(DEFAULT_COLORS as ColorType[])
     // await IconService.seedIcons(DEFAULT_ICONS)
     // await CurrencyService.seedCurrency(DEFAULT_CURRENCY)
+
+    const android = isAndroid()
+    if (android) {
+        document.documentElement.setAttribute('data-android', '')
+    }
 
     const total = document.querySelector('current-total')
     total?.addEventListener('click', async () => {

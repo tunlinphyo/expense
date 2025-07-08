@@ -228,6 +228,7 @@ export const calendarStyle = css`
         &:has(input:checked) {
             color: var(--primary);
             font-weight: 600;
+            color: var(--solid-bg);
 
             &::before {
                 scale: 1;

@@ -22,7 +22,7 @@
             hyphens: auto;
             -webkit-hyphens: auto;
             text-wrap: pretty;
-            
+
             &.initial-letter::first-letter {
                 -webkit-initial-letter: 2;
                 initial-letter: 2;
@@ -79,7 +79,7 @@
                 aspect-ratio: 1;
                 border-radius: var(--radius-blob-4);
                 overflow: hidden;
-                
+
                 & img {
                     display: flex;
                     object-fit: cover;

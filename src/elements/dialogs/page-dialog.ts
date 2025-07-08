@@ -122,7 +122,7 @@ export class PageDialog extends HTMLElement {
         if (absX > Math.min(200, this.dialog.clientWidth * 0.3)) {
             this.closePage(x)
         } else if (absX > 1) {
-            this.openAnimation(x)
+            this.openAnimation(x, 0)
         }
     }
 

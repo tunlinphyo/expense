@@ -199,6 +199,23 @@ body:has(category-modal[modal-open]) {
     }
 }
 
+[data-android] {
+    #appTabs {
+        & tab-list {
+            background-color: light-dark(rgb(240,245,250), rgb(20,25,30));
+        }
+        & nav-panel {
+            :where(main-page) {
+                grid-template-rows: [header-start page-start] calc(var(--size-6) + 60px) [header-end body-start] auto [body-end page-end];
+
+                & > header {
+                    padding-top: var(--size-6);
+                }
+            }
+        }
+    }
+}
+
 .emptyData {
     min-height: 25vh;
     display: flex;

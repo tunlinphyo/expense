@@ -253,7 +253,7 @@ export const scrollModalStyles = css`
     }
     @media (max-height: 650px) {
         dialog {
-            max-height: calc(100vh - var(--apple-top) + 10px);
+            max-height: calc(100vh - var(--apple-top) + 15px);
         }
     }
     /* @media (display-mode: fullscreen), (display-mode: standalone) {

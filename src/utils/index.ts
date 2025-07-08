@@ -138,3 +138,7 @@ export async function allSettles<T>(promises: Promise<any>[], callback: (data: T
         return false
     }
 }
+
+export function isAndroid(): boolean {
+  return /Android/i.test(navigator.userAgent);
+}

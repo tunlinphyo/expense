@@ -6,7 +6,7 @@ biometrics-auth {
         height: 100%;
         max-height: 100%;
         border: none;
-        background-color: color-mix(in srgb, light-dark(var(--white), var(--black)) 50%, transparent);
+        background-color: color-mix(in srgb, light-dark(var(--white), var(--black)) var(--mix-transparent, 50%), transparent);
         backdrop-filter: var(--glass-filter);
 
         contain: content;
