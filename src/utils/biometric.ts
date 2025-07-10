@@ -18,8 +18,8 @@ export class LocalBiometricAuth {
         return localStorage.setItem('biometricAuth', status.toString())
     }
 
-    static isNeedToAuth() {
-        if (!this.isAvailable()) return false
+    static async isNeedToAuth() {
+        if (!await this.isAvailable()) return false
         if (this.lastAuth === null) return false
 
         if (this.lastAuth) {

@@ -14,8 +14,8 @@ export class SettingsGroup extends HTMLElement {
         this.onClick = this.onClick.bind(this)
     }
 
-    connectedCallback() {
-        if (!LocalBiometricAuth.isAvailable()) {
+    async connectedCallback() {
+        if (!await LocalBiometricAuth.isAvailable()) {
             const elem = this.querySelector('#biometricToggle')
             elem?.remove()
         } else {

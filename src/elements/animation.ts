@@ -1,5 +1,5 @@
 const duration = 300
-const easeOut = 'ease'
+const easeOut = 'cubic-bezier(0.2, 1, 0.8, 1)'
 
 export function modalIn(elem: HTMLElement, deltaY: number = 0) {
     return elem.animate([
@@ -12,8 +12,7 @@ export function modalIn(elem: HTMLElement, deltaY: number = 0) {
 }
 
 export function modalCustomIn(elem: HTMLElement, deltaY: number = 0) {
-    const distY = elem.clientHeight
-    const startY = Math.max(distY, deltaY)
+    const startY = Math.max((elem.clientHeight * 0.5), deltaY)
     return elem.animate([
         { translate: `0 ${startY}px` },
         { translate: '0 0' },

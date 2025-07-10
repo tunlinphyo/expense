@@ -31,9 +31,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         // appToast.showMessage('Test error', null, true)
     })
 
-    document.addEventListener('visibilitychange', () => {
+    document.addEventListener('visibilitychange', async () => {
         if (document.visibilityState === 'visible') {
-            if (LocalBiometricAuth.isNeedToAuth()) {
+            const isNeed = await LocalBiometricAuth.isNeedToAuth()
+            if (document.visibilityState === 'visible' && isNeed) {
                 showBiometric()
             }
         } else {

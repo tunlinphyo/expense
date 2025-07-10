@@ -24,7 +24,7 @@ export class BiometricsAuth extends HTMLElement {
         this.openModal();
 
         return new Promise(async (resolve, reject) => {
-            if (!LocalBiometricAuth.isAvailable() || !LocalBiometricAuth.isEnabled()) {
+            if (!await LocalBiometricAuth.isAvailable() || !LocalBiometricAuth.isEnabled()) {
                 this.closeModal();
                 return resolve(true);
             }
