@@ -52,7 +52,7 @@ body:has(category-modal[modal-open]) {
         left: 0;
         bottom: 0;
         width: 100%;
-        background-color: var(--bg-glass);
+        background-color: var(--solid-bg);
         backdrop-filter: blur(20px) brightness(1);
 
         display: grid;
@@ -202,7 +202,7 @@ body:has(category-modal[modal-open]) {
 [data-android] {
     #appTabs {
         & tab-list {
-            background-color: light-dark(rgb(240,245,250), rgb(20,25,30));
+            background-color: var(--bg);
         }
         & nav-panel {
             :where(main-page) {
