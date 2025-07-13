@@ -26,9 +26,9 @@ export class CategoriesPage extends PageDialog {
 
     private observeOtherElementOpen() {
         const updateState = () => {
-            const isOpen = !!document.querySelector("category-modal[modal-open]")
+            // const isOpen = !!document.querySelector("category-modal[modal-open]")
             if (this.hasAttribute('page-open'))
-                this.scaleAnimate(isOpen)
+                this.scaleAnimate(/*isOpen*/)
         }
 
         const observer = new MutationObserver(updateState)
@@ -42,7 +42,7 @@ export class CategoriesPage extends PageDialog {
         updateState()
     }
 
-    private scaleAnimate(isOpen: boolean) {
+    private scaleAnimate(/* isOpen: boolean */) {
         // const open = { scale: "var(--modal-scale)", opacity: 1, borderRadius: '1.5rem' }
         // const base = { scale: 1, opacity: 1, borderRadius: '0' }
 

@@ -7,7 +7,7 @@ import { currencySignal, userSignal } from "../../store/signal"
 import { ExpenseType } from "../../types"
 import { allSettles, wait } from "../../utils"
 import { AppDate } from "../../utils/date"
-import { NumberInput } from "../form/number-input"
+// import { NumberInput } from "../form/number-input"
 import { ExpenseModal } from "./expense-modal"
 
 type FormExpense = Omit<ExpenseType, 'amount' | 'date' | 'category'> & {
