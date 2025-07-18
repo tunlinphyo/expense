@@ -14,6 +14,7 @@ import { showBiometric } from './store'
 // import { IconService } from './firebase/iconService'
 
 // import { appToast } from './components'
+let wasHiddenByUser: Boolean = false
 document.addEventListener('DOMContentLoaded', async () => {
     // await ColorService.seedColors(DEFAULT_COLORS as ColorType[])
     // await IconService.seedIcons(DEFAULT_ICONS)
@@ -32,13 +33,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     })
 
     document.addEventListener('visibilitychange', async () => {
-        if (document.visibilityState === 'visible') {
-            const isNeed = await LocalBiometricAuth.isNeedToAuth()
-            if (document.visibilityState === 'visible' && isNeed) {
-                showBiometric()
-            }
-        } else {
+        if (document.visibilityState === 'hidden') {
+            wasHiddenByUser = true
             LocalBiometricAuth.lastAuth = new Date()
+        }
+        if (document.visibilityState === 'visible') {
+            if (wasHiddenByUser) {
+                wasHiddenByUser = false
+                const isNeed = await LocalBiometricAuth.isNeedToAuth()
+                if (isNeed) showBiometric()
+            }
         }
     })
 })
