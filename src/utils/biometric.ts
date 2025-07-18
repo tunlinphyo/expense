@@ -26,7 +26,7 @@ export class LocalBiometricAuth {
             const now = new Date()
             const elapsed = now.getTime() - this.lastAuth.getTime()
 
-            return elapsed > 5 * 60 * 1000;
+            return elapsed > 1 * 60 * 1000;
         }
 
         return false
