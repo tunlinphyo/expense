@@ -43,7 +43,9 @@ npm install
 
 ### 3. Setup Environment
 
-Create a `.env.local` file and define your Firebase settings:
+Go to the [Firebase Console](https://console.firebase.google.com/), create a Firebase project, and enable the Firestore Database.
+
+Create a `.env.local` file in the project root and add your Firebase configuration:
 
 ```env
 VITE_FIREBASE_API_KEY=your_api_key
