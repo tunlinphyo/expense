@@ -77,6 +77,8 @@
 
     --dialog-filter: blur(1px) brightness(.8);
 
+    --bg: light-dark(var(--white), var(--black));
+
     @media (prefers-reduced-transparency: reduce) {
         --glass-alpha: 1;
         --mix-transparent: 100%;

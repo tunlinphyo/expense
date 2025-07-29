@@ -68,7 +68,15 @@
 
 [data-android] {
     .page-header {
-        background-color: var(--solid-bg);
+        /* background-color: var(--solid-bg); */
+        background-color: var(--bg);
+
+        & button {
+            &[data-button=close],
+            &.button-action {
+                background-color: var(--solid-bg);
+            }
+        }
     }
 }
 
