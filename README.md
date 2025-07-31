@@ -1,6 +1,6 @@
 # 💰 Expense Tracker Web App
 
-A modern, lightweight expense tracking web application built with TypeScript, Vite, and Firebase. This project helps you manage and visualize your spending easily and efficiently.
+A modern, lightweight expense tracking web application built with TypeScript, Vite, Web Components, and Firebase. This project helps you manage and visualize your spending easily and efficiently.
 
 ---
 
