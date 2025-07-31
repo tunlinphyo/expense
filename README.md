@@ -22,9 +22,7 @@ A modern, lightweight expense tracking web application built with TypeScript, Vi
 
 - Add, edit, and delete expense entries
 - Categorized spending view
-- Persistent local storage with IndexedDB
 - Responsive and accessible design
-- Built-in support for Firebase Hosting
 
 ## 🛠️ Getting Started
 
