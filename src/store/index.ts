@@ -20,8 +20,7 @@ export const appStore = async () => {
     colorsSignal.set(colors)
 
     removeSplash()
-    const reuslt = await showBiometric()
-    console.log(reuslt)
+    await showBiometric()
 
     observeAuthState(async (user) => {
         appUnsubscribe?.()

@@ -34,7 +34,7 @@ export class ExpenseApp extends HTMLElement {
 
     private openPage(button: HTMLButtonElement) {
         const pageEl = this.querySelector<PageDialog>(`#${button.dataset.pageId}`)
-        if (!pageEl) return console.error(`No page-dialog with id: ${button.dataset.pageId}`)
+        if (!pageEl) return console.log(`No page-dialog with id: ${button.dataset.pageId}`)
 
         if (button.dataset.pageId === 'overviewPage') {
             const month = this.onOverviewOpen()
@@ -45,7 +45,7 @@ export class ExpenseApp extends HTMLElement {
 
     private openModal(button: HTMLButtonElement) {
         const modalEl = this.querySelector<ModalDialog>(`#${button.dataset.modalId}`)
-        if (!modalEl) return console.error(`No page-dialog with id: ${button.dataset.modalId}`)
+        if (!modalEl) return console.log(`No page-dialog with id: ${button.dataset.modalId}`)
 
         if (button.hasAttribute('data-id'))
             modalEl.setAttribute('data-id', button.dataset.id || '')
@@ -54,7 +54,7 @@ export class ExpenseApp extends HTMLElement {
 
     private openPrompt(button: HTMLButtonElement) {
         const promptEl = this.querySelector<HTMLElement>(`#${button.dataset.promptId}`)
-        if (!promptEl) return console.error(`No base-prompt with id: ${button.dataset.promptId}`)
+        if (!promptEl) return console.log(`No base-prompt with id: ${button.dataset.promptId}`)
 
         promptEl.setAttribute('show', '')
     }

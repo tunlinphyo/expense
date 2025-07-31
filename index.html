@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
     <title>Expense</title>
     <link rel="manifest" href="/manifest.json" />
 
@@ -30,6 +30,17 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Expense" />
+
+     <meta name="description"
+        content="A modern, lightweight expense tracking web application.">
+    <meta name="application-name" content="Expenses">
+    <meta name="author" content="Tun Lin Phyo">
+    <link rel="author" href="https://tun-lin-phyo.web.app/">
+    <meta name="keywords"
+        content="Myanmar, Tun Lin Phyo, Myanamr Software Developer, Myanamr Software Engineer, HTML,CSS,JavaScript,TypeScript,Programmer,Developer,Frontend,Frontend Developer,Software,Software Engineer,React,Vue,Svelte">
+    <meta name="creator" content="Tun Lin Phyo">
+    <meta name="publisher" content="Tun Lin Phyo">
+    <meta property="article:published_time" content="2025-05-01" />
 
     <style>
         #splashScreen {
@@ -57,7 +68,7 @@
                         <svg-icon name="home" size="20"></svg-icon>
                         <span>Expenses</span>
                     </nav-tab>
-                    <button type="button" data-button="modal" data-modal-id="expenseModal" data-id="">
+                    <button type="button" aria-label="Add expense" data-button="modal" data-modal-id="expenseModal" data-id="">
                         <svg-icon name="plus" size="20"></svg-icon>
                     </button>
                     <nav-tab>
@@ -79,10 +90,10 @@
 
                         <expense-filter>
                             <div class="actions">
-                                <button type="button" data-icon-button data-button="page" data-page-id="overviewPage">
+                                <button type="button" aria-label="Open over view page" data-icon-button data-button="page" data-page-id="overviewPage">
                                     <svg-icon name="graph" size="17"></svg-icon>
                                 </button>
-                                <button type="button" data-icon-button data-button="modal" data-modal-id="expenseFilter">
+                                <button type="button" aria-label="Open filter" data-icon-button data-button="modal" data-modal-id="expenseFilter">
                                     <div class="badge" data-badge="0"></div>
                                     <svg-icon name="filter" size="15"></svg-icon>
                                 </button>
@@ -113,11 +124,11 @@
                         </expense-list>
 
                         <expense-pagination>
-                            <button type="button" data-icon-button data-button="prev" disabled data-bind-toggle="disabled:prevDisable">
+                            <button type="button" aria-label="Previous list" data-icon-button data-button="prev" disabled data-bind-toggle="disabled:prevDisable">
                                 <svg-icon name="prev"></svg-icon>
                             </button>
                             <div class="page" data-bind-text="page"></div>
-                            <button type="button" data-icon-button data-button="next" disabled data-bind-toggle="disabled:nextDisable">
+                            <button type="button" aria-label="Next list" data-icon-button data-button="next" disabled data-bind-toggle="disabled:nextDisable">
                                 <svg-icon name="next"></svg-icon>
                             </button>
                         </expense-pagination>

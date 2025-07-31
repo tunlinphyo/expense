@@ -6,7 +6,7 @@ export class LocalStorageHandler {
             const data = JSON.stringify(value)
             localStorage.setItem(key, data)
         } catch (e) {
-            console.error(`Failed to setStorage for key "${key}":`, e)
+            console.log(`Failed to setStorage for key "${key}":`, e)
         }
     }
 
@@ -16,7 +16,7 @@ export class LocalStorageHandler {
             const data = localStorage.getItem(key)
             return data ? JSON.parse(data) as T : null
         } catch (e) {
-            console.error(`Failed to getStorage for key "${key}":`, e)
+            console.log(`Failed to getStorage for key "${key}":`, e)
             return null
         }
     }
