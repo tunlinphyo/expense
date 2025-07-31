@@ -15,7 +15,7 @@ A modern, lightweight expense tracking web application built with TypeScript, Vi
 - ⚡ Vite – Fast and modern frontend tooling
 - 🔷 TypeScript – Scalable and typed JavaScript
 - 🔥 Firebase – Hosting, environment configuration, and more
-- 📁 IndexedDB (via local storage) – For offline-friendly data handling
+- 📁 Firestore Database – Realtime NoSQL database for structured data and syncing across devices
 - 🧩 Web Components – Lightweight custom elements architecture
 
 ## 🚀 Features
