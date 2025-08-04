@@ -19,7 +19,7 @@
     --bg-accent: var(--gray-5);
 
     --fg-primary: light-dark(rgb(44,44,46), rgb(242,242,247));
-    --fg-accent: var(--gray);
+    --fg-accent: light-dark(rgb(72,72,74), rgb(199,199,204));
 
     --bg-tooltip: light-dark(var(--white), var(--black));
     --bg-card: light-dark(var(--white), var(--gray-6));

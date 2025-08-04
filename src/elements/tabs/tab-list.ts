@@ -1,7 +1,9 @@
 export class TabList extends HTMLElement {
     constructor() {
         super()
-        this.setAttribute('role', 'tablist')
+        if (!this.getAttribute('role')) {
+            this.setAttribute('role', 'tablist')
+        }
     }
 }
 
